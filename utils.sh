@@ -13,9 +13,9 @@ files=()
 compressed_success_files=()
 
 #directories
-REPORT_DIR="../report"
-COMP_DIR="../dataset/compressed_files"
-RAW_FILES_DIR="../dataset/raw_files"
+REPORT_DIR="report"
+COMP_DIR="dataset/compressed_files"
+RAW_FILES_DIR="dataset/raw_files"
 
 if [ "$(uname -s)" = "Darwin" ]; then
     stat_options="-f %z"
