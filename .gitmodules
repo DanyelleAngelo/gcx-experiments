@@ -1,0 +1,6 @@
+[submodule "external/GCIS"]
+	path = external/GCIS
+	url = git@github.com:danielsaad/GCIS.git
+[submodule "external/ShapeSlp"]
+	path = external/ShapeSlp
+	url = git@github.com:itomomoti/ShapedSlp.git

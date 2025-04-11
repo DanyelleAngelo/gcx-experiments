@@ -1,15 +1,16 @@
 #!/bin/bash
 
-CSV_DIR="report/2025-04-09-mac"
+MAIN_PATH="report/2025-04-09-mac"
+OTHER_PATH="report/2025-04-10-mac"
 
-MAIN_PATH="./$CSV_DIR"
-OTHER_PATH="report/2025-04-09-y2-mac"
+csv_files=("$MAIN_PATH"/*.csv)
 
-for file in "$MAIN_PATH"/*.csv; do
-    if [ -e "$file" ]; then
-        break
-    fi
+if [ ${#csv_files[@]} -eq 0 ]; then
+    echo "⚠️  Não há arquivos CSV em $MAIN_PATH"
+    exit 1
+fi
 
+for file in "${csv_files[@]}"; do
     filename=$(basename "$file")
     other_file="$OTHER_PATH/$filename"
 
