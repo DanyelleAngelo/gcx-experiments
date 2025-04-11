@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-kernel|GCX-y2|2579630422|6291456|7,092511000000000|1225331968|6291456|0,512834000000000|451447066|257961616
