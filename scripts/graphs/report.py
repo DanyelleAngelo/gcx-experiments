@@ -19,6 +19,8 @@ extract_values = {
     "min_time": 0.0
 }
 
+sep_decimal= ","
+
 def generate_extract_chart(df_list, output_dir, language):
     for df in df_list:
         print(f"\n## FILE: {df.index[0]}")
@@ -35,13 +37,13 @@ def generate_compress_chart(df_list, output_dir, language):
         dcx = df[~combined_filter]
        
         print(f"\n## FILE: {df.index[0]}")
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir, without_gcn=True)
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir, without_gcn=True)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100, True)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir, without_gcn=True)
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir, without_gcn=True)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir)
 
 def set_max_values(values, df):
     for key in values.keys():
@@ -54,7 +56,7 @@ def prepare_dataset(df, operation):
     if operation == 'compress':
         plain_size = df['plain_size'][0]
         #calculate compression rate
-        df['compressed_size'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
+        df['compressed_size_ratio'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
         
         #convert bytes to MB
         df['peak_comp'] = df['peak_comp'].apply(lambda x: ut.bytes_to_mb(x))
@@ -67,8 +69,9 @@ def prepare_dataset(df, operation):
 def get_data_frame(path, operation, report):
     files = glob.glob(f"{path}*.csv")
     df_list = []
+    print(f"Separador de casa decimal é {sep_decimal}")
     for file in files:
-        df = pd.read_csv(file, sep='|', decimal=".")
+        df = pd.read_csv(file, sep='|', decimal=sep_decimal)
         df.set_index('file', inplace=True)
 
         if operation == "compress":

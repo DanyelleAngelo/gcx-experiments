@@ -8,7 +8,7 @@ COLOR_MAP= {
     'decompression_time': {
         "default_color": "#007599", "highlighted_color": "#00ffff", "others": "#ffa600"
     },
-    'compressed_size': {
+    'compressed_size_ratio': {
         "default_color": "#bc5090", "highlighted_color": "#ffa600", "others": "#0056ff"
     },
     'peak_comp': {

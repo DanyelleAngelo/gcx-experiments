@@ -35,7 +35,7 @@ COMPRESS_AND_DECOMPRESS = {
         "legend":  "Algorithms"
     },
     'ratio': {
-        "col": "compressed_size",
+        "col": "compressed_size_ratio",
         "y_label": "Compression ratio (%).",
         "x_label": "Algorithms",
         "title": "Compression ratio - ",

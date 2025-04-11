@@ -50,8 +50,8 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
         
         algorithms = results_gcx['algorithm'].unique().tolist()
         gcx_number = len(algorithms)
-        gc_star = results_gcx[results_gcx['algorithm'] != 'GCX']
-        gcx = results_gcx[results_gcx['algorithm'] == 'GCX']
+        gc_star = results_gcx[~results_gcx['algorithm'].str.upper().str.startswith('GCX')]
+        gcx = results_gcx[results_gcx['algorithm'].str.upper().str.startswith('GCX')]
 
         #GCX results
         plt.bar(gcx['algorithm'].tolist(), gcx[target_column], width=0.5, color=COLOR_MAP[target_column]["highlighted_color"], edgecolor='black', label="GCX")
