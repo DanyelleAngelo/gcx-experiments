@@ -1,2 +1,8 @@
 *.DS_Store
 *__pycache__
+*dataset*
+report/*/extract/*
+*main.dSYM*
+*.o
+*vscode
+gcx_output
