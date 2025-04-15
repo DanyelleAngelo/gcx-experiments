@@ -30,24 +30,13 @@ GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"
 
 check_and_create_folder() {
     echo -e "\n\n${GREEN}%%% Creating directories for files in case don't exist ${RESET}."
-    if [ ! -d "$RAW_FILES_DIR" ]; then
-        mkdir -p "$RAW_FILES_DIR"
-    fi
-    if [ ! -d "$COMP_DIR" ]; then
-        mkdir -p "$COMP_DIR"
-    fi
-    if [ ! -d "$COMP_DIR/$CURR_DATE" ]; then
-        mkdir -p "$COMP_DIR/$CURR_DATE"
-    fi
-    if [ ! -d "$REPORT_DIR" ]; then
-        mkdir -p "$REPORT_DIR"
-    fi
-    if [ ! -d "$REPORT_DIR/$CURR_DATE" ]; then
-        mkdir -p "$REPORT_DIR/$CURR_DATE/extract"
-        mkdir -p "$REPORT_DIR/$CURR_DATE/graphs/pt"
-        mkdir -p "$REPORT_DIR/$CURR_DATE/graphs/en"
-        mkdir -p "$REPORT_DIR/$CURR_DATE/errors"
-    fi
+    mkdir -p "$RAW_FILES_DIR"
+    mkdir -p "$COMP_DIR/$CURR_DATE"
+    mkdir -p "$REPORT_DIR"
+    mkdir -p "$REPORT_DIR/$CURR_DATE/extract"
+    mkdir -p "$REPORT_DIR/$CURR_DATE/graphs/pt"
+    mkdir -p "$REPORT_DIR/$CURR_DATE/graphs/en"
+    mkdir -p "$REPORT_DIR/$CURR_DATE/errors"
 }
 
 download_files() {
