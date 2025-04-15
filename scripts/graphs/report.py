@@ -21,6 +21,12 @@ extract_values = {
 
 sep_decimal= ","
 
+def generate_grammar_chart(df_list, output_dir, language):
+    for df in df_list:
+        print(f"\n## FILE: {df.index[0]}")
+        plt.generate_grammar_chart(df, "grammar", output_dir)
+        break
+
 def generate_extract_chart(df_list, output_dir, language):
     for df in df_list:
         print(f"\n## FILE: {df.index[0]}")
@@ -82,6 +88,7 @@ def get_data_frame(path, operation, report):
             prepare_dataset(df, operation)
             set_max_values(extract_values, df)
             set_summary(extract_summary, df)
+
         df_list.append(df)
 
     if report and operation == "compress":
@@ -107,6 +114,9 @@ def main(argv):
     elif operation == "extract":
         print("\n\t------ Extract ------")
         generate_extract_chart(df_list, output_dir, language)
+    elif operation == "grammar":
+        print("\n\t------ Informações da gramática ------")
+        generate_grammar_chart(df_list, output_dir, language)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
