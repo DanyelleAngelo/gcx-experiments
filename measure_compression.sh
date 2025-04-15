@@ -5,7 +5,7 @@ STR_LEN=(1 10 100 1000 10000)
 
 COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
-HEADER_REPORT_GRAMMAR="file|algorithm|coverage|nLevels|rules_per_level"
+HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|rules_per_level"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
 EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
@@ -63,7 +63,7 @@ compress_and_decompress_with_gcx() {
 		#perform compress and decompress with GCX
 		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
 		echo -n "$file|GCX-y2|" >> $report
-        echo -n "$file|GCX-y2|-|" >> $grammar_report
+        echo -n "$file|GCX-y2|" >> $grammar_report
 
 		file_out="$COMP_DIR/$CURR_DATE/$file"
 		./gcx_otuput -c $plain_file_path $file_out $report
