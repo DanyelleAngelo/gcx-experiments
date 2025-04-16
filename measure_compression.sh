@@ -5,7 +5,7 @@ STR_LEN=(1 10 100 1000 10000)
 
 COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
-HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|rules_per_level"
+HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
 EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
@@ -62,8 +62,8 @@ compress_and_decompress_with_gcx() {
 
 		#perform compress and decompress with GCX
 		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
-		echo -n "$file|GCX-y2|" >> $report
-        echo -n "$file|GCX-y2|" >> $grammar_report
+		echo -n "$file|GCX-y16|" >> $report
+        echo -n "$file|GCX-y16|" >> $grammar_report
 
 		file_out="$COMP_DIR/$CURR_DATE/$file"
 		./gcx_otuput -c $plain_file_path $file_out $report
@@ -112,19 +112,19 @@ run_extract() {
 		# done
 
 		#generates intervals
-		echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
-		python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+		# echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
+		# python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
 
 		#perform extracting
 		for length in "${STR_LEN[@]}"; do
-			query="$extract_dir/${file}.${length}_extract"
+			query="report/2025-04-15-mac/extract/${file}.${length}_extract"
 			if [ -e $query ]; then
 				echo -e "\n${YELLOW} Generating expected responses for searched interval...${RESET}"
 				extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
 				python3 scripts/extract.py $plain_file_path $extract_answer $query
 
 				echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
-				echo -n "$file|GCX-y2|" >> $report
+				echo -n "$file|GCX-y16|" >> $report
 				extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
 				./gcx_otuput -e "$compressed_file.gcx" $extract_output $query $report
 				echo "$length" >> $report
@@ -152,7 +152,7 @@ run_extract() {
 
 generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-	CURR_DATE="2025-04-14-mac"
+	CURR_DATE="2025-04-15-mac"
 
 	# python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
 	# python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
@@ -164,7 +164,7 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
 	check_and_create_folder
 	download_files
-	compress_and_decompress_with_gcx
-	# run_extract
-	#generate_graphs
+	#compress_and_decompress_with_gcx
+	#run_extract
+	generate_graphs
 fi
