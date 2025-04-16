@@ -5,7 +5,7 @@ STR_LEN=(1 10 100 1000 10000)
 
 COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
-HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|rules_per_level"
+HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|rules_per_level"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
 EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
@@ -162,9 +162,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	# check_and_create_folder
-	# download_files
-	# # compress_and_decompress_with_gcx
+	check_and_create_folder
+	download_files
+	compress_and_decompress_with_gcx
 	# run_extract
-	generate_graphs
+	#generate_graphs
 fi
