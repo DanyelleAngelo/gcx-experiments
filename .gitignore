@@ -5,4 +5,4 @@ report/*/extract/*
 *main.dSYM*
 *.o
 *vscode
-gcx_output
+*gcx_output

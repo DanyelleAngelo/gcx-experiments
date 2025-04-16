@@ -10,7 +10,7 @@ GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
 EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 #set -x
-GCX_MAIN_EXEC_PATH="$(pwd)/gcx_otuput"
+GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
 
 compress_and_decompress_with_gcis() {
 	CODEC=$1
