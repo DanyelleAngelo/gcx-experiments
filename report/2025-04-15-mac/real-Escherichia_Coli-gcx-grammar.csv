@@ -1,0 +1,6 @@
+file|algorithm|nLevels|xs_size|rules_per_level
+real-Escherichia_Coli|GCX-y32|4|21404|5:13-5135049,4:5-1632882,3:9-192417,2:9-21404,
+real-Escherichia_Coli|GCX-y2|1|56344758|2:2-131,
+real-Escherichia_Coli|GCX-y4|3|9390794|4:3-556,3:2-6572,2:2-4355926,
+real-Escherichia_Coli|GCX-y8|2|2299787|3:7-18955,2:7-2133069,
+real-Escherichia_Coli|GCX-y16|5|86953|6:12-4355926,5:3-2770741,4:4-772135,3:3-260509,2:3-86949,
