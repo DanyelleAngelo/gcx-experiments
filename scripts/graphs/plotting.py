@@ -1,8 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from constants import COLOR_MAP, MARKER, COLOR_MAP
-from matplotlib.ticker import MaxNLocator
+from constants import COLOR_MAP, MARKERS, COLOR_MAP
+from matplotlib.ticker import ScalarFormatter
+from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.ticker as ticker
+
+
 
 width_bar = 0.2
 
@@ -63,9 +67,9 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
             x = np.linspace(-1, gcx_number, 35 + (j*10)) 
             y = np.full_like(x, row[target_column])
             if row['algorithm'] == "REPAIR":
-                plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKER[j], s=15, linestyle='None', label=row['algorithm'])
+                plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKERS[j], s=15, linestyle='None', label=row['algorithm'])
             else:
-                plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKER[j],  s=15, linestyle='None', label=row['algorithm'])
+                plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKERS[j],  s=15, linestyle='None', label=row['algorithm'])
             j+=1
 
         file=results_gcx.index[0].upper().split("-")[-1]
@@ -84,11 +88,13 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
 
 def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.figure(figsize=(10,8))
-
+    n_markers = len(MARKERS)
     j=0
     for algorithm, group in results.groupby('algorithm'):
-        plt.plot(group['substring_size'], group['time'], marker=MARKER[j], linewidth=0.5, label=algorithm)
+        plt.plot(group['substring_size'], group['time'], marker=MARKERS[j], linewidth=0.5, label=algorithm)
         j= j+1
+        if j > n_markers:
+            j=0
 
     #plt.ylim([min_value, max_value+5])
     plt.xscale('log')
@@ -100,3 +106,40 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)
     plt.close()
+
+def process_rules(rules_str):
+    rules = []
+    if rules_str.endswith(','):
+        rules_str = rules_str[:-1]
+    for rule in rules_str.split(','):
+        if not rule.strip():
+            continue
+        try:
+            level, rest = rule.split(':')
+            rule_size, rule_count = rest.split('-')
+            rules.append((int(level), int(rule_size), int(rule_count)))
+        except ValueError:
+            print(f"Erro ao processar regra: {rule}")
+    return rules
+
+
+def generate_grammar_chart(df, information, output_dir):
+    plt.figure(figsize=(10, 6))
+
+    for i, (index, row) in enumerate(df.iterrows()):
+        rules = process_rules(row['level_cover_qtyRules'])
+        rule_sizes = [r[1] for r in rules]
+        rule_counts = [r[2] for r in rules]
+        label = row['algorithm']
+        marker = MARKERS[i % len(MARKERS)]
+        plt.plot(rule_sizes, rule_counts, label=label, marker=marker)
+    
+    file=df.index[0].upper().split("-")[-1]
+    customize_chart(information, f"{information['title']} - {file}")
+
+    plt.ticklabel_format(style='plain', axis='both')
+    plt.tight_layout()
+
+    output_path = f"{output_dir}/{information['output_file']}-{df.index[0]}.png"
+    plt.savefig(output_path)
+    plt.show()

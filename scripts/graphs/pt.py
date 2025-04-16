@@ -68,3 +68,11 @@ EXTRACT = {
         "output_file": "stack_memory_usage_extract"
     }
 }
+
+GRAMMAR = {
+    "x_label": "Rule Size",
+    "y_label": "Number of Rules",
+    "title": "Rule Size vs. Number of Rules per Algorithm - ",
+    "output_file": "grammar_info",
+    "legend": "Algorithm"
+}

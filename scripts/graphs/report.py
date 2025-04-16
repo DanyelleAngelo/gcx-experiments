@@ -24,7 +24,7 @@ sep_decimal= ","
 def generate_grammar_chart(df_list, output_dir, language):
     for df in df_list:
         print(f"\n## FILE: {df.index[0]}")
-        plt.generate_grammar_chart(df, "grammar", output_dir)
+        plt.generate_grammar_chart(df, language.GRAMMAR, output_dir)
         break
 
 def generate_extract_chart(df_list, output_dir, language):
