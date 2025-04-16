@@ -1,6 +1,6 @@
-file|algorithm|nLevels|xs_size|level_cover_qtyRules
-pseudo-real-sources.001.2|GCX-y32|2|109114|3:31-2361844,2:31-109109,
-pseudo-real-sources.001.2|GCX-y2|1|52428801|2:2-6752,
-pseudo-real-sources.001.2|GCX-y4|7|546135|8:3-108243,7:2-402237,6:2-471483,5:2-411809,4:2-347533,3:2-297244,2:2-247860,
-pseudo-real-sources.001.2|GCX-y8|3|3744917|4:7-868988,3:2-984575,2:2-851829,
-pseudo-real-sources.001.2|GCX-y16|2|466034|3:15-1832334,2:15-465744,
+file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size
+pseudo-real-sources.001.2|GCX-y32|2|109114|3:31-2361844,2:31-109109,|83187048
+pseudo-real-sources.001.2|GCX-y2|1|52428801|2:2-6752,|176960732
+pseudo-real-sources.001.2|GCX-y4|7|546135|8:3-108243,7:2-402237,6:2-471483,5:2-411809,4:2-347533,3:2-297244,2:2-247860,|12448141
+pseudo-real-sources.001.2|GCX-y8|3|3744917|4:7-868988,3:2-984575,2:2-851829,|26490720
+pseudo-real-sources.001.2|GCX-y16|2|466034|3:15-1832334,2:15-465744,|47862070
