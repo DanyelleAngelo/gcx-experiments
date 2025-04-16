@@ -1,4 +1,4 @@
-file|algorithm|nLevels|xs_size|rules_per_level
+file|algorithm|nLevels|xs_size|level_cover_qtyRules
 real-coreutils|GCX-y32|6|42769|7:20-4248536,6:5-1678080,5:4-497661,4:3-170376,3:2-85430,2:2-42760,
 real-coreutils|GCX-y2|1|102640890|2:2-18441,
 real-coreutils|GCX-y4|8|534589|9:3-164927,8:2-1863150,7:2-4184181,6:2-3986083,5:2-2821562,4:2-1709159,3:2-962349,2:2-516452,

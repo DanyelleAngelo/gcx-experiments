@@ -1,4 +1,4 @@
-file|algorithm|nLevels|xs_size|rules_per_level
+file|algorithm|nLevels|xs_size|level_cover_qtyRules
 real-einstein.en.txt|GCX-y32|5|17461|6:31-343141,5:16-500062,4:6-150291,3:3-52059,2:3-17450,
 real-einstein.en.txt|GCX-y2|1|233813273|2:2-4168,
 real-einstein.en.txt|GCX-y4|12|76113|13:3-23065,12:2-134755,11:2-255665,10:2-320144,9:2-387613,8:2-467028,7:2-533048,6:2-526119,5:2-422468,4:2-266629,3:2-145732,2:2-75157,

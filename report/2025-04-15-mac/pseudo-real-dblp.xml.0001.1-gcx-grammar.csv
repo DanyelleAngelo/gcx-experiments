@@ -1,4 +1,4 @@
-file|algorithm|nLevels|xs_size|rules_per_level
+file|algorithm|nLevels|xs_size|level_cover_qtyRules
 pseudo-real-dblp.xml.0001.1|GCX-y32|2|109114|3:31-617520,2:31-109114,
 pseudo-real-dblp.xml.0001.1|GCX-y2|1|52428801|2:2-3623,
 pseudo-real-dblp.xml.0001.1|GCX-y4|13|8535|14:3-24021,13:2-93687,12:2-104611,11:2-89870,10:2-64210,9:2-42583,8:2-26573,7:2-18297,6:2-14008,5:2-11597,4:2-9926,3:2-8261,2:2-6270,

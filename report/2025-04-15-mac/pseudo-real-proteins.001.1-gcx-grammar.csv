@@ -1,4 +1,4 @@
-file|algorithm|nLevels|xs_size|rules_per_level
+file|algorithm|nLevels|xs_size|level_cover_qtyRules
 pseudo-real-proteins.001.1|GCX-y32|3|69032|4:31-740634,3:7-433689,2:7-69018,
 pseudo-real-proteins.001.1|GCX-y2|1|52428801|2:2-420,
 pseudo-real-proteins.001.1|GCX-y4|10|68268|11:3-8059,10:2-450789,9:2-313926,8:2-220918,7:2-163587,6:2-130950,5:2-110619,4:2-94364,3:2-76443,2:2-55108,

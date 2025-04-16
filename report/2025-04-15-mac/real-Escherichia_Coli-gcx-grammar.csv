@@ -1,4 +1,4 @@
-file|algorithm|nLevels|xs_size|rules_per_level
+file|algorithm|nLevels|xs_size|level_cover_qtyRules
 real-Escherichia_Coli|GCX-y32|4|21404|5:13-5135049,4:5-1632882,3:9-192417,2:9-21404,
 real-Escherichia_Coli|GCX-y2|1|56344758|2:2-131,
 real-Escherichia_Coli|GCX-y4|3|9390794|4:3-556,3:2-6572,2:2-4355926,

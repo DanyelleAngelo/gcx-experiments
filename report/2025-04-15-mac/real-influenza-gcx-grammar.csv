@@ -1,4 +1,4 @@
-file|algorithm|nLevels|xs_size|rules_per_level
+file|algorithm|nLevels|xs_size|level_cover_qtyRules
 real-influenza|GCX-y32|4|345557|5:28-1156625,4:4-943904,3:2-600179,2:2-332140,
 real-influenza|GCX-y2|1|77404278|2:2-111,
 real-influenza|GCX-y4|7|806296|8:3-469,7:2-8959,6:2-641196,5:2-1077796,4:2-1227899,3:2-1014451,2:2-673338,
