@@ -149,7 +149,7 @@ def plot_grammar(df, ax, algorithms, color_map, bar_width=0.9, bar_spacing=1.5):
             colors.append(color_map[alg])
         
         xticks.append(current_x + (num_levels -1) * bar_width / 2)
-        xtick_labels.append(alg)
+        xtick_labels.append(f"{alg} ({row['compressed_size']} MB) ")
         current_x += num_levels * bar_width + bar_spacing # posição da primeira barra do próximo algoritmo
     
     bars = ax.bar(positions, heights, width= bar_width, color=colors, edgecolor= 'black', linewidth=1)
@@ -158,9 +158,10 @@ def plot_grammar(df, ax, algorithms, color_map, bar_width=0.9, bar_spacing=1.5):
     for bar, label in zip(bars, labels):
         height = bar.get_height()
         ax.text(bar.get_x() + bar.get_width() / 2, height + max(heights) * 0.01, label, ha='center', va='bottom', fontsize=7)
+    
 
     ax.set_xticks(xticks)
-    ax.set_xticklabels(xtick_labels)
+    ax.set_xticklabels(xtick_labels, fontsize=8, rotation=10)
 
 def generate_grammar_chart(results, information, output_dir):
     fig, axs = plt.subplots(2, 1, figsize=(16, 10), gridspec_kw={'height_ratios': [1, 1]})
@@ -182,15 +183,16 @@ def generate_grammar_chart(results, information, output_dir):
 
         ax.set_title(f"{grammar_groups_names[i]} - {information['title']}", fontsize=10, fontweight='bold')
         ax.set_ylabel(information['y_label'])
-        ax.set_xlabel(information['x_label'])
+        ax.set_xlabel(information['x_label'], labelpad=25)
         ax.ticklabel_format(style='plain', axis='y')
         ax.grid(linestyle=':', alpha=0.5)
 
         handles = [plt.Rectangle((0, 0), 1, 1, color=color_map[alg]) for alg in algorithms]
         ax.legend(handles, algorithms, title=f"{information['legend']} {grammar_groups_names[i]}", loc='upper left', bbox_to_anchor=(1, 1))
 
-    plt.tight_layout()
-    
+    plt.tight_layout(pad=4.0)
+
     file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
+    #plt.show()
     plt.savefig(file)
     plt.close()
