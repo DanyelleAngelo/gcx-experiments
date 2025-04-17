@@ -181,7 +181,7 @@ def generate_grammar_chart(results, information, output_dir):
 
         plot_grammar(grammar_groups[i], ax, algorithms, color_map)
 
-        ax.set_title(f"{grammar_groups_names[i]} - {information['title']}", fontsize=10, fontweight='bold')
+        ax.set_title(f"{grammar_groups_names[i]} - {information['title']}: {results.index[0]}", fontsize=10, fontweight='bold')
         ax.set_ylabel(information['y_label'])
         ax.set_xlabel(information['x_label'], labelpad=25)
         ax.ticklabel_format(style='plain', axis='y')
