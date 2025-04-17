@@ -25,7 +25,8 @@ def generate_grammar_chart(df_list, output_dir, language):
     for df in df_list:
         print(f"\n## FILE: {df.index[0]}")
         df['compressed_size'] = df['compressed_size'].apply(lambda x: round(ut.bytes_to_mb(x),2))
-
+        df['plain_size'] = df['plain_size'].apply(lambda x: round(ut.bytes_to_mb(x),2))
+    
         plt.generate_grammar_chart(df, language.GRAMMAR, output_dir)
 
 def generate_extract_chart(df_list, output_dir, language):

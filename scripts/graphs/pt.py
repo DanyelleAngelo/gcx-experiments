@@ -74,5 +74,6 @@ GRAMMAR = {
     "y_label": "Quantidade de regras",
     "title": "Distribuição de regras por nível na gramática gerada",
     "output_file": "grammar_info",
-    "legend": "Variações de "
+    "legend": "Variações de ",
+    "plain_size": "Tamanho do arquivo original",
 }

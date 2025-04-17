@@ -151,7 +151,7 @@ def plot_grammar(df, ax, algorithms, color_map, bar_width=0.9, bar_spacing=1.5):
         xticks.append(current_x + (num_levels -1) * bar_width / 2)
         xtick_labels.append(f"{alg} ({row['compressed_size']} MB) ")
         current_x += num_levels * bar_width + bar_spacing # posição da primeira barra do próximo algoritmo
-    
+        
     bars = ax.bar(positions, heights, width= bar_width, color=colors, edgecolor= 'black', linewidth=1)
 
     # adiciona o tamanho da regra usada em cada nível (barra)
@@ -186,9 +186,25 @@ def generate_grammar_chart(results, information, output_dir):
         ax.set_xlabel(information['x_label'], labelpad=25)
         ax.ticklabel_format(style='plain', axis='y')
         ax.grid(linestyle=':', alpha=0.5)
+        
 
         handles = [plt.Rectangle((0, 0), 1, 1, color=color_map[alg]) for alg in algorithms]
-        ax.legend(handles, algorithms, title=f"{information['legend']} {grammar_groups_names[i]}", loc='upper left', bbox_to_anchor=(1, 1))
+        ax.legend(
+            handles,
+            algorithms,
+            title=f"{information['legend']} {grammar_groups_names[i]}",
+            loc='upper left',
+            bbox_to_anchor=(1, 1)
+        )
+
+        # adiciona o tamanho do arquivo em texto plano abaixo da legenda
+        ax.text(
+            1.01, 1.05,
+            f"{information['plain_size']}: {results.iloc[0]['plain_size']} MB",
+            transform=ax.transAxes,
+            fontsize=9,
+            va='top'
+        )
 
     plt.tight_layout(pad=4.0)
 
