@@ -70,9 +70,9 @@ EXTRACT = {
 }
 
 GRAMMAR = {
-    "x_label": "Rule Size",
-    "y_label": "Number of Rules",
-    "title": "Rule Size vs. Number of Rules per Algorithm - ",
+    "x_label": "Algoritmos (níveis representados por barras)",
+    "y_label": "Quantidade de regras",
+    "title": "Distribuição de regras por nível na gramática gerada",
     "output_file": "grammar_info",
-    "legend": "Algorithm"
+    "legend": "Variações de "
 }

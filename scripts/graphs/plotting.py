@@ -3,9 +3,8 @@ import numpy as np
 import pandas as pd
 from constants import COLOR_MAP, MARKERS, COLOR_MAP
 from matplotlib.ticker import ScalarFormatter
-from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.ticker as ticker
-
+import matplotlib.cm as cm
 
 
 width_bar = 0.2
@@ -108,12 +107,13 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.close()
 
 def process_rules(rules_str):
+    """
+        Transforma uma string como '0:1-4,1:2-3' em uma lista de tuplas: [(0, 1, 4), (1, 2, 3)]
+        onde cada tupla representa (nível, tamanho_da_regra, quantidade_de_regras).
+    """
     rules = []
-    if rules_str.endswith(','):
-        rules_str = rules_str[:-1]
+    rules_str = rules_str.rstrip(',')
     for rule in rules_str.split(','):
-        if not rule.strip():
-            continue
         try:
             level, rest = rule.split(':')
             rule_size, rule_count = rest.split('-')
@@ -123,23 +123,74 @@ def process_rules(rules_str):
     return rules
 
 
-def generate_grammar_chart(df, information, output_dir):
-    plt.figure(figsize=(10, 6))
+def plot_grammar(df, ax, algorithms, color_map, bar_width=0.9, bar_spacing=1.5):
+    """
+        Plota um gráfico de barras representando a quantidade de regras por nível de gramática para cada algoritmo.
+        Cada grupo de barras representa um algoritmo, e dentro de cada grupo, cada barra corresponde a um nível da gramática.
+        A altura de cada barra indica a quantidade de regras distintas naquele nível, enquanto o rótulo acima da barra indica o tamanho da regra utilizada (X=...).
+    """
+    positions, heights, labels, colors = [], [], [], []
+    current_x = 0
+    xticks, xtick_labels = [], []
+    i = 0
 
-    for i, (index, row) in enumerate(df.iterrows()):
+    for _, row in df.iterrows():
+        alg = row['algorithm']
+        if alg not in algorithms:
+            continue
+
         rules = process_rules(row['level_cover_qtyRules'])
-        rule_sizes = [r[1] for r in rules]
-        rule_counts = [r[2] for r in rules]
-        label = row['algorithm']
-        marker = MARKERS[i % len(MARKERS)]
-        plt.plot(rule_sizes, rule_counts, label=label, marker=marker)
+        num_levels = row['nLevels']
+
+        for i, (level, rule_size, qty_rules) in enumerate(rules):
+            positions.append(current_x + i * bar_width)
+            heights.append(qty_rules)
+            labels.append(f"X={rule_size}")
+            colors.append(color_map[alg])
+        
+        xticks.append(current_x + (num_levels -1) * bar_width / 2)
+        xtick_labels.append(alg)
+        current_x += num_levels * bar_width + bar_spacing # posição da primeira barra do próximo algoritmo
     
-    file=df.index[0].upper().split("-")[-1]
-    customize_chart(information, f"{information['title']} - {file}")
+    bars = ax.bar(positions, heights, width= bar_width, color=colors, edgecolor= 'black', linewidth=1)
 
-    plt.ticklabel_format(style='plain', axis='both')
+    # adiciona o tamanho da regra usada em cada nível (barra)
+    for bar, label in zip(bars, labels):
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, height + max(heights) * 0.01, label, ha='center', va='bottom', fontsize=7)
+
+    ax.set_xticks(xticks)
+    ax.set_xticklabels(xtick_labels)
+
+def generate_grammar_chart(results, information, output_dir):
+    fig, axs = plt.subplots(2, 1, figsize=(16, 10), gridspec_kw={'height_ratios': [1, 1]})
+    fig.tight_layout(pad=8.0)
+
+    grammar_groups = [
+        results[results['algorithm'].str.startswith("GCX-y")], 
+        results[~results['algorithm'].str.startswith("GCX-y")]
+    ]
+    grammar_groups_names = ["GCX", "GC*"]
+
+    for i in range(0, len(grammar_groups)):
+        ax = axs[i]
+        algorithms = grammar_groups[i]['algorithm'].unique()
+        colors = cm.get_cmap('tab20', len(algorithms))
+        color_map = {alg: colors(j) for j, alg in enumerate(algorithms)}
+
+        plot_grammar(grammar_groups[i], ax, algorithms, color_map)
+
+        ax.set_title(f"{grammar_groups_names[i]} - {information['title']}", fontsize=10, fontweight='bold')
+        ax.set_ylabel(information['y_label'])
+        ax.set_xlabel(information['x_label'])
+        ax.ticklabel_format(style='plain', axis='y')
+        ax.grid(linestyle=':', alpha=0.5)
+
+        handles = [plt.Rectangle((0, 0), 1, 1, color=color_map[alg]) for alg in algorithms]
+        ax.legend(handles, algorithms, title=f"{information['legend']} {grammar_groups_names[i]}", loc='upper left', bbox_to_anchor=(1, 1))
+
     plt.tight_layout()
-
-    output_path = f"{output_dir}/{information['output_file']}-{df.index[0]}.png"
-    plt.savefig(output_path)
-    plt.show()
+    
+    file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
+    plt.savefig(file)
+    plt.close()
