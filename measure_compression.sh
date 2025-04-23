@@ -88,8 +88,8 @@ compress_and_decompress_with_gcx() {
             echo -n "$file|GC$cover|" >> $grammar_report
 
             file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
-            ./gc_star_output $plain_file_path $file_out c $cover $report
-            ./gc_star_output $file_out.gcx $file_out-plain d $cover $report
+            ./gc_star_output -c $plain_file_path $file_out $cover $report
+            ./gc_star_output -d $file_out.gcx $file_out-plain $cover $report
 			checks_equality "$plain_file_path" "$file_out-plain" "gcx"
 
             size_file=$(stat $stat_options $file_out.gcx)
@@ -166,7 +166,7 @@ run_extract() {
 				for cover in "${COVERAGE_LIST[@]}"; do
 					echo -n "$file|GC$cover|" >> $report
 					extract_output="$extract_dir/${file}_result_extract_gc${cover}_len${length}.txt"
-					./gc_star_output "$compressed_file-gc$cover.gcx" $extract_output e $cover $query $report
+					./gc_star_output -e "$compressed_file.gcx" $extract_output $cover $query $report
 					echo "$length" >> $report
 					checks_equality "$extract_output" "$extract_answer" "extract"
 					rm $extract_output
