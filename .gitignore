@@ -6,3 +6,5 @@ report/*/extract/*
 *.o
 *vscode
 *gcx_output
+*gc_star_output
+*dSYM*
