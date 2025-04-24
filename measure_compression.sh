@@ -1,22 +1,22 @@
 #!/bin/bash
 source utils.sh
 
-COVERAGE_LIST=(2 4 8 16 32 64 128)
-STR_LEN=(1 10 100 1000 10000)
-EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
+readonly COVERAGE_LIST=(2 4 8 16 32 64 128)
+readonly STR_LEN=(1 10 100 1000 10000)
+readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 
 #cabeçalhos
-COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
-EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
-HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
+readonly COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
+readonly EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
+readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
 
 # paths
-GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
-REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
-GCX_PATH="../GCX/gcx/"
-GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
-GC_STAR_PATH="../GCX/gc_/"
-GC_STAR_MAIN_EXEC_PATH="$(pwd)/gc_star_output"
+readonly GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
+readonly REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
+readonly GCX_PATH="../GCX/gcx/"
+readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
+readonly GC_STAR_PATH="../GCX/gc_/"
+readonly GC_STAR_MAIN_EXEC_PATH="$(pwd)/gc_star_output"
 
 compress_and_decompress_with_gcis() {
 	CODEC=$1
@@ -53,11 +53,7 @@ compress_and_decompress_with_repair() {
 compress_and_decompress_with_gcx() {
 	echo -e "\n${GREEN}%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version${RESET}."
 
-	make clean -C $GCX_PATH
-	make compile MACROS="REPORT=1" -C $GCX_PATH OUTPUT=$GCX_MAIN_EXEC_PATH
-
-	make clean -C $GC_STAR_PATH
-	make compile MACROS="REPORT=1" -C $GC_STAR_PATH OUTPUT=$GC_STAR_MAIN_EXEC_PATH
+	build_tools
 
 	for file in $files; do
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
@@ -88,8 +84,8 @@ compress_and_decompress_with_gcx() {
             echo -n "$file|GC$cover|" >> $grammar_report
 
             file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
-            ./gc_star_output -c $plain_file_path $file_out $cover $report
-            ./gc_star_output -d $file_out.gcx $file_out-plain $cover $report
+            ./gc_star_output $plain_file_path $file_out c $cover $report
+            ./gc_star_output $file_out.gcx $file_out-plain d $cover $report
 			checks_equality "$plain_file_path" "$file_out-plain" "gcx"
 
             size_file=$(stat $stat_options $file_out.gcx)
@@ -106,17 +102,12 @@ compress_and_decompress_with_gcx() {
 		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 		echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
 	done
-	make clean -C $GCX_PATH
-	make clean -C $GC_STAR_PATH
+	
+	clean_tools
 }
 
 run_extract() {
-	make clean -C $GCX_PATH
-	make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C $GCX_PATH OUTPUT=$GCX_MAIN_EXEC_PATH
-
-	make clean -C $GC_STAR_PATH
-	make compile MACROS="REPORT=1 FILE_OUTPUT=1"  -C $GC_STAR_PATH OUTPUT=$GC_STAR_MAIN_EXEC_PATH
-
+	build_tools
 
 	echo -e "\n${BLUE}####### Extract validation ${RESET}"
 	for file in $files; do
@@ -166,7 +157,7 @@ run_extract() {
 				for cover in "${COVERAGE_LIST[@]}"; do
 					echo -n "$file|GC$cover|" >> $report
 					extract_output="$extract_dir/${file}_result_extract_gc${cover}_len${length}.txt"
-					./gc_star_output -e "$compressed_file.gcx" $extract_output $cover $query $report
+					./gc_star_output "$compressed_file-gc$cover.gcx" $extract_output e $cover $query $report
 					echo "$length" >> $report
 					checks_equality "$extract_output" "$extract_answer" "extract"
 					rm $extract_output
@@ -189,6 +180,7 @@ run_extract() {
 			fi
 		done
 	done
+	clean_tools
 }
 
 generate_graphs() {
@@ -199,6 +191,19 @@ generate_graphs() {
 	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-grammar" "$REPORT_DIR/$CURR_DATE/graphs" "grammar" "en" "report"
 
 	echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
+}
+
+build_tools() {
+    make clean -C "$GCX_PATH" OUTPUT="$GCX_MAIN_EXEC_PATH"
+    make compile -C "$GCX_PATH" MACROS="REPORT=1" OUTPUT="$GCX_MAIN_EXEC_PATH"
+    
+    make clean -C "$GC_STAR_PATH" OUTPUT="$GC_STAR_MAIN_EXEC_PATH"
+    make compile -C "$GC_STAR_PATH" MACROS="REPORT=1" OUTPUT="$GC_STAR_MAIN_EXEC_PATH"
+}
+
+clean_tools() {
+    make clean -C "$GCX_PATH" OUTPUT="$GCX_MAIN_EXEC_PATH"
+    make clean -C "$GC_STAR_PATH" OUTPUT="$GC_STAR_MAIN_EXEC_PATH"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
