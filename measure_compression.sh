@@ -1,6 +1,7 @@
 #!/bin/bash
 source utils.sh
 
+readonly LCP_WINDOW=(2 4 8 16 32)
 readonly COVERAGE_LIST=(2 4 8 16 32 64 128)
 readonly STR_LEN=(1 10 100 1000 10000)
 readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
@@ -66,16 +67,19 @@ compress_and_decompress_with_gcx() {
 		echo -e "\n\t${BLUE}####### FILE: $file ${RESET}"
 
 		#perform compress and decompress with GCX
-		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
-		echo -n "$file|GCX|" >> $report
-        echo -n "$file|GCX|" >> $grammar_report
+		for cover in "${LCP_WINDOW[@]}"; do
+			echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
+			echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
+			echo -n "$file|GCX-y$cover|" >> $report
+			echo -n "$file|GCX-y$cover|" >> $grammar_report
 
-		file_out="$COMP_DIR/$CURR_DATE/$file"
-		./gcx_output -c $plain_file_path $file_out $report
-		./gcx_output -d $file_out.gcx $file_out-plain $report
-		checks_equality "$plain_file_path" "$file_out-plain" "gcx"
-		echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
-
+			file_out="$COMP_DIR/$CURR_DATE/$file"
+			./gcx_output -c $plain_file_path $file_out $report $cover
+			./gcx_output -d $file_out.gcx $file_out-plain $report
+			checks_equality "$plain_file_path" "$file_out-plain" "gcx"
+			echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
+        done
+		
 		#perform compress and decompress with GC*
 		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GC* ${RESET}\n"
         for cover in "${COVERAGE_LIST[@]}"; do
