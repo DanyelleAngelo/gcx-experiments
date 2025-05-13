@@ -23,7 +23,7 @@ fi
 
 if [ ! -d "external/sdsl-lite/build/include" ]; then
     echo -e "\n\t${GREEN}####### Instalando a SDSL-lite ${RESET}"
-    cp external-overrides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
+    cp external-overides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
     if [ "$OS" = "Darwin" ]; then
         echo "Substituindo o arquivo de instalação da SDSL para funcionamento correto no Mac(arm64)"
         cp external-overrides/sdsl/install.sh external/sdsl-lite/
@@ -38,18 +38,18 @@ fi
 
 if [ ! -d "external/ShapeSl/SubstrBenchmark" ]; then
     echo -e "\n\t${GREEN}####### ShapeSlp: Build não encontrado, configurando a lib${RESET}"
-    cp external-overrides/shapedslsp/* external/ShapeSlp/
+    cp -rf external-overrides/shapedslsp/* external/ShapeSlp/
     cd external/ShapeSlp
     git submodule update --init --recursive
     if [ "$(uname -s)" = "Darwin" ]; then
         # o código atual dessa biblioteca quebra no M1 porque __haswell__ não é definida pelo complicador
         echo -e "${RED}Fazendo ajustes necessários para o funcionamento da lib no M1 ${RESET}"
         cp ../../external-overrides/sux/common.hpp external/sux/sux/support/common.hpp
-         cp ../../external-overrides/sux/RecSplit.hpp external/sux/sux/function/RecSplit.hpp
+        cp ../../external-overrides/sux/RecSplit.hpp external/sux/sux/function/RecSplit.hpp
     fi
     mkdir -p build
     cd build
-    cmake -DSDSL_INCLUDE_DIR="$REPO_DIR/external/sdsl-lite/include"  -DSDSL_LIB="$REPO_DIR/external/sdsl-lite/lib/libsdsl.a" ..
+    cmake -DSDSL_INCLUDE_DIR="$REPO_DIR/external/sdsl-lite/include"  -DSDSL_LIB="$REPO_DIR/external/sdsl-lite/build/lib/libsdsl.a" ..
     make
 else
     echo -e "${BLUE}## ShapeSlp já configurada. ${RESET}"
@@ -74,7 +74,7 @@ fi
 
 if [ ! -d "external/GCIS/external/repair/build/src/repair" ]; then
     echo -e "\n\t${GREEN}####### Compilando Re-Pair ${RESET}"
-    cp external-overrides/repair_files/* external/GCIS/external/repair/src
+    cp -rf external-overrides/repair_files/* external/GCIS/external/repair/src
     cd external/GCIS/external/repair
     rm -rf build
     mkdir build
