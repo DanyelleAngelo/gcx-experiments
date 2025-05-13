@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.5...4.0)
-
+cmake_minimum_required(VERSION 2.6)
 
 ### use a compiler supporting constexpr math
 # set(CMAKE_C_COMPILER "/opt/local/bin/gcc-mp-9" CACHE STRING "gcc compiler" FORCE)
@@ -12,10 +11,6 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 project(ShapedSlp)
-# Força o padrão C++17 pra todo mundo
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 
 include_directories(${PROJECT_SOURCE_DIR})
 set(FOLCA_SOURCE_DIR ${PROJECT_SOURCE_DIR}/folca)
@@ -24,23 +19,22 @@ set(SUX_SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/sux/sux)
 include_directories(${SUX_SOURCE_DIR}/function)
 include_directories(${SUX_SOURCE_DIR}/support)
 
-# Caminho para a instalação local da SDSL
-if(SDSL_INCLUDE_DIR AND SDSL_LIB)
-  message(STATUS "Using pre-installed SDSL")
-  include_directories(${SDSL_INCLUDE_DIR})
-  set(SDSL_LIBRARIES ${SDSL_LIB})
-else()
-  # fallback para submódulo
-  message(STATUS "SDSL não foi passada, tentando usar submódulo.")
+### check for SDSL
+find_library(SDSL_LIB sdsl)
+if (NOT SDSL_LIB)
+  message("sdsl-lite not found, building from submodule (hopefully you did git clone --recursive)")
   add_subdirectory(external/sdsl-lite)
   include_directories(${CMAKE_BINARY_DIR}/external/sdsl-lite/include/)
   include_directories(${CMAKE_BINARY_DIR}/external/sdsl-lite/external/libdivsufsort/include)
-  link_directories(${CMAKE_BINARY_DIR}/external/sdsl-lite/lib)
-  link_directories(${CMAKE_BINARY_DIR}/external/sdsl-lite/external/libdivsufsort/lib)
-  set(SDSL_LIBRARIES sdsl)
+  LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/sdsl-lite/lib)
+  LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/sdsl-lite/external/libdivsufsort/lib)
+else()
+  find_library(DSS divsufsort)
+  find_library(DSS64 divsufsort64)
+  message("sdsl: " ${SDSL_LIB})
+  message("divsufsort: " ${DSS})
+  message("divsufsort64: " ${DSS64})
 endif()
-
-
 
 message("Building in ${CMAKE_BUILD_TYPE} mode")
 
@@ -53,7 +47,7 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g -std=c++17 -ggdb -Ofast -fstrict-aliasing
 
 
 add_executable(SlpEncBuild SlpEncBuild.cpp ${FOLCA_SOURCE_DIR}/fbtree.cpp ${FOLCA_SOURCE_DIR}/onlinebp.c)
-TARGET_LINK_LIBRARIES(SlpEncBuild sdsl divsufsort divsufsort64)
+TARGET_LINK_LIBRARIES(SlpEncBuild sdsl)
 
 add_executable(SubstrBenchmark SubstrBenchmark.cpp ${FOLCA_SOURCE_DIR}/fbtree.cpp ${FOLCA_SOURCE_DIR}/onlinebp.c)
 TARGET_LINK_LIBRARIES(SubstrBenchmark sdsl)
