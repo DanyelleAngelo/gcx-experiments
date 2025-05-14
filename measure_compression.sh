@@ -1,8 +1,8 @@
 #!/bin/bash
 source utils.sh
 
-readonly LCP_WINDOW=(2 4 8 16 32)
-readonly COVERAGE_LIST=(2 4 8 16 32 64 128)
+readonly LCP_WINDOW=() #(2 4 8 16 32)
+readonly COVERAGE_LIST=() #(2 4 8 16 32 64 128)
 readonly STR_LEN=(1 10 100 1000 10000)
 readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 
@@ -14,7 +14,7 @@ readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRu
 # paths
 readonly GCIS_EXECUTABLE="../../GCIS/build/src/./gcis"
 readonly REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
-readonly 7ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/"
+readonly SETE_ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/./7zz"
 readonly GCX_PATH="../GCX/gcx/"
 readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
 readonly GC_STAR_PATH="../GCX/gc_/"
@@ -22,12 +22,12 @@ readonly GC_STAR_MAIN_EXEC_PATH="$(pwd)/gc_star_output"
 
 
 compress_and_decompress_with_gcis() {
+	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCIS-$1 ${RESET}\n"
 	CODEC=$1
 	PLAIN=$2
 	REPORT=$3
 	FILE_NAME=$4
 	OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
-	echo -e "\t Usando a codificação $CODEC \n"
 	echo -n "$FILE_NAME|GCIS-${CODEC}|" >> $report
 	echo -e "${GREEN}Comprimindo arquivo...${RESET}\n"
 	"$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
@@ -36,14 +36,18 @@ compress_and_decompress_with_gcis() {
 	echo "$(stat $stat_options $OUTPUT-gcis-$CODEC)|$5" >> $REPORT
 
 	checks_equality "$PLAIN" "$OUTPUT-gcis-$CODEC-plain" "gcis"
+	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using GCIS-$CODEC. ${RESET}\n"
 }
 
 compress_and_decompress_with_repair() {
+	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using REPAIR ${RESET}\n"
 	FILE=$1
 	REPORT=$2
 	FILE_NAME=$3
 	OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
+	size_plain=$4
 	cp $FILE "$FILE-repair"
+	
 	echo -n "$FILE_NAME|REPAIR|" >> $report
 	"${REPAIR_EXECUTABLE}/./repair-navarro" "$FILE-repair" "$REPORT"
 	"${REPAIR_EXECUTABLE}/./despair-navarro" "$FILE-repair" "$REPORT"
@@ -51,10 +55,36 @@ compress_and_decompress_with_repair() {
 	size_r=$(stat $stat_options $FILE-repair.R)
 	size=$((size_c + size_r))
 	echo "Size C $size_c , size R $size_r"
-	echo "$size|$4" >> $REPORT
-
+	echo "$size|$size_plain" >> $REPORT
 
 	checks_equality "$FILE" "$FILE-repair" "gcis"
+	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using RePair. ${RESET}\n"
+}
+
+compress_and_decompress_with_7zip() {
+	file=$1
+	plain_file_path=$2
+	report=$3
+	size_plain=$4
+	compressed_file="$COMP_DIR/$CURR_DATE/$file"
+	decompressed_file="$COMP_DIR/$CURR_DATE"
+
+	echo -e "\n\t\t ${YELLOW}Starting compression using 7zip ${RESET}\n"
+	echo -n "$file|7zip|" >> $report
+	
+	cd $RAW_FILES_DIR # é necessário alterar a pasta, para ele não inserir o path do arquivo
+	"../../$SETE_ZIP_EXECUTABLE" a "../../$compressed_file.7z" "$file" -gcx_report="../../$report"
+	cd ../../
+	echo -e "\n\t\t ${YELLOW}Starting decompression using 7zip ${RESET}\n"
+	"$SETE_ZIP_EXECUTABLE" x $compressed_file.7z -o$decompressed_file -gcx_report="$report"
+	
+	size=$(stat $stat_options $compressed_file.7z)
+	echo "$size|$size_plain" >> $report
+
+	checks_equality "$plain_file_path" $decompressed_file/$file "7zip"
+	rm $decompressed_file/$file
+
+	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using 7zip. ${RESET}\n"
 }
 
 compress_and_decompress_with_gcx() {
@@ -64,9 +94,9 @@ compress_and_decompress_with_gcx() {
 
 	for file in $files; do
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
-        	grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
+        grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
 		echo $COMPRESSION_HEADER > $report;
-        	echo $HEADER_REPORT_GRAMMAR > $grammar_report;
+        echo $HEADER_REPORT_GRAMMAR > $grammar_report;
 		plain_file_path="$RAW_FILES_DIR/$file"
 		size_plain=$(stat $stat_options $plain_file_path)
 
@@ -86,8 +116,8 @@ compress_and_decompress_with_gcx() {
 			echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
         done
 	
-	#perform compress and decompress with GC*
-	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GC* ${RESET}\n"
+		#perform compress and decompress with GC*
+		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GC* ${RESET}\n"
         for cover in "${COVERAGE_LIST[@]}"; do
             echo -e "\n\t${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
             echo -n "$file|GC$cover|" >> $report
@@ -101,17 +131,17 @@ compress_and_decompress_with_gcx() {
             size_file=$(stat $stat_options $file_out.gcx)
             echo "$size_file|$size_plain" >> $report
         done
+
 		#perform compress and decompress with GCIS
-		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
-		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
-		compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with REPAIR
-		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using REPAIR ${RESET}\n"
-		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
-		echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
+		#compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
-
+		#perform compress and decompress with 7zip
+		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
+		break
 	done
 	clean_tools
 }
@@ -222,6 +252,6 @@ if [ "$0" = "$BASH_SOURCE" ]; then
 	check_and_create_folder
 	download_files
 	compress_and_decompress_with_gcx
-	run_extract
+	#run_extract
 	#generate_graphs
 fi
