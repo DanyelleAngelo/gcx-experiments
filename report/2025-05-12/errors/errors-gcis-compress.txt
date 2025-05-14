@@ -19,3 +19,4 @@ dataset/raw_files/real-coreutils and dataset/compressed_files/2025-05-12/real-co
 dataset/raw_files/real-einstein.de.txt and dataset/compressed_files/2025-05-12/real-einstein.de.txt-gcis-s8b-plain are different.
 dataset/raw_files/real-einstein.en.txt and dataset/compressed_files/2025-05-12/real-einstein.en.txt-gcis-s8b-plain are different.
 dataset/raw_files/artificial-fib41 and dataset/compressed_files/2025-05-12/artificial-fib41-gcis-s8b-plain are different.
+dataset/raw_files/real-para and dataset/compressed_files/2025-05-12/real-para-gcis-s8b-plain are different.
