@@ -1,8 +1,8 @@
 #!/bin/bash
 source utils.sh
 
-readonly LCP_WINDOW=() #(2 4 8 16 32)
-readonly COVERAGE_LIST=() #(2 4 8 16 32 64 128)
+readonly LCP_WINDOW=(2 4 8 16 32)
+readonly COVERAGE_LIST=(2 4 8 16 32 64 128)
 readonly STR_LEN=(1 10 100 1000 10000)
 readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 
@@ -12,8 +12,8 @@ readonly EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
 
 # paths
-readonly GCIS_EXECUTABLE="../../GCIS/build/src/./gcis"
-readonly REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
+readonly GCIS_EXECUTABLE="external/GCIS/build/src/./gcis"
+readonly REPAIR_EXECUTABLE="external/GCIS/external/repair-navarro"
 readonly SETE_ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/./7zz"
 readonly GCX_PATH="../GCX/gcx/"
 readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
@@ -133,15 +133,14 @@ compress_and_decompress_with_gcx() {
         done
 
 		#perform compress and decompress with GCIS
-		#compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
-		#compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with REPAIR
-		#compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with 7zip
 		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
-		break
 	done
 	clean_tools
 }
@@ -252,6 +251,6 @@ if [ "$0" = "$BASH_SOURCE" ]; then
 	check_and_create_folder
 	download_files
 	compress_and_decompress_with_gcx
-	#run_extract
+	run_extract
 	#generate_graphs
 fi
