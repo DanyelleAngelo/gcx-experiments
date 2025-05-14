@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#mkdir -p external/sdsl-lite
-#git clone https://github.com/simongog/sdsl-lite.git external/sdsl-lite
-#cp ../../external-overides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
-#./external/sdsl-lite/install.sh .
-cd external/repair
+mkdir -p external/sdsl-lite
+git clone https://github.com/simongog/sdsl-lite.git external/sdsl-lite
+cp ../../external-overides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
+./external/sdsl-lite/install.sh .
  # compile repair
+cd external/repair
 mkdir -p build
 cd build
 cmake ..
@@ -12,6 +12,7 @@ make -j
 make install
 cd ../../../ # go to root folder
 # compile repair-navarro
+cp -rf ../../external-overrides/gcis/repair-navarro/* external/repair-navarro
 cd external/repair-navarro
 make -j
 mv repair repair-navarro
