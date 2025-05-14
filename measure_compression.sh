@@ -12,12 +12,14 @@ readonly EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
 
 # paths
-readonly GCIS_EXECUTABLE="external/GCIS/build/src/./gcis"
-readonly REPAIR_EXECUTABLE="external/GCIS/external/repair-navarro"
+readonly GCIS_EXECUTABLE="../../GCIS/build/src/./gcis"
+readonly REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
+readonly 7ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/"
 readonly GCX_PATH="../GCX/gcx/"
 readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
 readonly GC_STAR_PATH="../GCX/gc_/"
 readonly GC_STAR_MAIN_EXEC_PATH="$(pwd)/gc_star_output"
+
 
 compress_and_decompress_with_gcis() {
 	CODEC=$1
