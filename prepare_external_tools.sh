@@ -56,7 +56,7 @@ else
     echo -e "${BLUE}## ShapeSlp já configurada. ${RESET}"
 fi
 
-if [ ! -d "external/GCIS/build/src/gc-is-codec" ]; then
+if [ ! -d "external/GCIS/build/src/gcis" ]; then
     echo -e "\n\t${GREEN}#######  Configurando o GCIS...... ${RESET}"
     echo -e "\n\t####### Copiando arquivos necessários para os experimentos...."
     cp -rf external-overrides/gcis/* external/GCIS/

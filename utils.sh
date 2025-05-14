@@ -6,7 +6,7 @@ BLUE='\033[34m'
 YELLOW='\033[33m'
 RED='\033[31m'
 RESET='\033[0m'
-CURR_DATE=$(date +"%Y-%m-%d")
+CURR_DATE="2025-05-12" #$(date +"%Y-%m-%d")
 
 #files to compress
 files=()
@@ -84,5 +84,7 @@ checks_equality() {
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
         local file=$1
         compressed_success_files+="${file##*/} "
-    fi 
+    else
+	echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
+    fi
 }
