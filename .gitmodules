@@ -13,3 +13,6 @@
 [submodule "external/malloc_count"]
 	path = external/malloc_count
 	url = https://github.com/bingmann/malloc_count
+[submodule "external/7zip"]
+	path = external/7zip
+	url = https://github.com/ip7z/7zip.git
