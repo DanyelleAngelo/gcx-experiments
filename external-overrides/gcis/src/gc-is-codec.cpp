@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     mm.event("GC-IS Init");
 #endif
 
-    if (argc != 5) {
+    if (argc != 6) { //adiciona 1 argumento para o report do gcx
         std::cerr << "Usage: \n"
                   << argv[0]
                   << " -c <file_to_be_encoded> <output> <codec flag>\n"
@@ -102,13 +102,13 @@ int main(int argc, char *argv[]) {
         output.close();
         delete[] str;
     } else if (strcmp(mode, "-d") == 0) {
+
         std::ifstream input(argv[2]);
         std::ofstream output(argv[3], std::ios::binary);
 
 #ifdef MEM_MONITOR
         mm.event("GC-IS Load");
 #endif
-
         d->load(input);
 
 #ifdef MEM_MONITOR
@@ -291,7 +291,12 @@ int main(int argc, char *argv[]) {
 #endif
 
     //To GCX
+    printf("Gerando relatório para o GCX\n");
     FILE *report_dcx = fopen(file_dcx, "a");
+    if(report_dcx == NULL) {
+	printf("Erro ao abrir arquivo de relatório %s\n",file_dcx);
+	exit(1);
+    }
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
     fprintf(report_dcx, "%lld|%lld|%5.4lf|", peak,stack,duration);

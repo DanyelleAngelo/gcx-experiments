@@ -1,6 +1,6 @@
-add_executable(gcis gc-is-codec.cpp)
+add_executable(gcis gc-is-codec.cpp ${CMAKE_SOURCE_DIR}/external/malloc_count/malloc_count.c ${CMAKE_SOURCE_DIR}/external/malloc_count/stack_count.c)
 add_executable(gcis-memory gc-is-codec.cpp ${CMAKE_SOURCE_DIR}/external/malloc_count/malloc_count.c ${CMAKE_SOURCE_DIR}/external/malloc_count/stack_count.c) 
-add_executable(gcis-64 gc-is-codec.cpp)
+add_executable(gcis-64 gc-is-codec.cpp ${CMAKE_SOURCE_DIR}/external/malloc_count/malloc_count.c ${CMAKE_SOURCE_DIR}/external/malloc_count/stack_count.c)
 add_executable(gcis-64-memory gc-is-codec.cpp ${CMAKE_SOURCE_DIR}/external/malloc_count/malloc_count.c ${CMAKE_SOURCE_DIR}/external/malloc_count/stack_count.c)
 
 target_compile_definitions(gcis-64 PRIVATE m64 )

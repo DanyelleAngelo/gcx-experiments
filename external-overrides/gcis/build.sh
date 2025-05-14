@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-mkdir -p external/sdsl-lite
-git clone https://github.com/simongog/sdsl-lite.git external/sdsl-lite
-cp ../../external-overides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
-./external/sdsl-lite/install.sh .
+#mkdir -p external/sdsl-lite
+#git clone https://github.com/simongog/sdsl-lite.git external/sdsl-lite
+#cp ../../external-overides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
+#./external/sdsl-lite/install.sh .
 cd external/repair
  # compile repair
 mkdir -p build
