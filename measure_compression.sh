@@ -12,7 +12,7 @@ readonly EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
 
 # paths
-readonly GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
+readonly GCIS_EXECUTABLE="../../GCIS/build/src/./gcis"
 readonly REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
 readonly GCX_PATH="../GCX/gcx/"
 readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"

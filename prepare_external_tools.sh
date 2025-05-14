@@ -2,6 +2,7 @@
 source utils.sh
 OS=$(uname)
 REPO_DIR="$(cd "$(dirname "$0")"; pwd)"
+echo "\n\t${GREEN}$REPO_DIR\n\t${GREEN}"
 
 submodules=("external/GCIS" "external/ShapeSlp" "external/sdsl-lite" "external/malloc_count") 
 
@@ -36,7 +37,7 @@ else
 fi
 
 
-if [ ! -d "external/ShapeSl/SubstrBenchmark" ]; then
+if [ ! -d "external/ShapeSl/build/SlpEncBuild" ]; then
     echo -e "\n\t${GREEN}####### ShapeSlp: Build não encontrado, configurando a lib${RESET}"
     cp -rf external-overrides/shapedslsp/* external/ShapeSlp/
     cd external/ShapeSlp
