@@ -7,4 +7,4 @@ report/*/extract/*
 *vscode
 *gcx_output
 *gc_star_output
-*dSYM*
+*dSYM*output.log
