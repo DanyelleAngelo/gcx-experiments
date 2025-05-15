@@ -1,11 +1,11 @@
 import json
 
 compression_summary = {
-    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0}
+    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0}
 }
 
 extract_summary = {

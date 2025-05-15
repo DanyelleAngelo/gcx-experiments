@@ -19,7 +19,7 @@ extract_values = {
     "min_time": 0.0
 }
 
-sep_decimal= ","
+sep_decimal= "."
 
 def generate_grammar_chart(df_list, output_dir, language):
     for df in df_list:
@@ -50,8 +50,8 @@ def generate_compress_chart(df_list, output_dir, language):
 
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir)
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir)
+        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir)
+        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir)
 
 def set_max_values(values, df):
     for key in values.keys():
@@ -67,10 +67,11 @@ def prepare_dataset(df, operation):
         df['compressed_size_ratio'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
         
         #convert bytes to MB
-        df['peak_comp'] = df['peak_comp'].apply(lambda x: ut.bytes_to_mb(x))
-        df['peak_decomp'] = df['peak_comp'].apply(lambda x:ut.bytes_to_mb(x))
-        df['stack_comp'] = df['stack_comp'].apply(lambda x:ut.bytes_to_mb(x))
-        df['stack_decomp'] = df['stack_comp'].apply(lambda x:ut.bytes_to_mb(x))
+        df['peak_comp'] = df['peak_comp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
+        df['peak_decomp'] = df['peak_decomp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
+        df['stack_comp'] = df['stack_comp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
+        df['stack_decomp'] = df['stack_decomp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
+
     elif operation == 'extract':
         df['time'] = df['time'].apply(lambda x: (x/10000)*1e6) 
 
@@ -109,7 +110,6 @@ def main(argv):
 
     language = ut.set_locale(locale)
     df_list = get_data_frame(path, operation, report)
-    
     if operation == "compress":
         print("\n\t------ Compress and Decompress ------")
         generate_compress_chart(df_list, output_dir, language)
