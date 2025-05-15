@@ -53,7 +53,7 @@ compress_and_decompress_with_repair() {
 	"${REPAIR_EXECUTABLE}/./despair-navarro" "$FILE-repair" "$REPORT"
 	checks_equality "$FILE" "$FILE-repair" "repair"
 
-	repair_report_entry=$(tail -n N "$REPORT") #pega a linha gravada pelo repair
+	repair_report_entry=$(tail -n 1 "$REPORT") #pega a linha gravada pelo repair
 	sed -i '$d' "$REPORT" #apaga a linha recém gravada
 
 	size_c=$(stat $stat_options $FILE-repair.C)
@@ -69,7 +69,7 @@ compress_and_decompress_with_repair() {
 		echo -n "$FILE_NAME|REPAIR-$encoding|" >> $report
 		echo "${repair_report_entry}|$size" >> "$REPORT"
 
-		echo "Size C $size_c , size R $size_r, size SLP $size_slp, total: $size"
+		echo -e "\nTamanhos: Size C $size_c , size R $size_r, size SLP $size_slp, total: $size\n\n"
 	done
 
 	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using RePair. ${RESET}\n"
@@ -109,7 +109,7 @@ compress_and_decompress_with_gcx() {
 
     grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
     echo $HEADER_REPORT_GRAMMAR > $grammar_report;
-
+	
 	#perform compress and decompress with GCX
 	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
 	for cover in "${LCP_WINDOW[@]}"; do
@@ -277,5 +277,5 @@ if [ "$0" = "$BASH_SOURCE" ]; then
 	download_files
 	evaluate_compression_performance
 	run_extract
-	generate_graphs
+	#generate_graphs
 fi

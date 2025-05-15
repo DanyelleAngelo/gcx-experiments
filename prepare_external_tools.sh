@@ -23,21 +23,21 @@ else
     echo -e "Todos os submódulos já estão prontos."
 fi
 
-# if [ ! -d "external/sdsl-lite/build/include" ]; then
-#     echo -e "\n\t${GREEN}####### Instalando a SDSL-lite ${RESET}"
-#     cp external-overides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
-#     if [ "$OS" = "Darwin" ]; then
-#         echo "Substituindo o arquivo de instalação da SDSL para funcionamento correto no Mac(arm64)"
-#         cp external-overrides/sdsl/install.sh external/sdsl-lite/
-#     fi
-#     cd external/sdsl-lite
-#     chmod +x install.sh
-#     ./install.sh
+if [ ! -d "external/sdsl-lite/build/include" ]; then
+    echo -e "\n\t${GREEN}####### Instalando a SDSL-lite ${RESET}"
+    cp external-overrides/sdsl/include/sdsl/louds_tree.hpp external/sdsl-lite/include/sdsl/louds_tree.hpp
+    if [ "$OS" = "Darwin" ]; then
+        echo "Substituindo o arquivo de instalação da SDSL para funcionamento correto no Mac(arm64)"
+        cp external-overrides/sdsl/install.sh external/sdsl-lite/
+    fi
+    cd external/sdsl-lite
+    chmod +x install.sh
+    ./install.sh
 
-#     cd $SOURCE_DIR
-# else
-#     echo -e "${BLUE}## SDSL já configurada. ${RESET}"
-# fi
+    cd $SOURCE_DIR
+else
+    echo -e "${BLUE}## SDSL já configurada. ${RESET}"
+fi
 
 if [ ! -d "../GCX/" ]; then
     echo -e "\n\t${GREEN}####### Clonando GCX ${RESET}"
@@ -61,7 +61,10 @@ if [ ! -d "external/ShapeSl/build/SlpEncBuild" ]; then
     fi
     mkdir -p build
     cd build
-    cmake -DSDSL_INCLUDE_DIR="$REPO_DIR/external/sdsl-lite/include"  -DSDSL_LIB="$REPO_DIR/external/sdsl-lite/build/lib/libsdsl.a" ..
+    cmake \
+	-DCMAKE_LIBRARY_PATH="/home/danyelleangelo/lib" \
+	-DSDSL_LIB="$REPO_DIR/external/sdsl-lite/build/lib/libsdsl.a" \
+	 ..
     make
 
     cd $SOURCE_DIR
@@ -69,25 +72,26 @@ else
     echo -e "${BLUE}## ShapeSlp já configurada. ${RESET}"
 fi
 
-if [ ! -d "external/GCIS/build/src/gcis" ]; then
-    echo -e "\n\t${GREEN}#######  Configurando o GCIS...... ${RESET}"
-
-    echo -e "\n\t####### Copiando arquivos necessários para os experimentos...."
-    cp -rf external-overrides/gcis/* external/GCIS/
-
-    echo -e "\n\t####### Instalando o GCIS....."
-    cd external/GCIS
-    if [ "$OS" = "Darwin" ]; then
-        echo "Compilando para Mac (arm64)"
-        chmod +x build-mac.sh
-        ./build-mac.sh
-    else
-        ./build.sh
-    fi
-    cd $SOURCE_DIR
-else
-    echo -e "${BLUE}## GCIS já configurado. ${RESET}"
-fi
+#if [ ! -d "external/GCIS/build/src/gcis" ]; then
+#    echo -e "\n\t${GREEN}#######  Configurando o GCIS...... ${RESET}"
+#
+#    echo -e "\n\t####### Copiando arquivos necessários para os experimentos...."
+#    cp -rf external-overrides/gcis/* external/GCIS/
+#
+#    echo -e "\n\t####### Instalando o GCIS....."
+#    cd external/GCIS
+#    if [ "$OS" = "Darwin" ]; then
+#        echo "Compilando para Mac (arm64)"
+#        chmod +x build-mac.sh
+#        ./build-mac.sh
+#    else
+#	chmod +x build.sh
+#        ./build.sh
+#    fi
+#    cd $SOURCE_DIR
+#else
+#    echo -e "${BLUE}## GCIS já configurado. ${RESET}"
+#fi
 
 
 if [ ! -f "external/7zip/CPP/7zip/Bundles/Alone2/_o/7zz" ]; then
@@ -98,18 +102,4 @@ if [ ! -f "external/7zip/CPP/7zip/Bundles/Alone2/_o/7zz" ]; then
     cd $SOURCE_DIR
 else
     echo -e "${BLUE}## 7zip já configurada. ${RESET}"
-fi
-
-if [ ! -f "external/GLZA/glza_compress" ] && [ ! -f "external/GLZA/glza_decompress" ]; then
-    echo -e "\n\t${GREEN}####### Compilando  GLZA ${RESET}"
-    cp -rf external-overrides/glza/* external/GLZA/
-    cd external/GLZA
-    gcc -o GLZAformat GLZAformat.c -lpthread
-    gcc -o GLZAcompress GLZAcompress.c  -lpthread -lm
-    gcc -o GLZAencode GLZAencode.c  -lpthread
-    gcc -o GLZAdecode GLZAdecode.c -lpthread
-    cd $SOURCE_DIR
-
-else
-    echo -e "${BLUE}## GLZA já configurada. ${RESET}"
 fi

@@ -16,6 +16,11 @@
 #include "Extract.h"
 #include "SetProperties.h"
 
+//to gcx
+#include <ctime>
+#include <cstdio>
+#include <cstdlib>
+
 using namespace NWindows;
 using namespace NFile;
 using namespace NDir;

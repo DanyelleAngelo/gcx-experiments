@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 2.6)
 # set(CMAKE_CXX_COMPILER "/opt/local/bin/gcc-mp-9" CACHE STRING "g++ compiler" FORCE)
 
 ### Set a default build type if none was specified
+link_directories(/home/danyelleangelo/lib)
+
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Setting build type to 'Release' as none was specified.")
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
@@ -57,3 +59,10 @@ TARGET_LINK_LIBRARIES(ExtractBenchmark sdsl)
 
 add_executable(LceBenchmark LceBenchmark.cpp ${FOLCA_SOURCE_DIR}/fbtree.cpp ${FOLCA_SOURCE_DIR}/onlinebp.c)
 TARGET_LINK_LIBRARIES(LceBenchmark sdsl)
+
+target_include_directories(SlpEncBuild PRIVATE
+  ${PROJECT_SOURCE_DIR}/external/sdsl-lite/include
+  ${PROJECT_SOURCE_DIR}/external/sdsl-lite/external/libdivsufsort/include
+)
+
+

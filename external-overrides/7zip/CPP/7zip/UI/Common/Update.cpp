@@ -35,6 +35,8 @@
 
 //to gcx
 #include <ctime>
+#include <cstdio>
+#include <cstdlib>
 //using namespace std::chrono;
 //using timer = std::chrono::high_resolution_clock;
 
