@@ -15,6 +15,7 @@ readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRu
 readonly GCIS_EXECUTABLE="external/GCIS/build/src/./gcis"
 readonly REPAIR_EXECUTABLE="external/GCIS/external/repair-navarro"
 readonly SETE_ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/./7zz"
+readonly GLZA_EXECUTABLE="external/GLZA"
 readonly GCX_PATH="../GCX/gcx/"
 readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
 readonly GC_STAR_PATH="../GCX/gc_/"
@@ -87,6 +88,27 @@ compress_and_decompress_with_7zip() {
 	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using 7zip. ${RESET}\n"
 }
 
+compress_and_decompress_with_glza() {
+	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GLZA ${RESET}\n"
+	file=$1
+	plain_file_path=$2
+	report=$3
+	size_plain=$4
+	output_file="$COMP_DIR/$CURR_DATE/$file"
+
+	echo "${YELLOW}Formatting...${RESET}"
+	"${GLZA_EXECUTABLE}/./GLZAformat" -c0 -d0 -l0 $plain_file_path $output_file-formatted-glza
+	echo "${YELLOW}Compressing...${RESET}"
+	"${GLZA_EXECUTABLE}/./GLZAcompress" $output_file-formatted-glza $output_file-compressed-glza
+	echo "${YELLOW}Coding...${RESET}"
+	"${GLZA_EXECUTABLE}/./GLZAencode" $output_file-compressed-glza $output_file-encoded-glza
+	echo "${YELLOW}Decompressing...${RESET}"
+	"${GLZA_EXECUTABLE}/./GLZAdecode" $output_file-encoded-glza $output_file-plain-glza
+	
+	checks_equality "$plain_file_path" $output_file-plain-glza "glza"
+	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using GLZA. ${RESET}\n"
+}
+
 compress_and_decompress_with_gcx() {
 	echo -e "\n${GREEN}%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version${RESET}."
 
@@ -103,8 +125,8 @@ compress_and_decompress_with_gcx() {
 		echo -e "\n\t${BLUE}####### FILE: $file ${RESET}"
 
 		#perform compress and decompress with GCX
+		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
 		for cover in "${LCP_WINDOW[@]}"; do
-			echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
 			echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
 			echo -n "$file|GCX-y$cover|" >> $report
 			echo -n "$file|GCX-y$cover|" >> $grammar_report
@@ -141,6 +163,9 @@ compress_and_decompress_with_gcx() {
 
 		#perform compress and decompress with 7zip
 		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
+
+		#perform compress and decompress with glza
+		compress_and_decompress_with_glza $file $plain_file_path $report $size_plain
 	done
 	clean_tools
 }

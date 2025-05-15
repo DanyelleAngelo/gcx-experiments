@@ -16,3 +16,6 @@
 [submodule "external/7zip"]
 	path = external/7zip
 	url = https://github.com/ip7z/7zip.git
+[submodule "external/GLZA"]
+	path = external/GLZA
+	url = git@github.com:jrmuizel/GLZA.git

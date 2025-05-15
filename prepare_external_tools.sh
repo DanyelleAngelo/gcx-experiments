@@ -4,7 +4,7 @@ OS=$(uname)
 REPO_DIR="$(cd "$(dirname "$0")"; pwd)"
 echo "\n\t${GREEN}$REPO_DIR\n\t${GREEN}"
 
-submodules=("external/7zip") 
+submodules=("external/7zip" "external/GLZA") 
 
 need_init=0
 
@@ -93,11 +93,24 @@ fi
 # fi
 
 
-if [ ! -d "external/7zip/CPP/7zip/Bundles/Alone2/_o/7zz" ]; then
+if [ ! -f "external/7zip/CPP/7zip/Bundles/Alone2/_o/7zz" ]; then
     echo -e "\n\t${GREEN}####### Compilando  7Zip ${RESET}"
     cp -rf external-overrides/7zip/* external/7zip/
     cd external/7zip/CPP/7zip/Bundles/Alone2
     make -f makefile.gcc
 else
     echo -e "${BLUE}## 7zip já configurada. ${RESET}"
+fi
+
+if [ ! -f "external/GLZA/glza_compress" ] && [ ! -f "external/GLZA/glza_decompress" ]; then
+    echo -e "\n\t${GREEN}####### Compilando  GLZA ${RESET}"
+    cp -rf external-overrides/glza/* external/GLZA/
+    cd external/GLZA
+    gcc -o GLZAformat GLZAformat.c -lpthread
+    gcc -o GLZAcompress GLZAcompress.c  -lpthread -lm
+    gcc -o GLZAencode GLZAencode.c  -lpthread
+    gcc -o GLZAdecode GLZAdecode.c -lpthread
+
+else
+    echo -e "${BLUE}## GLZA já configurada. ${RESET}"
 fi
