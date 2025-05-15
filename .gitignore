@@ -8,3 +8,4 @@ report/*/extract/*
 *gcx_output
 *gc_star_output
 *dSYM*output.log
+*.dSYM
