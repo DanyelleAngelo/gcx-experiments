@@ -47,18 +47,31 @@ compress_and_decompress_with_repair() {
 	FILE_NAME=$3
 	OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
 	size_plain=$4
-	cp $FILE "$FILE-repair"
+	cp $FILE "$FILE-repair" #faz uma cópia do arquivo, para não ter sobrescrita do original ao descompactar
 	
-	echo -n "$FILE_NAME|REPAIR|" >> $report
 	"${REPAIR_EXECUTABLE}/./repair-navarro" "$FILE-repair" "$REPORT"
 	"${REPAIR_EXECUTABLE}/./despair-navarro" "$FILE-repair" "$REPORT"
+	checks_equality "$FILE" "$FILE-repair" "repair"
+
+	repair_report_entry=$(tail -n N "$REPORT") #pega a linha gravada pelo repair
+	sed -i '$d' "$REPORT" #apaga a linha recém gravada
+
 	size_c=$(stat $stat_options $FILE-repair.C)
 	size_r=$(stat $stat_options $FILE-repair.R)
-	size=$((size_c + size_r))
-	echo "Size C $size_c , size R $size_r"
-	echo "$size|$size_plain" >> $REPORT
 
-	checks_equality "$FILE" "$FILE-repair" "gcis"
+	#grava as taxas de compressão considerando a codificação SLP
+	echo -e "\n${YELLOW} Generating encodes with SLP...${RESET}"
+	for encoding in "${EXTRACT_ENCODING[@]}"; do
+		"external/ShapeSlp/build/./SlpEncBuild" -i "$FILE-repair" -o "$FILE-$encoding" -e $encoding -f NavarroRepair
+		size_slp=$(stat $stat_options $FILE-$encoding)
+		size=$((size_c + size_r + size_slp))
+
+		echo -n "$FILE_NAME|REPAIR-$encoding|" >> $report
+		echo "${repair_report_entry}|$size" >> "$REPORT"
+
+		echo "Size C $size_c , size R $size_r, size SLP $size_slp, total: $size"
+	done
+
 	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using RePair. ${RESET}\n"
 }
 
@@ -88,71 +101,60 @@ compress_and_decompress_with_7zip() {
 	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using 7zip. ${RESET}\n"
 }
 
-compress_and_decompress_with_glza() {
-	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GLZA ${RESET}\n"
-	file=$1
-	plain_file_path=$2
-	report=$3
+compress_and_decompress_with_gcx() {
+	plain_file_path=$1
+	report=$2
+	file=$3
 	size_plain=$4
-	output_file="$COMP_DIR/$CURR_DATE/$file"
 
-	echo "${YELLOW}Formatting...${RESET}"
-	"${GLZA_EXECUTABLE}/./GLZAformat" -c0 -d0 -l0 $plain_file_path $output_file-formatted-glza
-	echo "${YELLOW}Compressing...${RESET}"
-	"${GLZA_EXECUTABLE}/./GLZAcompress" $output_file-formatted-glza $output_file-compressed-glza
-	echo "${YELLOW}Coding...${RESET}"
-	"${GLZA_EXECUTABLE}/./GLZAencode" $output_file-compressed-glza $output_file-encoded-glza
-	echo "${YELLOW}Decompressing...${RESET}"
-	"${GLZA_EXECUTABLE}/./GLZAdecode" $output_file-encoded-glza $output_file-plain-glza
-	
-	checks_equality "$plain_file_path" $output_file-plain-glza "glza"
-	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using GLZA. ${RESET}\n"
+    grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
+    echo $HEADER_REPORT_GRAMMAR > $grammar_report;
+
+	#perform compress and decompress with GCX
+	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
+	for cover in "${LCP_WINDOW[@]}"; do
+		echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
+		echo -n "$file|GCX-y$cover|" >> $report
+		echo -n "$file|GCX-y$cover|" >> $grammar_report
+
+		file_out="$COMP_DIR/$CURR_DATE/$file"
+		./gcx_output -c $plain_file_path $file_out $report $cover
+		./gcx_output -d $file_out.gcx $file_out-plain $report
+		checks_equality "$plain_file_path" "$file_out-plain" "gcx"
+		echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
+	done
+
+	#perform compress and decompress with GC*
+	echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GC* ${RESET}\n"
+	for cover in "${COVERAGE_LIST[@]}"; do
+		echo -e "\n\t${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
+		echo -n "$file|GC$cover|" >> $report
+		echo -n "$file|GC$cover|" >> $grammar_report
+
+		file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
+		./gc_star_output -c $plain_file_path $file_out $cover $report
+		./gc_star_output -d $file_out.gcx $file_out-plain $cover $report
+		checks_equality "$plain_file_path" "$file_out-plain" "gcx"
+
+		size_file=$(stat $stat_options $file_out.gcx)
+		echo "$size_file|$size_plain" >> $report
+	done
 }
 
-compress_and_decompress_with_gcx() {
+evaluate_compression_performance() {
 	echo -e "\n${GREEN}%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version${RESET}."
 
 	build_tools
-
 	for file in $files; do
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
-        grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
 		echo $COMPRESSION_HEADER > $report;
-        echo $HEADER_REPORT_GRAMMAR > $grammar_report;
 		plain_file_path="$RAW_FILES_DIR/$file"
 		size_plain=$(stat $stat_options $plain_file_path)
 
 		echo -e "\n\t${BLUE}####### FILE: $file ${RESET}"
 
-		#perform compress and decompress with GCX
-		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
-		for cover in "${LCP_WINDOW[@]}"; do
-			echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
-			echo -n "$file|GCX-y$cover|" >> $report
-			echo -n "$file|GCX-y$cover|" >> $grammar_report
-
-			file_out="$COMP_DIR/$CURR_DATE/$file"
-			./gcx_output -c $plain_file_path $file_out $report $cover
-			./gcx_output -d $file_out.gcx $file_out-plain $report
-			checks_equality "$plain_file_path" "$file_out-plain" "gcx"
-			echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
-        done
-	
-		#perform compress and decompress with GC*
-		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GC* ${RESET}\n"
-        for cover in "${COVERAGE_LIST[@]}"; do
-            echo -e "\n\t${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
-            echo -n "$file|GC$cover|" >> $report
-            echo -n "$file|GC$cover|" >> $grammar_report
-
-            file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
-            ./gc_star_output -c $plain_file_path $file_out $cover $report
-            ./gc_star_output -d $file_out.gcx $file_out-plain $cover $report
-            checks_equality "$plain_file_path" "$file_out-plain" "gcx"
-
-            size_file=$(stat $stat_options $file_out.gcx)
-            echo "$size_file|$size_plain" >> $report
-        done
+		#perform compress and decompress with GCX and GC*
+		compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with GCIS
 		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
@@ -165,10 +167,11 @@ compress_and_decompress_with_gcx() {
 		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
 
 		#perform compress and decompress with glza
-		compress_and_decompress_with_glza $file $plain_file_path $report $size_plain
+		# compress_and_decompress_with_glza $file $plain_file_path $report $size_plain
 	done
 	clean_tools
 }
+
 
 run_extract() {
 	build_tools
@@ -189,13 +192,6 @@ run_extract() {
 			"external/GCIS/external/repair-navarro/./repair-navarro" "$plain_file_path-repair" "$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
 		fi
 
-		echo -e "\n${YELLOW} Generating encodes with SLP...${RESET}"
-		for encoding in "${EXTRACT_ENCODING[@]}"; do
-			if [ ! -f "$plain_file_path-$encoding" ]; then
-				"external/ShapeSlp/build/./SlpEncBuild" -i "$plain_file_path-repair" -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
-			fi
-		done
-
 		#generates intervals
 		echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
 		python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
@@ -208,6 +204,7 @@ run_extract() {
 				extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
 				python3 scripts/extract.py $plain_file_path $extract_answer $query
 
+				#perform extract with GCX
 				for cover in "${LCP_WINDOW[@]}"; do
 					echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
 					echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
@@ -219,6 +216,7 @@ run_extract() {
 					rm $extract_output
 				done
 
+				#perform extract with GC*
 				echo -e "\n\t ${YELLOW}Starting extract with GC* - INTERVAL SIZE $length.${RESET}"
 				for cover in "${COVERAGE_LIST[@]}"; do
 					echo -n "$file|GC$cover|" >> $report
@@ -230,11 +228,13 @@ run_extract() {
 				done
 				rm $extract_answer
 
+				#perform extract with GCIS
 				echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
 				echo -n "$file|GCIS-ef|" >> $report
 				$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
 				echo "$length" >> $report
 
+				#perform extract with RePair
 				echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
 				for encoding in "${EXTRACT_ENCODING[@]}"; do
 					echo -n "$file|$encoding|" >> $report
@@ -251,7 +251,7 @@ run_extract() {
 
 generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-CURR_DATE="2025-05-12"
+
 	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
 	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
 	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-grammar" "$REPORT_DIR/$CURR_DATE/graphs" "grammar" "en" "report"
@@ -275,7 +275,7 @@ clean_tools() {
 if [ "$0" = "$BASH_SOURCE" ]; then
 	check_and_create_folder
 	download_files
-	#compress_and_decompress_with_gcx
-	#run_extract
+	evaluate_compression_performance
+	run_extract
 	generate_graphs
 fi
