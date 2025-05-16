@@ -36,7 +36,13 @@ else()
   message("sdsl: " ${SDSL_LIB})
   message("divsufsort: " ${DSS})
   message("divsufsort64: " ${DSS64})
+
+  include_directories(/home/danyelleangelo/include)
 endif()
+
+include_directories(${CMAKE_BINARY_DIR}/external/sdsl-lite/include/)
+include_directories(${CMAKE_BINARY_DIR}/external/sdsl-lite/external/libdivsufsort/include)
+
 
 message("Building in ${CMAKE_BUILD_TYPE} mode")
 

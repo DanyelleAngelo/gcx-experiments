@@ -46,8 +46,7 @@ else
     echo -e "${BLUE}## GCX já foi adicionado. ${RESET}"
 fi
 
-
-if [ ! -d "external/ShapeSl/build/SlpEncBuild" ]; then
+if [ ! -f "external/ShapeSlp/build/SlpEncBuild" ]; then
     echo -e "\n\t${GREEN}####### ShapeSlp: Build não encontrado, configurando a lib${RESET}"
 
     cp -rf external-overrides/shapedslsp/* external/ShapeSlp/
@@ -72,26 +71,26 @@ else
     echo -e "${BLUE}## ShapeSlp já configurada. ${RESET}"
 fi
 
-#if [ ! -d "external/GCIS/build/src/gcis" ]; then
-#    echo -e "\n\t${GREEN}#######  Configurando o GCIS...... ${RESET}"
-#
-#    echo -e "\n\t####### Copiando arquivos necessários para os experimentos...."
-#    cp -rf external-overrides/gcis/* external/GCIS/
-#
-#    echo -e "\n\t####### Instalando o GCIS....."
-#    cd external/GCIS
-#    if [ "$OS" = "Darwin" ]; then
-#        echo "Compilando para Mac (arm64)"
-#        chmod +x build-mac.sh
-#        ./build-mac.sh
-#    else
-#	chmod +x build.sh
-#        ./build.sh
-#    fi
-#    cd $SOURCE_DIR
-#else
-#    echo -e "${BLUE}## GCIS já configurado. ${RESET}"
-#fi
+if [ ! -d "external/GCIS/build/src/gcis" ]; then
+    echo -e "\n\t${GREEN}#######  Configurando o GCIS...... ${RESET}"
+
+    echo -e "\n\t####### Copiando arquivos necessários para os experimentos...."
+    cp -rf external-overrides/gcis/* external/GCIS/
+
+    echo -e "\n\t####### Instalando o GCIS....."
+    cd external/GCIS
+    if [ "$OS" = "Darwin" ]; then
+        echo "Compilando para Mac (arm64)"
+        chmod +x build-mac.sh
+        ./build-mac.sh
+    else
+	chmod +x build.sh
+        ./build.sh
+    fi
+    cd $SOURCE_DIR
+else
+    echo -e "${BLUE}## GCIS já configurado. ${RESET}"
+fi
 
 
 if [ ! -f "external/7zip/CPP/7zip/Bundles/Alone2/_o/7zz" ]; then
