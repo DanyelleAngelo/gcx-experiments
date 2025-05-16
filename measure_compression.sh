@@ -67,7 +67,7 @@ compress_and_decompress_with_repair() {
 		size=$((size_c + size_r + size_slp))
 
 		echo -n "$FILE_NAME|REPAIR-$encoding|" >> $report
-		echo "${repair_report_entry}|$size" >> "$REPORT"
+		echo "${repair_report_entry}$size|$size_plain" >> "$REPORT"
 
 		echo -e "\nTamanhos: Size C $size_c , size R $size_r, size SLP $size_slp, total: $size\n\n"
 	done
