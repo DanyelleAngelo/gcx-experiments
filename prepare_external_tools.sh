@@ -79,6 +79,7 @@ if [ ! -d "external/GCIS/build/src/gcis" ]; then
 
     echo -e "\n\t####### Instalando o GCIS....."
     cd external/GCIS
+    ../sdsl-lite/./install.sh .
     if [ "$OS" = "Darwin" ]; then
         echo "Compilando para Mac (arm64)"
         chmod +x build-mac.sh
