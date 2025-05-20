@@ -117,7 +117,7 @@ compress_and_decompress_with_gcx() {
 		echo -n "$file|GCX-y$cover|" >> $report
 		echo -n "$file|GCX-y$cover|" >> $grammar_report
 
-		file_out="$COMP_DIR/$CURR_DATE/$file"
+		file_out="$COMP_DIR/$CURR_DATE/$file-y$cover"
 		./gcx_output -c $plain_file_path $file_out $report $cover
 		./gcx_output -d $file_out.gcx $file_out-plain $report
 		checks_equality "$plain_file_path" "$file_out-plain" "gcx"
@@ -205,7 +205,7 @@ run_extract() {
 					echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
 					echo -n "$file|GCX-y$cover|" >> $report
 					extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
-					./gcx_output -e "$compressed_file.gcx" $extract_output $query $report
+					./gcx_output -e "$compressed_file-y$cover.gcx" $extract_output $query $report
 					echo "$length" >> $report
 					checks_equality "$extract_output" "$extract_answer" "extract"
 					rm $extract_output
