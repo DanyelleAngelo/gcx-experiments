@@ -969,7 +969,7 @@ static HRESULT Compress(
   }
   //long long int peak = malloc_count_peak();
   // long long int stack = stack_count_usage(base);
-  fprintf(report_gcx, "-|-|%5.4lf|",duration);
+  fprintf(report_gcx, "0|0|%5.4lf|",duration);
   printf("Time inserted into the DCX report: %5.4lf\n", duration);
   fclose(report_gcx);
 
