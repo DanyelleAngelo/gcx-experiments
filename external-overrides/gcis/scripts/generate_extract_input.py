@@ -22,7 +22,7 @@ def generate_extract_input(input_file_path, output_file_path):
         # for each substring length
         for ss in substring_size:
             with open(output_file_path + '.' + str(ss)+'_extract', 'w') as extract_file:
-                print(number_of_substrings,ss, file=extract_file)
+                #print(number_of_substrings,ss, file=extract_file)
                 intervals = [(x, x+ss-1)
                              for x in [random.randint(0, input_size-ss-1) for k in range(number_of_substrings)]]
                 for i in intervals:

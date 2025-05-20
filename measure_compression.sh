@@ -187,11 +187,6 @@ run_extract() {
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
 		echo $EXTRACTION_HEADER > $report;
 
-		echo -e "\n${YELLOW} Starting encode with repair-navarro - $file .${RESET}"
-		if [ ! -f "$plain_file_path-repair.C" ]; then
-			"external/GCIS/external/repair-navarro/./repair-navarro" "$plain_file_path-repair" "$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
-		fi
-
 		#generates intervals
 		echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
 		python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
