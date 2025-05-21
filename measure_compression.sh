@@ -9,7 +9,7 @@ readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 #cabeçalhos
 readonly COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 readonly EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
-readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules"
+readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size"
 
 # paths
 readonly GCIS_EXECUTABLE="external/GCIS/build/src/./gcis"
@@ -147,7 +147,10 @@ compress_and_decompress_with_gcx() {
 		./gcx_output -c $plain_file_path $file_out $report $cover
 		./gcx_output -d $file_out.gcx $file_out-plain $report
 		checks_equality "$plain_file_path" "$file_out-plain" "gcx"
-		echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
+		
+		compressed_size=$(stat $stat_options $file_out.gcx)
+		echo "$compressed_size|$size_plain" >> $report
+		echo "|$compressed_size" >> $grammar_report
 	done
 
 	#perform compress and decompress with GC*
