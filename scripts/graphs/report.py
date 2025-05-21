@@ -117,6 +117,10 @@ def main(argv):
     report =  argv[5] if len(sys.argv) > 5 else False
     output_dir = f"{argv[2]}/{locale}"
 
+    if not os.path.isdir(output_dir):
+        print(f'A pasta "{output_dir}" não existe.')
+        sys.exit(1) 
+
     language = ut.set_locale(locale)
     df_list = get_data_frame(path, operation, report)
     if operation == "compress":
