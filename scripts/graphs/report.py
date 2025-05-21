@@ -37,12 +37,9 @@ def generate_extract_chart(df_list, output_dir, language):
 
 def generate_compress_chart(df_list, output_dir, language):
     for df in df_list:
-        gcis_filter = df['algorithm'].str.contains('GCIS') 
-        repair_filter = df['algorithm'].str.contains('REPAIR') 
-        combined_filter = gcis_filter | repair_filter
-
-        others = df[combined_filter]
-        dcx = df[~combined_filter]
+        pattern = r'^(GCX-y\d+|GC\d+)$'
+        dcx = df[df['algorithm'].str.match(pattern, na=False)]
+        others =  df[~df['algorithm'].str.match(pattern, na=False)]
        
         print(f"\n## FILE: {df.index[0]}")
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
@@ -75,12 +72,24 @@ def prepare_dataset(df, operation):
     elif operation == 'extract':
         df['time'] = df['time'].apply(lambda x: (x/10000)*1e6) 
 
+
+def remove_and_log_incomplete_rows(df, file=None):
+    incomplete_rows = df[df.isnull().any(axis=1)]
+    if not incomplete_rows.empty:
+        for idx, row in incomplete_rows.iterrows():
+            if file:
+                print(f"[WARNING] Removendo linha incompleta do arquivo {file}: {row.to_dict()}")
+            else:
+                print(f"[WARNING] Removendo linha incompleta: {row.to_dict()}")
+    return df.dropna()
+
 def get_data_frame(path, operation, report):
     files = glob.glob(f"{path}*.csv")
     df_list = []
-    print(f"Separador de casa decimal é {sep_decimal}")
+
     for file in files:
-        df = pd.read_csv(file, sep='|', decimal=sep_decimal)
+        df = pd.read_csv(file, sep='|', decimal=sep_decimal, on_bad_lines='skip')
+        df = remove_and_log_incomplete_rows(df, file)
         df.set_index('file', inplace=True)
 
         if operation == "compress":
