@@ -14,7 +14,6 @@ readonly HEADER_REPORT_GRAMMAR="file|algorithm|nLevels|xs_size|level_cover_qtyRu
 # paths
 readonly GCIS_EXECUTABLE="external/GCIS/build/src/./gcis"
 readonly REPAIR_EXECUTABLE="external/GCIS/external/repair-navarro"
-readonly SETE_ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/./7zz"
 readonly GLZA_EXECUTABLE="external/GLZA"
 readonly GCX_PATH="../GCX/gcx/"
 readonly GCX_MAIN_EXEC_PATH="$(pwd)/gcx_output"
@@ -83,6 +82,8 @@ compress_and_decompress_with_7zip() {
 	compressed_file="$COMP_DIR/$CURR_DATE/$file"
 	decompressed_file="$COMP_DIR/$CURR_DATE"
 
+	SETE_ZIP_EXECUTABLE="external/7zip/CPP/7zip/Bundles/Alone2/_o/./7zz"
+
 	echo -e "\n\t\t ${YELLOW}Starting compression using 7zip ${RESET}\n"
 	echo -n "$file|7zip|" >> $report
 	
@@ -99,6 +100,31 @@ compress_and_decompress_with_7zip() {
 	rm $decompressed_file/$file
 
 	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $FILE file using 7zip. ${RESET}\n"
+}
+
+compress_and_decompress_with_bzip2() {
+	file=$1
+	report=$2
+	file_name=$3
+	output="$COMP_DIR/$CURR_DATE/$file_name"
+	size_plain=$4
+
+	cp $file $output #faz uma cópia do arquivo, para não ter sobrescrita do original ao descompactar
+	echo -n "$file_name|bzip2|" >> $report
+	BZIP2_EXECUTABLE="external/bzip2/build/./bzip2"
+
+	echo -e "\n\t\t ${YELLOW}Starting compression using Bzip2 ${RESET}\n"
+	"$BZIP2_EXECUTABLE" -f $output --gcx_report="$report"
+	
+	echo -e "\n\t\t ${YELLOW}Starting decompression using Bzip2 ${RESET}\n"
+	"$BZIP2_EXECUTABLE" -d -kf $output.bz2 --gcx_report="$report"
+	
+	size=$(stat $stat_options $output.bz2)
+	echo "$size|$size_plain" >> $report
+
+	checks_equality "$plain_file_path" $output "bz2"
+
+	echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file using Bzip2. ${RESET}\n"
 }
 
 compress_and_decompress_with_gcx() {
@@ -166,8 +192,8 @@ evaluate_compression_performance() {
 		#perform compress and decompress with 7zip
 		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
 
-		#perform compress and decompress with glza
-		# compress_and_decompress_with_glza $file $plain_file_path $report $size_plain
+		#perform compress and decompress with bzip2
+		compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
 	done
 	clean_tools
 }

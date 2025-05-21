@@ -5,7 +5,7 @@ REPO_DIR="$(cd "$(dirname "$0")"; pwd)"
 echo "\n\t${GREEN}$REPO_DIR\n\t${GREEN}"
 SOURCE_DIR=$(pwd)
 
-submodules=("external/malloc_count" "external/GCIS" "external/ShapeSlp"  "external/sdsl-lite" "external/7zip" "external/GLZA") 
+submodules=("external/malloc_count" "external/GCIS" "external/ShapeSlp"  "external/sdsl-lite" "external/7zip" "external/bzip2") 
 
 need_init=0
 
@@ -71,7 +71,7 @@ else
     echo -e "${BLUE}## ShapeSlp já configurada. ${RESET}"
 fi
 
-if [ ! -d "external/GCIS/build/src/gcis" ]; then
+if [ ! -f "external/GCIS/build/src/gcis" ]; then
     echo -e "\n\t${GREEN}#######  Configurando o GCIS...... ${RESET}"
 
     echo -e "\n\t####### Copiando arquivos necessários para os experimentos...."
@@ -103,3 +103,17 @@ if [ ! -f "external/7zip/CPP/7zip/Bundles/Alone2/_o/7zz" ]; then
 else
     echo -e "${BLUE}## 7zip já configurada. ${RESET}"
 fi
+
+if [ ! -f "external/bzip2/build/bzip2" ]; then
+    cp -rf external-overrides/bzip2/* external/bzip2/
+    cd external/bzip2
+    mkdir build && cd build
+    #CMAKE_BIN="/opt/cmake-3.12.4/CMake.app/Contents/bin/cmake"
+    cmake ..
+    cmake --build . --config Release
+    cd $SOURCE_DIR
+else
+    echo -e "${BLUE}## Bzip2 já configurada. ${RESET}"
+fi
+
+

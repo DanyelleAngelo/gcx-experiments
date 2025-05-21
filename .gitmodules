@@ -19,3 +19,6 @@
 [submodule "external/GLZA"]
 	path = external/GLZA
 	url = git@github.com:jrmuizel/GLZA.git
+[submodule "external/bzip2"]
+	path = external/bzip2
+	url = https://gitlab.com/federicomenaquintero/bzip2.git
