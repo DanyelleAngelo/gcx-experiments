@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-einstein.de.txt|bzip2|0|0|4.3505|0|0|1.1383|4010045|92758441

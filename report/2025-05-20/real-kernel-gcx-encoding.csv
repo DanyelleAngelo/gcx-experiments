@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-kernel|bzip2|0|0|9.6380|0|0|3.6584|56074279|257961616

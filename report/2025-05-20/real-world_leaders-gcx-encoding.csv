@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-world_leaders|bzip2|0|0|1.1772|0|0|0.3850|3260930|46968181

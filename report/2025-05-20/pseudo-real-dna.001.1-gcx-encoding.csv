@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+pseudo-real-dna.001.1|bzip2|0|0|4.3105|0|0|2.0486|27385893|104857600
