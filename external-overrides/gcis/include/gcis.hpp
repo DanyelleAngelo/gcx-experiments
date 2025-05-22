@@ -28,10 +28,10 @@ const int EMPTY = 0xffffffff;
 
 unsigned char mask[] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
 
-#define tget(i) ((t[(i) >> 3] & mask[(i)&0x7]) ? 1 : 0)
+#define tget(i) ((t[(i) >> 3] & mask[(i) & 0x7]) ? 1 : 0)
 #define tset(i, b)                                                             \
-    t[(i) >> 3] =                                                              \
-        (b) ? (mask[(i)&0x7] | t[(i) >> 3]) : ((~mask[(i)&0x7]) & t[(i) >> 3])
+    t[(i) >> 3] = (b) ? (mask[(i) & 0x7] | t[(i) >> 3])                        \
+                      : ((~mask[(i) & 0x7]) & t[(i) >> 3])
 
 #define isLMS(i) (i > 0 && tget(i) && !tget(i - 1))
 
@@ -66,8 +66,7 @@ class gcis_interface {
   public:
     virtual void encode(char *s, int_t n) = 0;
     virtual pair<char *, int_t> decode() = 0;
-  // muda assinatura para relatório do gcx
-    virtual double extract_batch(vector<pair<int, int>> &v_query) = 0;
+    virtual double extract_batch(vector<pair<int, int>> &v_query) = 0;  // muda assinatura para relatório do gcx
     virtual pair<char *, int_t> decode_saca(uint_t **SA) = 0;
     virtual pair<char *, int_t> decode_saca_lcp(uint_t **SA, int_t **LCP) = 0;
     virtual uint64_t size_in_bytes() = 0;
@@ -81,8 +80,11 @@ template <class codec_t> class gcis_abstract : public gcis_interface {
     sdsl::int_vector<> reduced_string;
 
   public:
-  // muda assinatura para relatório do gcx
-    double extract_batch(vector<pair<int, int>> &v_query) {
+    virtual ~gcis_abstract() {
+        g.clear();
+        sdsl::util::clear(reduced_string);
+    }
+    double extract_batch(vector<pair<int, int>> &v_query) {// muda assinatura para relatório do gcx
         throw(gcis::util::NotImplementedException("extract_batch"));
     }
     pair<char *, int_t> decode_saca(uint_t **SA) {

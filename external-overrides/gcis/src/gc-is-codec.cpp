@@ -1,3 +1,4 @@
+#include "../external/malloc_count/malloc_count.h"
 #include "gcis.hpp"
 #include "gcis_eliasfano.hpp"
 #include "gcis_eliasfano_no_lcp.hpp"
@@ -10,7 +11,6 @@
 #include <fstream>
 #include <iostream>
 //to gcx
-#include "../external/malloc_count/malloc_count.h"
 #include "../external/malloc_count/stack_count.h"
 #include <ctime>
 
@@ -60,9 +60,9 @@ int main(int argc, char *argv[]) {
     clock_t clock_time;
 
     if (codec_flag == "-s8b") {
-        d = new gcis_s8b_pointers();
+        d = new gcis_s8b_pointers;
     } else if (codec_flag == "-ef") {
-        d = new gcis_dictionary<gcis_eliasfano_codec>();
+        d = new gcis_dictionary<gcis_eliasfano_codec>;
     } else {
         cerr << "Invalid CODEC." << endl;
         cerr << "Use -s8b for Simple8b or -ef for Elias-Fano" << endl;
@@ -81,19 +81,21 @@ int main(int argc, char *argv[]) {
         mm.event("GC-IS Compress");
 #endif
 
+        auto start = timer::now();
         clock_time = clock(); //gcx
 
-        auto start = timer::now();
         d->encode(str, n);
+
         clock_time = clock() - clock_time; //gcx
         duration = ((double)clock_time)/CLOCKS_PER_SEC; //gcx
+
         auto stop = timer::now();
 
 #ifdef MEM_MONITOR
         mm.event("GC-IS Save");
 #endif
 
-        cout << "input:\t" << strlen(str) << " bytes" << endl;
+        cout << "input:\t" << n << " bytes" << endl;
         cout << "output:\t" << d->size_in_bytes() << " bytes" << endl;
         cout << "time: " << (double)duration_cast<seconds>(stop - start).count()
              << " seconds" << endl;
@@ -102,13 +104,13 @@ int main(int argc, char *argv[]) {
         output.close();
         delete[] str;
     } else if (strcmp(mode, "-d") == 0) {
-
         std::ifstream input(argv[2]);
         std::ofstream output(argv[3], std::ios::binary);
 
 #ifdef MEM_MONITOR
         mm.event("GC-IS Load");
 #endif
+
         d->load(input);
 
 #ifdef MEM_MONITOR
