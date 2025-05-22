@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-kernel|GCIS-s8b|1348593793|6291456|11.9164|691559872|6291456|1.7371|5459315|257961616
