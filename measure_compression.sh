@@ -276,9 +276,9 @@ run_extract() {
 generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
-	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
-	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-grammar" "$REPORT_DIR/$CURR_DATE/graphs" "grammar" "en" "report"
+	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE" "compress" "en" "report"
+	#python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE" "extract" "en" "report"
+	#python3 scripts/graphsE/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-grammar" "$REPORT_DIR/$CURR_DAT" "grammar" "en" "report"
 
 	echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
@@ -301,5 +301,5 @@ if [ "$0" = "$BASH_SOURCE" ]; then
 	download_files
 	evaluate_compression_performance
 	run_extract
-	#generate_graphs
+	generate_graphs
 fi
