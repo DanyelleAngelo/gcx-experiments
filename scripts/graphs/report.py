@@ -125,7 +125,7 @@ def get_data_frame(path: str, operation: str, report: bool) -> List[pd.DataFrame
 def generate_charts(operation, df_list, graph_path_dir, language):
     if not os.path.isdir(graph_path_dir):
         logging.warning(f'A pasta "{graph_path_dir}" não existe.')
-        sys.exit(1) 
+        return
 
     if operation == "compress":
         print("\n\t------ Compress and Decompress ------")
