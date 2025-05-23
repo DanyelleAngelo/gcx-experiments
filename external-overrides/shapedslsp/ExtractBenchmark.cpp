@@ -76,8 +76,8 @@ void measure(
 
   cout << "Batch Extraction Total time(s): " << elapsed.count() << endl;
   cout << "Mean time (microseconds): " << elapsed.count() / n * 1e6 << endl;
-  fprintf(report_gcx, "0|0|%5.4lf|", elapsed);
-  printf("Time inserted into the gcx report: %5.4lf\n", elapsed);
+  fprintf(report_gcx, "0|0|%5.4lf|", elapsed.count());
+  printf("Time inserted into the gcx report: %5.4lf\n", elapsed.count());
   fclose(report_gcx);
 }
 
