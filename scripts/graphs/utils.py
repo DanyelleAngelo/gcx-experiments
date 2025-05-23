@@ -10,3 +10,7 @@ def set_locale(locale):
     else:
         import pt as language
     return language
+
+def convert_columns(df, cols, func):
+    for col in cols:
+        df[col] = df[col].apply(lambda x: func(x) if isinstance(x, (int, float)) else 0)
