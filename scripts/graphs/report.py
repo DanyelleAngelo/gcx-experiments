@@ -1,10 +1,18 @@
-import sys
 import os
-import plotting as plt
+import sys
 import glob
+
+import logging
 import pandas as pd
+
+from typing import List
+import plotting as plt
 import utils as ut
+import generate_tables as gt
 from summary import *
+
+
+pd.options.mode.chained_assignment = None 
 
 compress_max_values = {
     'peak_comp': 0.0,
@@ -57,81 +65,127 @@ def set_max_values(values, df):
             if column_max > values[key]:
                 values[key] = column_max
 
-def prepare_dataset(df, operation):
+
+def remove_and_log_incomplete_rows(df):
+    incomplete_rows = df[df.isnull().any(axis=1)]
+    if not incomplete_rows.empty:
+        for idx, row in incomplete_rows.iterrows():
+            row_dict = row.to_dict()
+            logging.warning(f"[WARNING] Removendo linha incompleta: {row.file, row.algorithm}")
+    return df.dropna()
+
+def prepare_dataset(df: pd.DataFrame, operation: str):
+    """
+        Remove linhas incompletas, remove prefixo do nome do arquivo que indica a natureza do dado; e normaliza dados:
+        - Converte bytes para MB
+        - Calcula taxa de compressao
+        - Converte segundos para microsegundos
+    """
+    df = remove_and_log_incomplete_rows(df)
+
+    df['algorithm'] = df['algorithm'].replace({
+        'REPAIR-PlainSlp_32Fblc': 'RePair (32Fblc)',
+        'REPAIR-PlainSlp_FblcFblc': 'RePair (FblcFblc)'
+    })
+    
+    df.loc[:, 'file'] = df['file'].str.replace('pseudo-real-', '', regex=False) \
+        .str.replace('real-', '', regex=False) \
+        .str.strip()
+
     if operation == 'compress':
-        plain_size = df['plain_size'][0]
-        #calculate compression rate
+        plain_size = df['plain_size'].iloc[0]
         df['compressed_size_ratio'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
-        
-        #convert bytes to MB
-        df['peak_comp'] = df['peak_comp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
-        df['peak_decomp'] = df['peak_decomp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
-        df['stack_comp'] = df['stack_comp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
-        df['stack_decomp'] = df['stack_decomp'].apply(lambda x: ut.bytes_to_mb(x) if isinstance(x, (int, float)) else 0)
+        ut.convert_columns(df, ['plain_size', 'peak_comp', 'peak_decomp'], ut.bytes_to_mb)
 
     elif operation == 'extract':
         df['time'] = df['time'].apply(lambda x: (x/10000)*1e6) 
 
+    return df
 
-def remove_and_log_incomplete_rows(df, file=None):
-    incomplete_rows = df[df.isnull().any(axis=1)]
-    if not incomplete_rows.empty:
-        for idx, row in incomplete_rows.iterrows():
-            if file:
-                print(f"[WARNING] Removendo linha incompleta do arquivo {file}: {row.to_dict()}")
-            else:
-                print(f"[WARNING] Removendo linha incompleta: {row.to_dict()}")
-    return df.dropna()
-
-def get_data_frame(path, operation, report):
+def get_data_frame(path: str, operation: str, report: bool) -> List[pd.DataFrame]:
     files = glob.glob(f"{path}*.csv")
     df_list = []
 
     for file in files:
         df = pd.read_csv(file, sep='|', decimal=sep_decimal, on_bad_lines='skip')
-        df = remove_and_log_incomplete_rows(df, file)
-        df.set_index('file', inplace=True)
-
         if operation == "compress":
-            prepare_dataset(df, operation)
+            df = prepare_dataset(df, operation)
             set_max_values(compress_max_values, df)
             set_summary(compression_summary, df)
         elif operation == "extract":
-            prepare_dataset(df, operation)
+            df = prepare_dataset(df, operation)
             set_max_values(extract_values, df)
             set_summary(extract_summary, df)
+        df.set_index('file', inplace=True)
 
         df_list.append(df)
 
-    if report and operation == "compress":
-        print_summary(df_list, compression_summary)
-    elif report and operation == "extract":
-        print_summary(df_list, extract_summary)
-
     return df_list
 
+def generate_charts(operation, df_list, graph_path_dir, language):
+    if not os.path.isdir(graph_path_dir):
+        logging.warning(f'A pasta "{graph_path_dir}" não existe.')
+        sys.exit(1) 
+
+    if operation == "compress":
+        print("\n\t------ Compress and Decompress ------")
+        generate_compress_chart(df_list, graph_path_dir, language)
+    elif operation == "extract":
+        print("\n\t------ Extract ------")
+        generate_extract_chart(df_list, graph_path_dir, language)
+    elif operation == "grammar":
+        print("\n\t------ Informações da gramática ------")
+        generate_grammar_chart(df_list, graph_path_dir, language)
+
+def generate_tables(df_list, language, table_path_dir):
+    print("\n\nGerando latex e markdown table...")
+
+    os.makedirs(table_path_dir, exist_ok=True)
+    gt.generate_tables(
+        df_list,
+        metric='compressed_size_ratio',
+        output_suffix='compression_ratio',
+        metric_labels=language.metric_labels,
+        path_dir=table_path_dir)
+
+    gt.generate_tables(
+        df_list,
+        metric='compression_time',
+        output_suffix='compression_time',
+        metric_labels=language.metric_labels,
+        path_dir=table_path_dir)
+
+    gt.generate_tables(
+        df_list,
+        metric='decompression_time',
+        output_suffix='decompression_time',
+        metric_labels=language.metric_labels,
+        path_dir=table_path_dir)
+
 def main(argv):
+    if len(argv) < 5:
+        print("Uso: script.py <input_dir> <output_dir> <operation> <locale> [report]")
+        sys.exit(1)
+
     path = argv[1]
     operation = argv[3]
     locale = argv[4]
     report =  argv[5] if len(sys.argv) > 5 else False
-    output_dir = f"{argv[2]}/{locale}"
-
-    if not os.path.isdir(output_dir):
-        print(f'A pasta "{output_dir}" não existe.')
-        sys.exit(1) 
+    graph_path_dir = f"{argv[2]}/graphs/{locale}"
 
     language = ut.set_locale(locale)
     df_list = get_data_frame(path, operation, report)
-    if operation == "compress":
-        print("\n\t------ Compress and Decompress ------")
-        generate_compress_chart(df_list, output_dir, language)
-    elif operation == "extract":
-        print("\n\t------ Extract ------")
-        generate_extract_chart(df_list, output_dir, language)
-    elif operation == "grammar":
-        print("\n\t------ Informações da gramática ------")
-        generate_grammar_chart(df_list, output_dir, language)
+
+    generate_charts(operation, df_list, graph_path_dir, language)
+    
+    if report:
+        if operation == "compress":
+            #print_summary(df_list, compression_summary)
+            table_path_dir = f"{argv[2]}/tables"
+            generate_tables(df_list, language, table_path_dir)
+        elif operation == "extract":
+            print_summary(df_list, extract_summary)
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
