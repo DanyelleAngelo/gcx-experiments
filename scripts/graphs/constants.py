@@ -25,3 +25,20 @@ COLOR_MAP= {
 }
 
 COLOR_MAP['peak_decomp_bar'] = COLOR_MAP['peak_comp_bar']
+
+algorithms_report = [
+    '7zip',
+    'bzip2',
+    'RePair (32Fblc)',
+    'RePair (FblcFblc)',
+    'GCIS-ef',
+    'GCIS-s8b',
+    'GC4',
+    'GC8',
+    'GC16',
+    'GC32',
+    'GCX-y4',
+    'GCX-y8',
+    'GCX-y16',
+    'GCX-y32',
+]

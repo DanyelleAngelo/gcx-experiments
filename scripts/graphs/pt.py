@@ -77,3 +77,9 @@ GRAMMAR = {
     "legend": "Variações de ",
     "plain_size": "Tamanho do arquivo original",
 }
+
+metric_labels = {
+    'compressed_size_ratio': ("Taxa de compressão (\\%)", "tab:compression_ratio"),
+    'compression_time': ("Tempo de compressão (s)", "tab:compression_time"),
+    'decompression_time': ("Tempo de descompressão (s)", "tab:decompression_time"),
+}
