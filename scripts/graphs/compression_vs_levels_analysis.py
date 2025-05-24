@@ -34,23 +34,34 @@ def create_graphs():
             data=subset,
             x="nLevels",
             y="compressed_size_ratio",
-            hue="algorithm", #troque para group para ver uma análise baseada no tipo do algoritmo
-            ci=None, #remove intervalo de confiança
-            #markers=["o", "s"],
+            hue="algorithm",
+            ci=None,
             palette="muted",
-            height=5,
-            aspect=1,
+            height=8,
+            aspect=1.25,
         )
+        g._legend.remove() 
 
-        g.set_axis_labels("Número de níveis", "Taxa de compressão (%)")
-        g.fig.suptitle(f"Relação entre nº de níveis e taxa de compressão\n{file}")
+        file_clean = file.replace('pseudo-real-', '').replace('real-', '').strip()
 
-        g.fig.tight_layout()
-        g.fig.subplots_adjust(top=0.85)
+        g.set_axis_labels("Number of Levels", "Compression Rate (%)")
+        g.fig.suptitle(f"Number of Levels x Compression Rate - {file_clean.upper()}", fontsize=14, y=0.87)
 
-        file=f"{path_dir}/graphs/{file}_compressao_vs_nlevels.png"
-        g.savefig(file)
+        ax = g.ax
+        ax.grid(True, linestyle=':', alpha=0.5)
+        leg = ax.legend(title="Algorithm", fontsize=12, title_fontsize=12)
+
+        for spine in ax.spines.values():
+            spine.set_visible(True)
+            spine.set_linewidth(1.5)
+            spine.set_edgecolor('black')
+
+        g.fig.tight_layout(pad=4.0)
+
+        filename = f"{path_dir}/graphs/{file_clean}_compressao_vs_nlevels.png"
+        g.savefig(filename)
         plt.close()
+
 
 def interpret_coef(coef):
     if coef is None:
@@ -110,4 +121,4 @@ def create_table():
 
 
 create_graphs()
-create_table()
+#create_table()
