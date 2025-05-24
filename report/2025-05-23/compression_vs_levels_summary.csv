@@ -1,0 +1,39 @@
+,file,algorithm_group,mean_nLevels,mean_compression_rate,correlation,regression_slope,interpretation
+0,artificial-fib41,g*,5.0,0.09099804305283755,-0.751,-0.017,Levels ↑ → Compression rate ↓
+1,artificial-fib41,gcx,7.0,0.061643835616438325,-0.677,-0.003,No clear relation.
+2,artificial-rs.13,g*,5.0,0.12940834986212565,-0.852,-0.019,Levels ↑ → Compression rate ↓
+3,artificial-rs.13,gcx,7.0,0.0919162111170238,-0.693,-0.002,No clear relation.
+4,dblp.xml.00001.1,g*,6.5,0.735,-0.898,-0.051,Levels ↑ → Compression rate ↓
+5,dblp.xml.00001.1,gcx,6.0,14.5175,-0.857,-1.338,Levels ↑ → Compression rate ↓
+6,dblp.xml.00001.2,g*,6.5,0.735,-0.898,-0.051,Levels ↑ → Compression rate ↓
+7,dblp.xml.00001.2,gcx,5.25,14.8575,-0.865,-1.777,Levels ↑ → Compression rate ↓
+8,dblp.xml.0001.1,g*,6.0,1.3875,-0.864,-0.164,Levels ↑ → Compression rate ↓
+9,dblp.xml.0001.1,gcx,5.25,14.7875,-0.863,-1.724,Levels ↑ → Compression rate ↓
+10,dblp.xml.0001.2,g*,6.0,1.3875,-0.864,-0.164,Levels ↑ → Compression rate ↓
+11,dblp.xml.0001.2,gcx,4.5,18.0275,-0.867,-2.965,Levels ↑ → Compression rate ↓
+12,dna.001.1,g*,4.75,5.905,-0.924,-1.383,Levels ↑ → Compression rate ↓
+13,dna.001.1,gcx,4.25,25.5375,-0.873,-3.774,Levels ↑ → Compression rate ↓
+14,english.001.2,g*,4.75,6.51,-0.942,-1.107,Levels ↑ → Compression rate ↓
+15,english.001.2,gcx,3.5,43.144999999999996,-0.779,-10.075,Levels ↑ → Compression rate ↓
+16,proteins.001.1,g*,4.75,6.55,-0.947,-1.078,Levels ↑ → Compression rate ↓
+17,proteins.001.1,gcx,5.25,20.1225,-0.848,-2.908,Levels ↑ → Compression rate ↓
+18,sources.001.2,g*,4.75,6.455,-0.927,-1.082,Levels ↑ → Compression rate ↓
+19,sources.001.2,gcx,3.5,40.525000000000006,-0.756,-9.326,Levels ↑ → Compression rate ↓
+20,Escherichia_Coli,g*,4.0,67.04894389131852,-0.654,-14.342,Levels ↑ → Compression rate ↓
+21,Escherichia_Coli,gcx,3.5,59.163022238764306,0.887,18.54,Levels ↑ → Compression rate ↑
+22,cere,g*,5.0,46.609610838334234,-0.729,-6.738,Levels ↑ → Compression rate ↓
+23,cere,gcx,7.25,45.90721040189125,-0.652,-2.687,Levels ↑ → Compression rate ↓
+24,coreutils,g*,4.75,51.266792664861825,-0.861,-5.161,Levels ↑ → Compression rate ↓
+25,coreutils,gcx,7.25,48.61955355774633,-0.996,-6.877,Levels ↑ → Compression rate ↓
+26,einstein.de.txt,g*,5.5,11.160411485417137,-0.964,-1.576,Levels ↑ → Compression rate ↓
+27,einstein.de.txt,gcx,7.5,10.250395659054941,-0.808,-0.635,Levels ↑ → Compression rate ↓
+28,einstein.en.txt,g*,6.0,5.958494035339493,-0.899,-0.923,Levels ↑ → Compression rate ↓
+29,einstein.en.txt,gcx,7.75,5.304847968427662,-0.899,-0.444,Levels ↑ → Compression rate ↓
+30,influenza,g*,4.0,23.406597128149553,-0.778,-4.229,Levels ↑ → Compression rate ↓
+31,influenza,gcx,5.5,22.173868870224872,-0.943,-4.93,Levels ↑ → Compression rate ↓
+32,kernel,g*,5.0,48.25413601073127,-0.777,-4.578,Levels ↑ → Compression rate ↓
+33,kernel,gcx,7.75,43.928092353969355,-0.554,-1.082,Levels ↑ → Compression rate ↓
+34,para,g*,4.75,52.06226488836778,-0.788,-10.581,Levels ↑ → Compression rate ↓
+35,para,gcx,6.75,50.23755435048121,-0.726,-3.32,Levels ↑ → Compression rate ↓
+36,world_leaders,g*,4.0,28.912703728510827,-0.852,-4.116,Levels ↑ → Compression rate ↓
+37,world_leaders,gcx,4.25,26.808439383791026,-0.697,-1.746,Levels ↑ → Compression rate ↓
