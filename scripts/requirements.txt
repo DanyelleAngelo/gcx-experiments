@@ -3,3 +3,5 @@ pandas
 tabulate
 jinja2
 logging
+statsmodels
+seaborn
