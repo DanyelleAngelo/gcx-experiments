@@ -270,9 +270,10 @@ if(ENABLE_STATIC_LIB)
     install(FILES bzlib.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 
+add_executable(bzip2 bzip2.c ../malloc_count/malloc_count.c ../malloc_count/stack_count.c)
+target_include_directories(bzip2 PRIVATE ../malloc_count)
 if(ENABLE_APP)
     # The bzip2 executable.
-    add_executable(bzip2)
     target_sources(bzip2
         PRIVATE   bzip2.c)
     target_link_libraries(bzip2

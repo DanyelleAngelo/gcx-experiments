@@ -33,7 +33,9 @@
 #include "bzlib.h"
 
 //to gcx
-#include <time.h>  
+#include <time.h>
+#include "../malloc_count/stack_count.h"  
+#include "../malloc_count/malloc_count.h"
 
 #define ERROR_IF_EOF(i)       { if ((i) == EOF)  ioError(); }
 #define ERROR_IF_NOT_ZERO(i)  { if ((i) != 0)    ioError(); }
@@ -1110,9 +1112,11 @@ Bool mapSuffix ( Char* name,
 /*---------------------------------------------*/
 static 
 void compress ( Char *name, char *file_report_gcx)
-{
-   double duration =0.0; //gcx
-   clock_t clock_time; //gcx
+{  
+   //gcx
+   void* base = stack_count_clear();
+   double duration =0.0;
+   clock_t clock_time; 
 
    FILE  *inStr;
    FILE  *outStr;
@@ -1285,8 +1289,10 @@ void compress ( Char *name, char *file_report_gcx)
       printf("Error opening file %s\n",file_report_gcx);
       exit(1);
    }
-   fprintf(report_gcx, "0|0|%5.4lf|",duration);
-   printf("Time inserted into the DCX report: %5.4lf\n", duration);
+   long long int peak = malloc_count_peak();
+   long long int stack = stack_count_usage(base);
+   fprintf(report_gcx, "%lld|%lld|%5.4lf|", peak,stack,duration);
+   printf("Time inserted into the GCX report: %5.4lf\n", duration);
    fclose(report_gcx);
    //fim do relatório gcx
 
@@ -1310,6 +1316,8 @@ void compress ( Char *name, char *file_report_gcx)
 static 
 void uncompress ( Char *name, char *file_report_gcx)
 {
+   //gcx
+   void* base = stack_count_clear();
    double duration =0.0; //gcx
    clock_t clock_time; //gcx
 
@@ -1515,8 +1523,10 @@ void uncompress ( Char *name, char *file_report_gcx)
       printf("Error opening file %s\n",file_report_gcx);
       exit(1);
    }
-   fprintf(report_gcx, "0|0|%5.4lf|",duration);
-   printf("Time inserted into the DCX report: %5.4lf\n", duration);
+   long long int peak = malloc_count_peak();
+   long long int stack = stack_count_usage(base);
+   fprintf(report_gcx, "%lld|%lld|%5.4lf|", peak,stack,duration);
+   printf("Time inserted into the GCX report: %5.4lf\n", duration);
    fclose(report_gcx);
    //fim do relatório gcx
 
