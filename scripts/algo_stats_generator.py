@@ -52,10 +52,10 @@ def analyze_files(files: list[str], output_dir: str, metric: str):
 
     data['group'] = data['algorithm'].apply(group_algorithm)
 
-    report_path = os.path.join(output_dir, f"{metric}_analysis_report.txt")
+    report_path = os.path.join(output_dir, f"00_{metric}_analysis_report.txt")
     write_metric_report(data, metric, report_path)
 
-    filename=f"{metric}_vs_compressed_size.png"
+    filename=f"00_{metric}_vs_compressed_size.png"
     plt.figure(figsize=(12, 8))
     sns.scatterplot(data=data, x='compressed_size', y=metric, hue='algorithm', palette='tab10', alpha=0.7)
     plt.xlabel('Compressed Size (bytes)')
@@ -82,10 +82,10 @@ def analyze_extraction_time(files: list[str], output_dir: str):
         max='max'
     ).reset_index()
 
-    stats_path = os.path.join(output_dir, "extraction_time_stats.csv")
+    stats_path = os.path.join(output_dir, "00_extraction_time_stats.csv")
     stats.to_csv(stats_path, index=False)
 
-    report_path = os.path.join(output_dir, "extract_time_analysis_report.txt")
+    report_path = os.path.join(output_dir, "00_extract_time_analysis_report.txt")
     write_metric_report(data, 'time', report_path)
 
     # Função auxiliar para gerar gráfico de linha
@@ -106,19 +106,19 @@ def analyze_extraction_time(files: list[str], output_dir: str):
     plot_line(stats, 'substring_size', 'mean', 'algorithm_group',
               "Substring Size", "Mean Extraction Time (s)",
               "Mean Extraction Time vs Substring Size by Algorithm Group",
-              "mean_extraction_time_vs_substring_size.png", log_scale_x=True)
+              "00_mean_extraction_time_vs_substring_size.png", log_scale_x=True)
 
     plot_line(stats, 'substring_size', 'median', 'algorithm_group',
               "Substring Size", "Median Extraction Time (s)",
               "Median Extraction Time vs Substring Size by Algorithm Group",
-              "median_extraction_time_vs_substring_size.png", log_scale_x=True)
+              "00_median_extraction_time_vs_substring_size.png", log_scale_x=True)
 
     print(f"Análise concluída. Relatórios e gráficos salvos em '{output_dir}'.")
 
 
 if __name__ == "__main__":
-    encoding_files = glob.glob(os.path.join("report", "2025-05-19", "*encoding.csv"))
-    extract_files = glob.glob(os.path.join("report", "2025-05-19", "*extract.csv"))
+    encoding_files = glob.glob(os.path.join("report", "2025-05-26", "*encoding.csv"))
+    extract_files = glob.glob(os.path.join("report", "2025-05-26", "*extract.csv"))
 
-    analyze_files(encoding_files, "report/2025-05-23", "compression_time")
-    analyze_extraction_time(extract_files, "report/2025-05-23")
+    analyze_files(encoding_files, "report/2025-05-26", "compression_time")
+    analyze_extraction_time(extract_files, "report/2025-05-26")
