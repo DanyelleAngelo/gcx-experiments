@@ -107,7 +107,6 @@ OBJS = \
   $(UI_COMMON_OBJS) \
   $(CONSOLE_OBJS) \
   $O/malloc_count.o \
-  $O/stack_count.o
 
 
     
