@@ -106,8 +106,7 @@ OBJS = \
   $(7ZIP_COMMON_OBJS_2) \
   $(UI_COMMON_OBJS) \
   $(CONSOLE_OBJS) \
-  $O/malloc_count.o \
-  $O/stack_count.o
+  $O/malloc_count.o
 
 
     

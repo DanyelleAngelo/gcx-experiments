@@ -193,7 +193,7 @@ evaluate_compression_performance() {
 		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with 7zip
-		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
+		#compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
 
 		#perform compress and decompress with bzip2
 		compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
