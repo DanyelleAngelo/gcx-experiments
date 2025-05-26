@@ -1265,6 +1265,8 @@ $O/ZstdDec.o: ../../../../C/ZstdDec.c
 	$(CC) $(CFLAGS) $<
 $O/malloc_count.o: ../../../../../malloc_count/malloc_count.c
 	$(CC) $(CFLAGS) $<
+$O/stack_count.o: ../../../../../malloc_count/stack_count.c
+	$(CC) $(CFLAGS) $<
 
 ifdef USE_ASM
 ifdef IS_X64

@@ -20,7 +20,7 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
-//#include "../../../../../malloc_count/stack_count.h"  
+#include "../../../../../malloc_count/stack_count.h"  
 #include "../../../../../malloc_count/malloc_count.h"
 
 using namespace NWindows;
@@ -195,7 +195,7 @@ static HRESULT DecompressArchive(
     SetErrorMessage("Cannot create output directory", outDir, res, errorMessage);
     return res;
   }
-//
+
   ecs->Init(
       options.NtOptions,
       options.StdInMode ? &wildcardCensor : NULL,
@@ -585,7 +585,7 @@ HRESULT Extract(
   st.PackSize = ecs->LocalProgressSpec->InSize;
 
   //to gcx
-  //void* base = stack_count_clear();
+  void* base = stack_count_clear();
   clock_time = clock() - clock_time;
   double duration = ((double)clock_time)/CLOCKS_PER_SEC;
   UString reportPath1 = file_report_gcx; // Cria uma cópia mutável
@@ -601,7 +601,7 @@ HRESULT Extract(
     exit(1);
   }
   long long int peak = malloc_count_peak();
-  long long int stack = 0;//stack_count_usage(base);
+  long long int stack = stack_count_usage(base);
   fprintf(report_gcx, "%lld|%lld|%5.4lf|", peak,stack,duration);
   printf("Time inserted into the GCX report: %5.4lf\n", duration);
   fclose(report_gcx);
