@@ -273,6 +273,7 @@ int main(int argc, char *argv[]) {
 #endif
         vector<pair<int, int>> v_query;
         uint64_t l, r;
+        query >> l >> r;
         while (query >> l >> r) {
             v_query.push_back(make_pair(l, r));
         }
