@@ -117,8 +117,8 @@ def analyze_extraction_time(files: list[str], output_dir: str):
 
 
 if __name__ == "__main__":
-    encoding_files = glob.glob(os.path.join("report", "2025-05-26", "*encoding.csv"))
-    extract_files = glob.glob(os.path.join("report", "2025-05-26", "*extract.csv"))
+    encoding_files = glob.glob(os.path.join("report", "2024-09-24", "*encoding.csv"))
+    extract_files = glob.glob(os.path.join("report", "2024-09-24", "*extract.csv"))
 
     analyze_files(encoding_files, "report/2025-05-26", "compression_time")
     analyze_extraction_time(extract_files, "report/2025-05-26")

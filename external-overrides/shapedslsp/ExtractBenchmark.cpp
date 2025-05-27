@@ -31,7 +31,6 @@ void measure(
     string query_file)
 {
   FILE *report_gcx = fopen(file_gcx.c_str(), "a");
-  long long int peak = malloc_count_peak();
   //long long int stack = stack_count_usage(base);
   SlpT slp;
   uint64_t n;
@@ -74,10 +73,11 @@ void measure(
     total_time += t1 - t0;
   }
   std::chrono::duration<double> elapsed = total_time - first;
+  long long int peak = malloc_count_peak();
 
   cout << "Batch Extraction Total time(s): " << elapsed.count() << endl;
   cout << "Mean time (microseconds): " << elapsed.count() / n * 1e6 << endl;
-  fprintf(report_gcx, "0|0|%5.4lf|", elapsed.count());
+  fprintf(report_gcx, "%lld|0|%5.4lf|", peak,elapsed.count());
   printf("Time inserted into the gcx report: %5.4lf\n", elapsed.count());
   fclose(report_gcx);
 }
