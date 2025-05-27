@@ -74,3 +74,8 @@ pseudo-real-sources.001.2|GC64|11810737|6291456|0.060156084000000|10000
 pseudo-real-sources.001.2|GC128|16025125|6291456|0.053873902000000|10000
 pseudo-real-sources.001.2|PlainSlp_32Fblc|10566954|0|0.8182|10000
 pseudo-real-sources.001.2|PlainSlp_FblcFblc|7890740|0|1.1885|10000
+pseudo-real-sources.001.2|GCIS-ef|5964584|6291456|0.0256|1
+pseudo-real-sources.001.2|GCIS-ef|5964584|6291456|0.0334|10
+pseudo-real-sources.001.2|GCIS-ef|5964584|6291456|0.1393|100
+pseudo-real-sources.001.2|GCIS-ef|5964584|6291456|1.1445|1000
+pseudo-real-sources.001.2|GCIS-ef|5964584|6291456|11.1222|10000

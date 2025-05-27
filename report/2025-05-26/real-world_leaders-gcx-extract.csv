@@ -74,3 +74,8 @@ real-world_leaders|GC64|25360157|6291456|0.099294945000000|10000
 real-world_leaders|GC128|35745205|6291456|0.087800149000000|10000
 real-world_leaders|PlainSlp_32Fblc|3803785|0|0.4724|10000
 real-world_leaders|PlainSlp_FblcFblc|2826115|0|0.7703|10000
+real-world_leaders|GCIS-ef|2789532|6291456|0.0238|1
+real-world_leaders|GCIS-ef|2789532|6291456|0.0298|10
+real-world_leaders|GCIS-ef|2789532|6291456|0.0883|100
+real-world_leaders|GCIS-ef|2789532|6291456|0.6052|1000
+real-world_leaders|GCIS-ef|2789532|6291456|5.8080|10000

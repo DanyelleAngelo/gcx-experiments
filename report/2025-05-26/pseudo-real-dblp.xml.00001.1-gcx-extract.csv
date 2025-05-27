@@ -74,3 +74,8 @@ pseudo-real-dblp.xml.00001.1|GC64|1921581|6291456|0.050139673000000|10000
 pseudo-real-dblp.xml.00001.1|GC128|2090169|6291456|0.045815552000000|10000
 pseudo-real-dblp.xml.00001.1|PlainSlp_32Fblc|1451089|0|0.4543|10000
 pseudo-real-dblp.xml.00001.1|PlainSlp_FblcFblc|1111035|0|0.7540|10000
+pseudo-real-dblp.xml.00001.1|GCIS-ef|1461256|6291456|0.0265|1
+pseudo-real-dblp.xml.00001.1|GCIS-ef|1461256|6291456|0.0339|10
+pseudo-real-dblp.xml.00001.1|GCIS-ef|1461256|6291456|0.1254|100
+pseudo-real-dblp.xml.00001.1|GCIS-ef|1461256|6291456|0.9976|1000
+pseudo-real-dblp.xml.00001.1|GCIS-ef|1461256|6291456|9.9304|10000

@@ -74,3 +74,8 @@ real-einstein.en.txt|GC64|45684593|6291456|0.098506391000000|10000
 real-einstein.en.txt|GC128|73746169|6291456|0.103402857000000|10000
 real-einstein.en.txt|PlainSlp_32Fblc|2315299|0|0.6363|10000
 real-einstein.en.txt|PlainSlp_FblcFblc|1744557|0|1.0036|10000
+real-einstein.en.txt|GCIS-ef|2017548|6291456|0.0273|1
+real-einstein.en.txt|GCIS-ef|2017548|6291456|0.0380|10
+real-einstein.en.txt|GCIS-ef|2017548|6291456|0.1383|100
+real-einstein.en.txt|GCIS-ef|2017548|6291456|1.0966|1000
+real-einstein.en.txt|GCIS-ef|2017548|6291456|10.6268|10000
