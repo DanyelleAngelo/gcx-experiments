@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 2.6)
 ### Set a default build type if none was specified
 link_directories(/home/danyelleangelo/lib)
 
+include_directories(${PROJECT_SOURCE_DIR}/../malloc_count)
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Setting build type to 'Release' as none was specified.")
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
@@ -54,7 +55,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-g -std=c++17 -Ofast -fstrict-aliasing -march=nativ
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g -std=c++17 -ggdb -Ofast -fstrict-aliasing -march=native -pthread")
 
 
-add_executable(SlpEncBuild SlpEncBuild.cpp ${FOLCA_SOURCE_DIR}/fbtree.cpp ${FOLCA_SOURCE_DIR}/onlinebp.c)
+add_executable(SlpEncBuild SlpEncBuild.cpp ${FOLCA_SOURCE_DIR}/fbtree.cpp ${FOLCA_SOURCE_DIR}/onlinebp.c ../malloc_count/malloc_count.c)
 TARGET_LINK_LIBRARIES(SlpEncBuild sdsl)
 
 add_executable(SubstrBenchmark SubstrBenchmark.cpp ${FOLCA_SOURCE_DIR}/fbtree.cpp ${FOLCA_SOURCE_DIR}/onlinebp.c)

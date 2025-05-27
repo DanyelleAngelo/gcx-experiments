@@ -16,6 +16,7 @@
 #include "FixedBitLenCode.hpp"
 #include "SelectType.hpp"
 #include "VlcVec.hpp"
+#include "../malloc_count/malloc_count.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ void measure(
     string query_file)
 {
   FILE *report_gcx = fopen(file_gcx.c_str(), "a");
-  //long long int peak = malloc_count_peak();
+  long long int peak = malloc_count_peak();
   //long long int stack = stack_count_usage(base);
   SlpT slp;
   uint64_t n;
@@ -46,7 +47,7 @@ void measure(
   std::ifstream query(query_file);
   vector<pair<uint64_t, uint64_t>> v_query;
   uint64_t l, r;
-//  query >> n >> lenExpand;
+ query >> n >> g;
   while (query >> l >> r)
   {
     v_query.push_back(make_pair(l, r));
