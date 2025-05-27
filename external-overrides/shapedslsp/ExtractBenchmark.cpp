@@ -47,7 +47,7 @@ void measure(
   std::ifstream query(query_file);
   vector<pair<uint64_t, uint64_t>> v_query;
   uint64_t l, r;
- query >> n >> g;
+  query >> n >> lenExpand;
   while (query >> l >> r)
   {
     v_query.push_back(make_pair(l, r));
