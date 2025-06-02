@@ -12,7 +12,7 @@ def group_algorithm(name: str) -> str:
     if name_lower.startswith("gcx-y"):
         return "gcx"
     if re.match(r"gc\d+", name_lower):
-        return "g*"
+        return "gc*"
     return name_lower
 
 
@@ -117,8 +117,8 @@ def analyze_extraction_time(files: list[str], output_dir: str):
 
 
 if __name__ == "__main__":
-    encoding_files = glob.glob(os.path.join("report", "2024-09-24", "*encoding.csv"))
-    extract_files = glob.glob(os.path.join("report", "2024-09-24", "*extract.csv"))
+    encoding_files = glob.glob(os.path.join("report", "2025-06-01", "*encoding.csv"))
+    extract_files = glob.glob(os.path.join("report", "2025-06-01", "*extract.csv"))
 
-    analyze_files(encoding_files, "report/2025-05-26", "compression_time")
-    analyze_extraction_time(extract_files, "report/2025-05-26")
+    analyze_files(encoding_files, "report/2025-06-01", "compression_time")
+    analyze_extraction_time(extract_files, "report/2025-06-01")

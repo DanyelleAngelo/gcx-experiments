@@ -1,0 +1,87 @@
+Mean Compression Time by algorithm:
+algorithm
+7zip                        49.231490
+GC128                        4.002190
+GC16                         4.188631
+GC2                          5.949832
+GC32                         4.255817
+GC4                          4.357371
+GC64                         3.983937
+GC8                          4.064496
+GCIS-ef                      7.318590
+GCIS-s8b                     7.185595
+GCX-y128                     8.241266
+GCX-y16                      8.432480
+GCX-y32                      8.667561
+GCX-y4                       7.324597
+GCX-y64                      8.324292
+GCX-y8                       8.001876
+REPAIR-PlainSlp_32Fblc      30.845851
+REPAIR-PlainSlp_FblcFblc    30.845851
+bzip2                       12.463520
+
+Median Compression Time by algorithm:
+algorithm
+7zip                         8.488950
+GC128                        2.345140
+GC16                         2.442493
+GC2                          3.891041
+GC32                         2.535152
+GC4                          2.646639
+GC64                         2.373997
+GC8                          2.358822
+GCIS-ef                      4.279600
+GCIS-s8b                     4.197450
+GCX-y128                     4.891071
+GCX-y16                      5.271276
+GCX-y32                      5.185811
+GCX-y4                       5.548826
+GCX-y64                      4.978148
+GCX-y8                       5.262370
+REPAIR-PlainSlp_32Fblc      20.636232
+REPAIR-PlainSlp_FblcFblc    20.636232
+bzip2                        5.016400
+
+Percentage comparison of mean Compression Time relative to the best algorithm:
+algorithm
+GC64                           0.000000
+GC128                          0.458175
+GC8                            2.022085
+GC16                           5.137973
+GC32                           6.824406
+GC4                            9.373478
+GC2                           49.345532
+GCIS-s8b                      80.364170
+GCIS-ef                       83.702451
+GCX-y4                        83.853239
+GCX-y8                       100.853476
+GCX-y128                     106.862347
+GCX-y64                      108.946376
+GCX-y16                      111.661980
+GCX-y32                      117.562697
+bzip2                        212.844301
+REPAIR-PlainSlp_32Fblc       674.255488
+REPAIR-PlainSlp_FblcFblc     674.255488
+7zip                        1135.749696
+
+Ranking of algorithms by mean Compression Time:
+                   Algorithm  Mean Compression Time
+0                       GC64               3.983937
+1                      GC128               4.002190
+2                        GC8               4.064496
+3                       GC16               4.188631
+4                       GC32               4.255817
+5                        GC4               4.357371
+6                        GC2               5.949832
+7                   GCIS-s8b               7.185595
+8                    GCIS-ef               7.318590
+9                     GCX-y4               7.324597
+10                    GCX-y8               8.001876
+11                  GCX-y128               8.241266
+12                   GCX-y64               8.324292
+13                   GCX-y16               8.432480
+14                   GCX-y32               8.667561
+15                     bzip2              12.463520
+16    REPAIR-PlainSlp_32Fblc              30.845851
+17  REPAIR-PlainSlp_FblcFblc              30.845851
+18                      7zip              49.231490
