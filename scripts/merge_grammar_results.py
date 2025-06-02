@@ -31,8 +31,8 @@ def save_dataframe(df: pd.DataFrame, path: Path):
 
 
 if __name__ == "__main__":
-    input_folder = Path("report/2025-05-26")
-    output_file = Path("report/2025-05-26/00_grammar_all_files.csv")
+    input_folder = Path("report/2025-06-01")
+    output_file = Path("report/2025-06-01/00_grammar_all_files.csv")
 
     df_all = load_and_concat_grammar_files(input_folder)
     save_dataframe(df_all, output_file)

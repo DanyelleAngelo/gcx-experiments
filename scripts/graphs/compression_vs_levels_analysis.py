@@ -7,10 +7,10 @@ from scipy.stats import pearsonr
 from sklearn.linear_model import LinearRegression
 
 
-path_dir="report/2025-05-23"
+path_dir="report/2025-06-01"
 os.makedirs(f"{path_dir}/graphs", exist_ok=True)
 
-data = pd.read_csv(f"{path_dir}/grammar.csv", sep="|")
+data = pd.read_csv(f"{path_dir}/00_grammar_all_files.csv", sep="|")
 
 
 def group_algorithm(algo):
@@ -33,7 +33,7 @@ def create_graphs():
         g = sns.lmplot(
             data=subset,
             x="nLevels",
-            y="compressed_size_ratio",
+            y="compressed_size",
             hue="algorithm",
             ci=None,
             palette="muted",
@@ -91,15 +91,15 @@ def create_table():
             print(f"Agrupamento inválido para arquivo {file}, grupo {group}")
             continue
         
-        if subset["nLevels"].nunique() <= 1 or subset["compressed_size_ratio"].nunique() <= 1:
+        if subset["nLevels"].nunique() <= 1 or subset["compressed_size"].nunique() <= 1:
             print(f"Dados constantes para arquivo {file}, grupo {group}, pulando correlação")
             corr = float('nan')
             coef_angular = float('nan')
         else:
             x = subset["nLevels"].values.reshape(-1, 1)
-            y = subset["compressed_size_ratio"].values
+            y = subset["compressed_size"].values
 
-            corr, _ = pearsonr(subset["nLevels"], subset["compressed_size_ratio"])
+            corr, _ = pearsonr(subset["nLevels"], subset["compressed_size"])
 
             model = LinearRegression().fit(x, y)
             coef_angular = model.coef_[0]
@@ -108,7 +108,7 @@ def create_table():
                 "file": file,
                 "algorithm_group": group,
                 "mean_nLevels": subset["nLevels"].mean(),
-                "mean_compression_rate": subset["compressed_size_ratio"].mean(),
+                "mean_compression_rate": subset["compressed_size"].mean(),
                 "correlation": round(corr, 3),
                 "regression_slope": round(coef_angular, 3),
                 "interpretation": interpret_coef(coef_angular),
