@@ -2,8 +2,8 @@ import pandas as pd
 from pathlib import Path
 import re
 
-MAIN_PATH = Path("report/2025-05-26")
-OTHER_PATH = Path("report/2025-05-19")
+MAIN_PATH = Path("report/2025-06-01")
+OTHER_PATH = Path("report/2025-06-01")
 
 def is_desired_algorithm(alg, existing_algorithms):
     alg = alg.strip()
@@ -13,7 +13,10 @@ def is_desired_algorithm(alg, existing_algorithms):
         alg.startswith("REPAIR") or
         alg.startswith("GCIS") or
         alg.startswith("7zip") or
-        (re.fullmatch(r'GC\d+', alg) is not None)
+        alg.startswith("bzip2") or
+        alg.startswith("GC8") or
+        alg.startswith("GCX-y16") #or
+        #(re.fullmatch(r'GC\d+', alg) is not None)
     )
 
 pattern="*encoding.csv"
