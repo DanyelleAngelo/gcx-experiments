@@ -1,0 +1,87 @@
+Mean Decompression Time by algorithm:
+algorithm
+7zip                        0.353420
+GC128                       0.199304
+GC16                        0.410706
+GC2                         1.293005
+GC32                        0.371501
+GC4                         0.631731
+GC64                        0.269937
+GC8                         0.361928
+GCIS-ef                     0.868630
+GCIS-s8b                    1.086710
+GCX-y128                    0.413114
+GCX-y16                     0.387454
+GCX-y32                     0.378814
+GCX-y4                      0.602235
+GCX-y64                     0.416684
+GCX-y8                      0.456094
+REPAIR-PlainSlp_32Fblc      1.226082
+REPAIR-PlainSlp_FblcFblc    1.226082
+bzip2                       2.897785
+
+Median Decompression Time by algorithm:
+algorithm
+7zip                        0.254850
+GC128                       0.107774
+GC16                        0.155024
+GC2                         0.748429
+GC32                        0.126372
+GC4                         0.330398
+GC64                        0.111768
+GC8                         0.208263
+GCIS-ef                     0.641650
+GCIS-s8b                    0.780800
+GCX-y128                    0.187598
+GCX-y16                     0.204426
+GCX-y32                     0.194344
+GCX-y4                      0.425378
+GCX-y64                     0.172679
+GCX-y8                      0.261536
+REPAIR-PlainSlp_32Fblc      0.855884
+REPAIR-PlainSlp_FblcFblc    0.855884
+bzip2                       2.208350
+
+Percentage comparison of mean Decompression Time relative to the best algorithm:
+algorithm
+GC128                          0.000000
+GC64                          35.440135
+7zip                          77.327365
+GC8                           81.596353
+GC32                          86.399349
+GCX-y32                       90.068925
+GCX-y16                       94.403867
+GC16                         106.070635
+GCX-y128                     107.278565
+GCX-y64                      109.069977
+GCX-y8                       128.843770
+GCX-y4                       202.169397
+GC4                          216.968802
+GCIS-ef                      335.832350
+GCIS-s8b                     445.253299
+REPAIR-PlainSlp_32Fblc       515.182608
+REPAIR-PlainSlp_FblcFblc     515.182608
+GC2                          548.761237
+bzip2                       1353.954442
+
+Ranking of algorithms by mean Decompression Time:
+                   Algorithm  Mean Decompression Time
+0                      GC128                 0.199304
+1                       GC64                 0.269937
+2                       7zip                 0.353420
+3                        GC8                 0.361928
+4                       GC32                 0.371501
+5                    GCX-y32                 0.378814
+6                    GCX-y16                 0.387454
+7                       GC16                 0.410706
+8                   GCX-y128                 0.413114
+9                    GCX-y64                 0.416684
+10                    GCX-y8                 0.456094
+11                    GCX-y4                 0.602235
+12                       GC4                 0.631731
+13                   GCIS-ef                 0.868630
+14                  GCIS-s8b                 1.086710
+15    REPAIR-PlainSlp_32Fblc                 1.226082
+16  REPAIR-PlainSlp_FblcFblc                 1.226082
+17                       GC2                 1.293005
+18                     bzip2                 2.897785
