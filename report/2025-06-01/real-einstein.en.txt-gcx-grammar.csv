@@ -1,5 +1,4 @@
 file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
-real-einstein.en.txt|GCX-y4|2|116906638|3:2-4168,2:2-56339,|409378796|467626544
 real-einstein.en.txt|GCX-y8|2|29226660|3:4-56338,2:4-286991,|97651452|467626544
 real-einstein.en.txt|GCX-y16|2|9543400|3:7-166557,2:7-390555,|37482039|467626544
 real-einstein.en.txt|GCX-y32|5|2656971|6:11-244205,5:2-312372,4:2-377880,3:2-456934,2:2-526646,|18616179|467626544

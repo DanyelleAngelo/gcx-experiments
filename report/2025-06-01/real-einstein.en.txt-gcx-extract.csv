@@ -1,5 +1,4 @@
 file|algorithm|peak|stack|time|substring_size
-real-einstein.en.txt|GCX-y4|410048917|6291456|0.002094132000000|1
 real-einstein.en.txt|GCX-y8|98321573|6291456|0.001550821000000|1
 real-einstein.en.txt|GCX-y16|38152160|6291456|0.001913304000000|1
 real-einstein.en.txt|GCX-y32|19286444|6291456|0.002692772000000|1
@@ -15,7 +14,6 @@ real-einstein.en.txt|GC128|73746169|6291456|0.002357521000000|1
 real-einstein.en.txt|GCIS-ef|2017548|6291456|0.0265|1
 real-einstein.en.txt|PlainSlp_32Fblc|2315287|0|0.0046|1
 real-einstein.en.txt|PlainSlp_FblcFblc|1744545|0|0.0054|1
-real-einstein.en.txt|GCX-y4|410048917|6291456|0.002234115000000|10
 real-einstein.en.txt|GCX-y8|98321573|6291456|0.001713706000000|10
 real-einstein.en.txt|GCX-y16|38152160|6291456|0.002479144000000|10
 real-einstein.en.txt|GCX-y32|19286444|6291456|0.004067510000000|10
@@ -31,7 +29,6 @@ real-einstein.en.txt|GC128|73746169|6291456|0.002396614000000|10
 real-einstein.en.txt|GCIS-ef|2017548|6291456|0.0383|10
 real-einstein.en.txt|PlainSlp_32Fblc|2315290|0|0.0052|10
 real-einstein.en.txt|PlainSlp_FblcFblc|1744548|0|0.0066|10
-real-einstein.en.txt|GCX-y4|410048917|6291456|0.005166151000000|100
 real-einstein.en.txt|GCX-y8|98321573|6291456|0.003189637000000|100
 real-einstein.en.txt|GCX-y16|38152160|6291456|0.004115841000000|100
 real-einstein.en.txt|GCX-y32|19286444|6291456|0.005354437000000|100
@@ -47,7 +44,6 @@ real-einstein.en.txt|GC128|73746169|6291456|0.003200647000000|100
 real-einstein.en.txt|GCIS-ef|2017548|6291456|0.1339|100
 real-einstein.en.txt|PlainSlp_32Fblc|2315293|0|0.0116|100
 real-einstein.en.txt|PlainSlp_FblcFblc|1744551|0|0.0171|100
-real-einstein.en.txt|GCX-y4|410048917|6291456|0.029025244000000|1000
 real-einstein.en.txt|GCX-y8|98321573|6291456|0.017182309000000|1000
 real-einstein.en.txt|GCX-y16|38152160|6291456|0.014824334000000|1000
 real-einstein.en.txt|GCX-y32|19286444|6291456|0.018088848000000|1000
@@ -63,7 +59,6 @@ real-einstein.en.txt|GC128|73746169|6291456|0.012586193000000|1000
 real-einstein.en.txt|GCIS-ef|2017548|6291456|1.0664|1000
 real-einstein.en.txt|PlainSlp_32Fblc|2315296|0|0.0697|1000
 real-einstein.en.txt|PlainSlp_FblcFblc|1744554|0|0.1056|1000
-real-einstein.en.txt|GCX-y4|410048917|6291456|0.262852543000000|10000
 real-einstein.en.txt|GCX-y8|98321573|6291456|0.146704485000000|10000
 real-einstein.en.txt|GCX-y16|38152160|6291456|0.110653683000000|10000
 real-einstein.en.txt|GCX-y32|19286444|6291456|0.144030560000000|10000
