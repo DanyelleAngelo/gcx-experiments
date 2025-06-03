@@ -120,5 +120,6 @@ if __name__ == "__main__":
     encoding_files = glob.glob(os.path.join("report", "2025-06-01", "*encoding.csv"))
     extract_files = glob.glob(os.path.join("report", "2025-06-01", "*extract.csv"))
 
-    analyze_files(encoding_files, "report/2025-06-01", "compression_time")
-    analyze_extraction_time(extract_files, "report/2025-06-01")
+    #analyze_files(encoding_files, "report/2025-06-01", "compression_time")
+    analyze_files(encoding_files, "report/2025-06-01", "compressed_size_ratio")
+    #analyze_extraction_time(extract_files, "report/2025-06-01")
