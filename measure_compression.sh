@@ -28,11 +28,15 @@ compress_and_decompress_with_gcis() {
 	REPORT=$3
 	FILE_NAME=$4
 	OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
+
 	echo -n "$FILE_NAME|GCIS-${CODEC}|" >> $report
+
 	echo -e "${GREEN}Comprimindo arquivo...${RESET}\n"
 	"$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
+
 	echo -e "${GREEN}Descomprimindo arquivo.. ${RESET}\n."
 	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
+
 	echo "$(stat $stat_options $OUTPUT-gcis-$CODEC)|$5" >> $REPORT
 
 	checks_equality "$PLAIN" "$OUTPUT-gcis-$CODEC-plain" "gcis"
@@ -173,10 +177,11 @@ compress_and_decompress_with_gcx() {
 evaluate_compression_performance() {
 	echo -e "\n${GREEN}%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version${RESET}."
 
-	build_tools
 	for file in $files; do
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
+
 		echo $COMPRESSION_HEADER > $report;
+
 		plain_file_path="$RAW_FILES_DIR/$file"
 		size_plain=$(stat $stat_options $plain_file_path)
 
@@ -187,7 +192,7 @@ evaluate_compression_performance() {
 
 		#perform compress and decompress with GCIS
 		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
-		compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with REPAIR
 		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
@@ -203,8 +208,6 @@ evaluate_compression_performance() {
 
 
 run_extract() {
-	build_tools
-
 	echo -e "\n${BLUE}####### Extract validation ${RESET}"
 	for file in $files; do
 		echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
@@ -297,6 +300,7 @@ clean_tools() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
+	#build_tools
 	check_and_create_folder
 	download_files
 	evaluate_compression_performance
