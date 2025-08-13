@@ -1,0 +1,16 @@
+file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
+real-Escherichia_Coli|GCX-y8|2|3130265|3:6-6572,2:6-2770740,
+|38131748|112689515
+real-Escherichia_Coli|GCX-y16|2|1126896|3:10-963416,2:10-1095912,
+|41500852|112689515
+real-Escherichia_Coli|GCX-y32|2|1126896|3:10-963417,2:10-1095912,
+|41500862|112689515
+real-Escherichia_Coli|GCX-y64|2|1126896|3:10-963417,2:10-1095912,
+|41500862|112689515
+real-Escherichia_Coli|GCX-y128|2|1126896|3:10-963417,2:10-1095912,
+|41500862|112689515
+real-Escherichia_Coli|GC8|4|27513|4:8-68101,3:8-1669768,2:8-219902,1:8-27513,
+real-Escherichia_Coli|GC16|3|27513|3:16-5024174,2:16-438386,1:16-27513,
+real-Escherichia_Coli|GC32|3|3440|3:32-3026420,2:32-110034,1:32-3440,
+real-Escherichia_Coli|GC64|2|27513|2:64-1669768,1:64-27513,
+real-Escherichia_Coli|GC128|2|6879|2:128-865854,1:128-6879,
