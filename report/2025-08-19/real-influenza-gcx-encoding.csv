@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-influenza|GCIS-ef|825195981|6291456|5.7320|958353627|6291456|0.6746|8759308|154808555
+real-influenza|REPAIR-PlainSlp_32Fblc|1859033796|3512|23.339881|5157832|8096|0.872122|26295983|154808555
+real-influenza|REPAIR-PlainSlp_FblcFblc|1859033796|3512|23.339881|5157832|8096|0.872122|22087329|154808555

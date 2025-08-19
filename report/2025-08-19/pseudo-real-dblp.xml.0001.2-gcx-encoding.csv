@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+pseudo-real-dblp.xml.0001.2|GCIS-ef|546102609|6291456|4.0037|645248028|6291456|0.4188|948495|104857600
+pseudo-real-dblp.xml.0001.2|REPAIR-PlainSlp_32Fblc|1261357844|3528|18.396422|1271776|3288|0.617745|3346507|104857600
+pseudo-real-dblp.xml.0001.2|REPAIR-PlainSlp_FblcFblc|1261357844|3528|18.396422|1271776|3288|0.617745|2728477|104857600

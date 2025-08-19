@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-Escherichia_Coli|GCIS-ef|636081466|6291456|5.2451|709657679|6291456|0.8523|18800821|112689515
+real-Escherichia_Coli|REPAIR-PlainSlp_32Fblc|1353485596|3512|19.610417|16105832|101152|0.875959|63607047|112689515
+real-Escherichia_Coli|REPAIR-PlainSlp_FblcFblc|1353485596|3512|19.610417|16105832|101152|0.875959|54573129|112689515

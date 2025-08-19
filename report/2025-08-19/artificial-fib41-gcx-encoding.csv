@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+artificial-fib41|GCIS-ef|1393821735|6291456|3.8543|1748952296|6291456|0.8997|9302|267914296
+artificial-fib41|REPAIR-PlainSlp_32Fblc|3216426288|3496|14.240083|9440|3896|1.093769|841|267914296
+artificial-fib41|REPAIR-PlainSlp_FblcFblc|3216426288|3496|14.240083|9440|3896|1.093769|587|267914296

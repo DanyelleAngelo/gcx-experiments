@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+artificial-tm29|GCIS-ef|1393372575|6291456|3.4208|1700133508|6291456|0.8526|9124|268435456
+artificial-tm29|REPAIR-PlainSlp_32Fblc|3222682072|3496|13.168984|9736|3720|1.022619|1621|268435456
+artificial-tm29|REPAIR-PlainSlp_FblcFblc|3222682072|3496|13.168984|9736|3720|1.022619|1127|268435456

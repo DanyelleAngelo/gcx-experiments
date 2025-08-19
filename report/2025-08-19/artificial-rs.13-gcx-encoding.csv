@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+artificial-rs.13|GCIS-ef|1126389439|6291456|2.8537|1414932858|6291456|0.7024|6896|216747218
+artificial-rs.13|REPAIR-PlainSlp_32Fblc|2602330200|3528|10.039381|9664|3288|0.885595|1717|216747218
+artificial-rs.13|REPAIR-PlainSlp_FblcFblc|2602330200|3528|10.039381|9664|3288|0.885595|1159|216747218

@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-einstein.en.txt|GCIS-ef|2426059247|6291456|21.9481|2903666084|6291456|1.4808|1046410|467626544
+real-einstein.en.txt|REPAIR-PlainSlp_32Fblc|5616043928|3496|94.283648|814024|40224|3.150780|2950963|467626544
+real-einstein.en.txt|REPAIR-PlainSlp_FblcFblc|5616043928|3496|94.283648|814024|40224|3.150780|2380181|467626544

@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-para|GCIS-ef|2282139659|6291456|20.5282|2682086462|6291456|2.4788|24599324|429265758
+real-para|REPAIR-PlainSlp_32Fblc|5152919176|3480|71.043428|24760120|8768|3.249517|78649347|429265758
+real-para|REPAIR-PlainSlp_FblcFblc|5152919176|3480|71.043428|24760120|8768|3.249517|69105925|429265758
