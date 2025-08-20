@@ -1,4 +1,0 @@
-file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-real-cere|GCIS-ef|2434504388|6291456|21.4000|2924286412|6291456|2.4909|20474019|461286644
-real-cere|REPAIR-PlainSlp_32Fblc|5537224600|3528|71.426177|20499472|38400|3.310834|60504451|461286644
-real-cere|REPAIR-PlainSlp_FblcFblc|5537224600|3528|71.426177|20499472|38400|3.310834|52462981|461286644

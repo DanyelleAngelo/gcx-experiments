@@ -1,4 +1,0 @@
-file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-real-kernel|GCIS-ef|1355529076|6291456|11.9458|1598354008|6291456|1.3351|6927772|257961616
-real-kernel|REPAIR-PlainSlp_32Fblc|3102388040|3512|51.542736|8472448|120200|1.879298|21705813|257961616
-real-kernel|REPAIR-PlainSlp_FblcFblc|3102388040|3512|51.542736|8472448|120200|1.879298|18605639|257961616

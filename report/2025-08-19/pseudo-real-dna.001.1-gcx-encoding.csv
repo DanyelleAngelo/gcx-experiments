@@ -1,4 +1,0 @@
-file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-pseudo-real-dna.001.1|GCIS-ef|554735535|6291456|4.2323|645369212|6291456|0.5620|4450705|104857600
-pseudo-real-dna.001.1|REPAIR-PlainSlp_32Fblc|1259417048|3512|28.838688|2096320|3400|0.807493|12822603|104857600
-pseudo-real-dna.001.1|REPAIR-PlainSlp_FblcFblc|1259417048|3512|28.838688|2096320|3400|0.807493|10524285|104857600
