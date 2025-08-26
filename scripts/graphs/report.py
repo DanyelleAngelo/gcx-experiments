@@ -45,7 +45,7 @@ def generate_extract_chart(df_list, output_dir, language):
 
 def generate_compress_chart(df_list, output_dir, language):
     for df in df_list:
-        pattern = r'^(GCX-y\d+|GC\d+)$'
+        pattern = r'^(GCX-y\d+|GC\d+|GCX)$'
         dcx = df[df['algorithm'].str.match(pattern, na=False)]
         others =  df[~df['algorithm'].str.match(pattern, na=False)]
        
@@ -85,12 +85,21 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
 
     df['algorithm'] = df['algorithm'].replace({
         'REPAIR-PlainSlp_32Fblc': 'RePair (32Fblc)',
-        'REPAIR-PlainSlp_FblcFblc': 'RePair (FblcFblc)'
+        'REPAIR-PlainSlp_FblcFblc': 'RePair (FblcFblc)',
+        'GCX-y8': 'GCX'
     })
     
     df.loc[:, 'file'] = df['file'].str.replace('pseudo-real-', '', regex=False) \
         .str.replace('real-', '', regex=False) \
         .str.strip()
+
+    keep = {
+        'GC2', 'GC4', 'GC8', 'GC16', 'GC32', 'GC64', 'GC128',
+        'GCX',
+        'bzip2', '7zip', 'GCIS-ef',
+        'RePair (32Fblc)', 'RePair (FblcFblc)'
+    }
+    df = df[df['algorithm'].isin(keep)].copy()
 
     if operation == 'compress':
         plain_size = df['plain_size'].iloc[0]

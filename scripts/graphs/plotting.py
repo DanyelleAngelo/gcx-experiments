@@ -48,7 +48,6 @@ def generate_chart_bar_without_gcn(results_gcx, others, information, output_dir,
 def generate_chart_bar(results_gcx, others, information, output_dir, max_value=None, without_gcn=False):
     if without_gcn == False:
         plt.figure(figsize=(10,8))
-    
         target_column = information['col'] #analyzed metric
         
         algorithms = results_gcx['algorithm'].unique().tolist()
