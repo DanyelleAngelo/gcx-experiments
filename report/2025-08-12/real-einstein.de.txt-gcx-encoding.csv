@@ -1,4 +1,7 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-einstein.de.txt|GC2|1298624826|6291456|3.337754|378430922|6291456|0.609199|7396082|92758441
+real-einstein.de.txt|GC4|1205999840|6291456|2.373426|192654880|6291456|0.244369|7137296|92758441
+real-einstein.de.txt|7zip|0|0|4.2552|0|0|0.1125|100107|92758441
 real-einstein.de.txt|GCIS-ef|481567275|6291456|3.5253|574591589|6291456|0.2983|315918|92758441
 real-einstein.de.txt|REPAIR-PlainSlp_32Fblc|1116560964|3512|17.343091|408728|5280|0.58112|1162775|92758441
 real-einstein.de.txt|REPAIR-PlainSlp_FblcFblc|1116560964|3512|17.343091|408728|5280|0.58112|912329|92758441

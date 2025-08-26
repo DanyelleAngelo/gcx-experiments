@@ -2,8 +2,12 @@ import pandas as pd
 from pathlib import Path
 import re
 
-MAIN_PATH = Path("report/2025-06-01")
-OTHER_PATH = Path("report/2025-06-01")
+'''
+Utilize esse script para fazer merge de 2 datasets do mesmo tipo.
+'''
+
+MAIN_PATH = Path("report/2025-08-12")
+OTHER_PATH = Path("report/2025-08-25")
 
 def is_desired_algorithm(alg, existing_algorithms):
     alg = alg.strip()
@@ -14,8 +18,14 @@ def is_desired_algorithm(alg, existing_algorithms):
         alg.startswith("GCIS") or
         alg.startswith("7zip") or
         alg.startswith("bzip2") or
+        alg.startswith("GC2") or
+        alg.startswith("GC4") or
         alg.startswith("GC8") or
-        alg.startswith("GCX-y16") #or
+        alg.startswith("GC16") or
+        alg.startswith("GC32") or
+        alg.startswith("GC64") or
+        alg.startswith("GC128") or
+        alg.startswith("GCX-y8") #or
         #(re.fullmatch(r'GC\d+', alg) is not None)
     )
 
