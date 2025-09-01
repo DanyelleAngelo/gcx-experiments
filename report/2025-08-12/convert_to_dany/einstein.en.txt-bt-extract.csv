@@ -1,0 +1,6 @@
+file|algorithm|peak|stack|time|substring_size
+einstein.en.txt|CBT|1076436992|8388608|0.0025|1
+einstein.en.txt|CBT|1076436992|8388608|0.0143|10
+einstein.en.txt|CBT|1076436992|8388608|0.1338|100
+einstein.en.txt|CBT|1076436992|8388608|1.3256999999999999|1000
+einstein.en.txt|CBT|1076436992|8388608|13.2398|10000
