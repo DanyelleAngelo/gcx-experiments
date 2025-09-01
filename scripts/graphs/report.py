@@ -86,7 +86,7 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
     df['algorithm'] = df['algorithm'].replace({
         'REPAIR-PlainSlp_32Fblc': 'RePair (32Fblc)',
         'REPAIR-PlainSlp_FblcFblc': 'RePair (FblcFblc)',
-        'GCX-y8': 'GCX'
+        'GCX-y16': 'GCX'
     })
     
     df.loc[:, 'file'] = df['file'].str.replace('pseudo-real-', '', regex=False) \
@@ -97,7 +97,8 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
         'GC2', 'GC4', 'GC8', 'GC16', 'GC32', 'GC64', 'GC128',
         'GCX',
         'bzip2', '7zip', 'GCIS-ef',
-        'RePair (32Fblc)', 'RePair (FblcFblc)'
+        'RePair (32Fblc)', 'RePair (FblcFblc)',
+        'CBT'
     }
     df = df[df['algorithm'].isin(keep)].copy()
 

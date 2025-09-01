@@ -301,10 +301,10 @@ clean_tools() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	build_tools
-	check_and_create_folder
-	download_files
+	# build_tools
+	# check_and_create_folder
+	# download_files
 #	evaluate_compression_performance
-	run_extract
-	#generate_graphs
+	#run_extract
+	generate_graphs
 fi
