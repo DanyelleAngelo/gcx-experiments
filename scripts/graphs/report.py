@@ -84,9 +84,10 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
     df = remove_and_log_incomplete_rows(df)
 
     df['algorithm'] = df['algorithm'].replace({
-        'REPAIR-PlainSlp_32Fblc': 'RePair (32Fblc)',
-        'REPAIR-PlainSlp_FblcFblc': 'RePair (FblcFblc)',
-        'GCX-y16': 'GCX'
+        'PlainSlp_32Fblc': 'RePair (32Fblc)',
+        'PlainSlp_FblcFblc': 'RePair (FblcFblc)',
+        'GCX-y16': 'GCX',
+        'GCIS-ef': 'GCIS'
     })
     
     df.loc[:, 'file'] = df['file'].str.replace('pseudo-real-', '', regex=False) \
@@ -96,12 +97,12 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
     keep = {
         'GC2', 'GC4', 'GC8', 'GC16', 'GC32', 'GC64', 'GC128',
         'GCX',
-        'bzip2', '7zip', 'GCIS-ef',
-        'RePair (32Fblc)', 'RePair (FblcFblc)',
+        'bzip2', '7zip', 'GCIS',
+        'RePair (32Fblc)', #'RePair (FblcFblc)',
         'CBT'
     }
     df = df[df['algorithm'].isin(keep)].copy()
-
+    
     if operation == 'compress':
         plain_size = df['plain_size'].iloc[0]
         df['compressed_size_ratio'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))

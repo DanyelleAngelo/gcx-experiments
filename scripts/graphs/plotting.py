@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from constants import COLOR_MAP, MARKERS, COLOR_MAP
+from constants import COLOR_MAP, MARKERS, COLOR_MAP, LEGEND_ORDER
 from matplotlib.ticker import ScalarFormatter
 import matplotlib.ticker as ticker
 import matplotlib.cm as cm
@@ -88,8 +88,14 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.figure(figsize=(10,8))
     n_markers = len(MARKERS)
     j=0
-    for algorithm, group in results.groupby('algorithm'):
-        plt.plot(group['substring_size'], group['time'], marker=MARKERS[j], linewidth=0.5, label=algorithm)
+    for algorithm in LEGEND_ORDER:
+        group = results[results['algorithm'] == algorithm]
+        if group.empty:
+            continue
+        plt.plot(
+            group['substring_size'], group['time'],
+            marker=MARKERS[j], linewidth=0.5, label=algorithm
+        )
         j= j+1
         if j > n_markers:
             j=0
