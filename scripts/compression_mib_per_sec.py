@@ -26,8 +26,12 @@ for filename in input_files:
     filtered_df = df[df['algorithm'].apply(lambda alg: is_desired_algorithm(alg))].copy()
 
     filtered_df['plain_size_MiB'] = filtered_df['plain_size'] / (1024**2)
-    filtered_df['MiB_per_sec'] = filtered_df.apply(
+    filtered_df['MiB_per_sec - comp'] = filtered_df.apply(
         lambda row: row['plain_size_MiB'] / row['compression_time'] if row['compression_time'] > 0 else 0,
+        axis=1
+    )
+    filtered_df['MiB_per_sec - decomp'] = filtered_df.apply(
+        lambda row: row['plain_size_MiB'] / row['decompression_time'] if row['decompression_time'] > 0 else 0,
         axis=1
     )
     all_dataframes.append(filtered_df)
