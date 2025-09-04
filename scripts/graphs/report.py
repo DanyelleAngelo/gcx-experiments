@@ -53,7 +53,7 @@ def generate_compress_chart(df_list, output_dir, language):
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
+        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
         #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir)
         #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir)
@@ -84,8 +84,10 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
     df = remove_and_log_incomplete_rows(df)
 
     df['algorithm'] = df['algorithm'].replace({
-        'PlainSlp_32Fblc': 'RePair (32Fblc)',
-        'PlainSlp_FblcFblc': 'RePair (FblcFblc)',
+        #'PlainSlp_32Fblc': 'RePair (32Fblc)',
+        #'PlainSlp_FblcFblc': 'RePair (FblcFblc)',
+        'REPAIR-PlainSlp_32Fblc': 'RePair (32Fblc)',
+        'REPAIR-PlainSlp_FblcFblc': 'RePair (FblcFblc)',
         'GCX-y16': 'GCX',
         'GCIS-ef': 'GCIS'
     })

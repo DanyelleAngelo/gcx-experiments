@@ -1,5 +1,5 @@
 LEGEND_ORDER = [
-    "CBT", "GCIS", "RePair (32Fblc)", 
+    "7zip", "bzip2", "CBT", "GCIS", "RePair (32Fblc)", 
     "GC2", "GC4", "GC8", "GC16", "GC32", "GC64", "GC128", "GCX"
 ]
 LINE_STYLE = ["--", "-.", "-","--"]

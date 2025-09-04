@@ -49,26 +49,32 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
     if without_gcn == False:
         plt.figure(figsize=(10,8))
         target_column = information['col'] #analyzed metric
-        
         algorithms = results_gcx['algorithm'].unique().tolist()
         gcx_number = len(algorithms)
         gc_star = results_gcx[~results_gcx['algorithm'].str.upper().str.startswith('GCX')]
         gcx = results_gcx[results_gcx['algorithm'].str.upper().str.startswith('GCX')]
 
+        j=0
+        #repair and gcis results
+        for algo in LEGEND_ORDER:
+            row = others[others['algorithm'].str.lower() == algo.lower()]
+            if row.empty:
+                continue
+            x = np.linspace(-1, gcx_number, 35 + (j*10))
+            y = np.full_like(x, row[target_column].values[0])
+            plt.scatter(
+                x, y,
+                color=COLOR_MAP['line'][j % len(MARKERS)],
+                marker=MARKERS[j % len(MARKERS)],
+                s=15,
+                linestyle='None',
+                label=algo
+            )
+            j += 1
+
         #GCX results
         plt.bar(gcx['algorithm'].tolist(), gcx[target_column], width=0.5, color=COLOR_MAP[target_column]["highlighted_color"], edgecolor='black', label="GCX")
         plt.bar(gc_star['algorithm'].tolist(), gc_star[target_column], width=0.5, color=COLOR_MAP[target_column]["default_color"], edgecolor='black', label="GC*")
-
-        j=0
-        #repair and gcis results
-        for index, row in others.iterrows():
-            x = np.linspace(-1, gcx_number, 35 + (j*10)) 
-            y = np.full_like(x, row[target_column])
-            if row['algorithm'] == "REPAIR":
-                plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKERS[j], s=15, linestyle='None', label=row['algorithm'])
-            else:
-                plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKERS[j],  s=15, linestyle='None', label=row['algorithm'])
-            j+=1
 
         file=results_gcx.index[0].upper().split("-")[-1]
         customize_chart(information, f"{information['title']} {file}")
@@ -89,7 +95,7 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     n_markers = len(MARKERS)
     j=0
     for algorithm in LEGEND_ORDER:
-        group = results[results['algorithm'] == algorithm]
+        group = results[results['algorithm'].str.lower() == algorithm.lower()]
         if group.empty:
             continue
         plt.plot(
