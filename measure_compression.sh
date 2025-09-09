@@ -4,7 +4,7 @@ source utils.sh
 readonly LCP_WINDOW=(2 4 8 16 32 64 128)
 readonly COVERAGE_LIST=(2 4  8 16 32 64 128)
 readonly STR_LEN=(1 10 100 1000 10000)
-readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
+readonly EXTRACT_ENCODING=("PlainSlp_32Fblc")
 
 #cabeçalhos
 readonly COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
@@ -48,7 +48,7 @@ compress_and_decompress_with_repair() {
 	FILE=$1
 	REPORT=$2
 	FILE_NAME=$3
-	OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
+	OUTPUT="$COMP_DIR/2025-08-12/$FILE_NAME"
 	size_plain=$4
 	cp $FILE "$FILE-repair" #faz uma cópia do arquivo, para não ter sobrescrita do original ao descompactar
 	
@@ -188,14 +188,14 @@ evaluate_compression_performance() {
 		echo -e "\n\t${BLUE}####### FILE: $file ${RESET}"
 
 		#perform compress and decompress with GCX and GC*
-		compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with GCIS
 		#compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
 		#compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with REPAIR
-		#compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with 7zip
 #		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
@@ -208,69 +208,73 @@ evaluate_compression_performance() {
 
 
 run_extract() {
+	maxExecutions=1000
 	echo -e "\n${BLUE}####### Extract validation ${RESET}"
-	for file in $files; do
+	for ith in $(seq 0 $maxExecutions); do
+		echo "############# Execution number: $i"
+
 		echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
-
 		plain_file_path="$RAW_FILES_DIR/$file"
+		compressed_file="$COMP_DIR/2025-08-12/$file"
 		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
-		compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
-		report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
-		echo $EXTRACTION_HEADER > $report;
+		for file in $files; do
+			report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract-exec_$ith.csv"
+			echo $EXTRACTION_HEADER > $report;
 
-		#generates intervals
-		echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
-		python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+			#generates intervals
+			echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
+			python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
 
-		#perform extracting
-		for length in "${STR_LEN[@]}"; do
-			query="$extract_dir/${file}.${length}_extract"
-			if [ -e $query ]; then
-				rm $extract_answer
-				echo -e "\n${YELLOW} Generating expected responses for searched interval...${RESET}"
-				extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
-				python3 scripts/extract.py $plain_file_path $extract_answer $query
+			#perform extracting
+			for length in "${STR_LEN[@]}"; do
+				query="$extract_dir/${file}.${length}_extract"
+				if [ -e $query ]; then
+					rm $extract_answer
+					echo -e "\n${YELLOW} Generating expected responses for searched interval...${RESET}"
+					extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
+					python3 scripts/extract.py $plain_file_path $extract_answer $query
 
-				#perform extract with GCX
-				for cover in "${LCP_WINDOW[@]}"; do
-					echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
-					echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
-					echo -n "$file|GCX-y$cover|" >> $report
-					extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
-					./gcx_output -e "$compressed_file-y$cover.gcx" $extract_output $query $report
+					#perform extract with GCX
+					for cover in "${LCP_WINDOW[@]}"; do
+						echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
+						echo -e "\tUsing initial window of size $cover for LCP calculation.\n"
+						echo -n "$file|GCX-y$cover|" >> $report
+						extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
+						./gcx_output -e "$compressed_file-y$cover.gcx" $extract_output $query $report
+						echo "$length" >> $report
+						checks_equality "$extract_output" "$extract_answer" "extract" $ith
+						rm $extract_output
+					done
+
+					#perform extract with GC*
+					echo -e "\n\t ${YELLOW}Starting extract with GC* - INTERVAL SIZE $length.${RESET}"
+					for cover in "${COVERAGE_LIST[@]}"; do
+						echo -n "$file|GC$cover|" >> $report
+						extract_output="$extract_dir/${file}_result_extract_gc${cover}_len${length}.txt"
+						./gc_star_output -e "$compressed_file-gc$cover.gcx" $extract_output $cover $query $report
+						echo "$length" >> $report
+						checks_equality "$extract_output" "$extract_answer" "extract" $ith
+						rm $extract_output
+					done
+
+					#perform extract with GCIS
+					echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
+					echo -n "$file|GCIS-ef|" >> $report
+					$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
 					echo "$length" >> $report
-					checks_equality "$extract_output" "$extract_answer" "extract"
-					rm $extract_output
-				done
 
-				#perform extract with GC*
-				echo -e "\n\t ${YELLOW}Starting extract with GC* - INTERVAL SIZE $length.${RESET}"
-				for cover in "${COVERAGE_LIST[@]}"; do
-					echo -n "$file|GC$cover|" >> $report
-					extract_output="$extract_dir/${file}_result_extract_gc${cover}_len${length}.txt"
-					./gc_star_output -e "$compressed_file-gc$cover.gcx" $extract_output $cover $query $report
-					echo "$length" >> $report
-					checks_equality "$extract_output" "$extract_answer" "extract"
-					rm $extract_output
-				done
-
-				#perform extract with GCIS
-				# echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
-				# echo -n "$file|GCIS-ef|" >> $report
-				# $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
-				# echo "$length" >> $report
-
-				#perform extract with RePair
-				# echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
-				# for encoding in "${EXTRACT_ENCODING[@]}"; do
-				# 	echo -n "$file|$encoding|" >> $report
-				# 	"external/ShapeSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
-				# 	echo "$length" >> $report
-				# done
-			else
-				echo "Unable to find $query file."
-			fi
+					#perform extract with RePair
+					echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
+					for encoding in "${EXTRACT_ENCODING[@]}"; do
+						echo -n "$file|$encoding|" >> $report
+						"external/ShapeSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+						echo "$length" >> $report
+					done
+				else
+					echo "Unable to find $query file."
+				fi
+			done
 		done
 	done
 	#clean_tools
@@ -301,7 +305,7 @@ clean_tools() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	 build_tools
+	build_tools
 	check_and_create_folder
 	download_files
 	evaluate_compression_performance
