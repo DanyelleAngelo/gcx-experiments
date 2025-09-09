@@ -1,5 +1,4 @@
 file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
-real-world_leaders|GCX-y8|2|2935512|3:4-96592,2:4-447214,
-|12850924|46968181
 real-world_leaders|GCX-y16|2|1304673|3:6-284487,2:6-423901,
 |11653326|46968181
+real-world_leaders|GC16|3|11467|3:16-447214,2:16-168500,1:16-11467,

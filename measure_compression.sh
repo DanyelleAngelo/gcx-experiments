@@ -1,8 +1,8 @@
 #!/bin/bash
 source utils.sh
 
-readonly LCP_WINDOW=(2 4) # 8 16 32 64 128)
-readonly COVERAGE_LIST=(2 4) # 8 16 32 64 128)
+readonly LCP_WINDOW=(2 4 8 16 32 64 128)
+readonly COVERAGE_LIST=(2 4  8 16 32 64 128)
 readonly STR_LEN=(1 10 100 1000 10000)
 readonly EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 
@@ -198,12 +198,12 @@ evaluate_compression_performance() {
 		#compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with 7zip
-		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
+#		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
 
 		#perform compress and decompress with bzip2
 		#compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
 	done
-	clean_tools
+	#clean_tools
 }
 
 
@@ -213,15 +213,15 @@ run_extract() {
 		echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
 
 		plain_file_path="$RAW_FILES_DIR/$file"
-		extract_dir="$REPORT_DIR/2025-08-12/extract"
+		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
 		compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
 		echo $EXTRACTION_HEADER > $report;
 
 		#generates intervals
-		#echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
-		#python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+		echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
+		python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
 
 		#perform extracting
 		for length in "${STR_LEN[@]}"; do
@@ -273,7 +273,7 @@ run_extract() {
 			fi
 		done
 	done
-	clean_tools
+	#clean_tools
 }
 
 generate_graphs() {
@@ -301,10 +301,10 @@ clean_tools() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	# build_tools
-	# check_and_create_folder
-	# download_files
-#	evaluate_compression_performance
-	#run_extract
-	generate_graphs
+	 build_tools
+	check_and_create_folder
+	download_files
+	evaluate_compression_performance
+	run_extract
+	#generate_graphs
 fi

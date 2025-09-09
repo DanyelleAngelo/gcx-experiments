@@ -1,5 +1,4 @@
 file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
-pseudo-real-dna.001.1|GCX-y8|2|2912712|3:6-4102,2:6-363137,
-|12211632|104857600
 pseudo-real-dna.001.1|GCX-y16|2|1294539|3:9-210968,2:9-1083183,
 |28611764|104857600
+pseudo-real-dna.001.1|GC16|4|1601|4:16-165408,3:16-94627,2:16-25164,1:16-1601,

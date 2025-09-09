@@ -1,5 +1,4 @@
 file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
-artificial-fib41|GCX-y8|2|29768257|3:3-6,2:3-12,
-|96746910|267914296
 artificial-fib41|GCX-y16|8|39377|9:7-10,8:3-24,7:3-66,6:3-192,5:3-570,4:3-1704,3:2-3405,2:2-5572,
 |121898|267914296
+artificial-fib41|GC16|4|4089|4:16-18,3:16-258,2:16-4098,1:16-4089,

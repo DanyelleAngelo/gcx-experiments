@@ -1,5 +1,4 @@
 file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
-artificial-tm29|GCX-y8|1|33554433|2:8-3,
-|113246260|268435456
 artificial-tm29|GCX-y16|1|16777217|2:16-3,
 |54526028|268435456
+artificial-tm29|GC16|7|2|7:16-3,6:16-3,5:16-3,4:16-3,3:16-3,2:16-3,1:16-2,
