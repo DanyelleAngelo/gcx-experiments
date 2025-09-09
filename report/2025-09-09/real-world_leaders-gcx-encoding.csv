@@ -1,0 +1,3 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-world_leaders|GCX-y8|423104508|6291456|1.545457000000000|106796356|6291456|0.104439000000000|12850924|46968181
+real-world_leaders|GCX-y16|408769158|6291456|1.604305000000000|89942754|6291456|0.080187000000000|11653326|46968181

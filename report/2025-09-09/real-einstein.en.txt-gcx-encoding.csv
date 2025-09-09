@@ -1,0 +1,3 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-einstein.en.txt|GCX-y8|4208868804|6291456|24.396101999999999|1032913620|6291456|1.073251000000000|97651452|467626544
+real-einstein.en.txt|GCX-y16|4009398131|6291456|23.000757000000000|772332887|6291456|0.754078000000000|37482039|467626544

@@ -1,0 +1,3 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-Escherichia_Coli|GCX-y8|976686436|6291456|5.226070000000000|225956696|6291456|0.246614000000000|38131748|112689515
+real-Escherichia_Coli|GCX-y16|956230724|6291456|5.297803000000000|199275340|6291456|0.213670000000000|41500852|112689515
