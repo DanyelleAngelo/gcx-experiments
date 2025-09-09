@@ -49,25 +49,37 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
     if without_gcn == False:
         plt.figure(figsize=(10,8))
         target_column = information['col'] #analyzed metric
+
+        # print("\n====== DEBUG DATA ======")
+        # print("Target column:", target_column)
+        # print("\nResults GCX:")
+        # print(results_gcx[[ "algorithm", target_column ]])
+        # print("\nOthers:")
+        # print(others[[ "algorithm", target_column ]])
+        # print("========================\n")
+
         algorithms = results_gcx['algorithm'].unique().tolist()
         gcx_number = len(algorithms)
         gc_star = results_gcx[~results_gcx['algorithm'].str.upper().str.startswith('GCX')]
         gcx = results_gcx[results_gcx['algorithm'].str.upper().str.startswith('GCX')]
 
         j=0
+        x_start, x_end = -2, 8 
+        num_markers = 70
         #repair and gcis results
         for algo in LEGEND_ORDER:
             row = others[others['algorithm'].str.lower() == algo.lower()]
             if row.empty:
                 continue
-            x = np.linspace(-1, gcx_number, 35 + (j*10))
-            y = np.full_like(x, row[target_column].values[0])
-            plt.scatter(
+            value = float(row[target_column].values[0])
+            x = np.linspace(x_start, x_end, num_markers)
+            y = np.full_like(x, value, dtype=float)
+            plt.plot(
                 x, y,
+                linestyle='None',
                 color=COLOR_MAP['line'][j % len(MARKERS)],
                 marker=MARKERS[j % len(MARKERS)],
-                s=15,
-                linestyle='None',
+                markersize=4,
                 label=algo
             )
             j += 1
