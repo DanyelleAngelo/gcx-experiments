@@ -1,6 +1,6 @@
 LEGEND_ORDER = [
     "7zip", "bzip2", "CBT", "GCIS", "RePair (PlainSlp_32Fblc)", 
-    "GC2", "GC4", "GC8", "GC16", "GC32", "GC64", "GC128", "GCX"
+    "GC2", "GC4", "GC8", "GC16", "GC32", "GC64", "GC128", "GC*"
 ]
 LINE_STYLE = ["--", "-.", "-","--"]
 MARKERS = ["*","3", "H", "x","s", ">", "v", "^", "o", "8", "D", "<", "1", "2", "|", "4", "+", "p", "P", "h", ".", "X", "d", ",", "_"]
