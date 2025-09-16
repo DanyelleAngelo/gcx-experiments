@@ -1,7 +1,7 @@
 | Repetitive corpus |  | --------- | --------- | --------- | --------- | --------- | --------- | --------- | Compression Time (s) | --------- | --------- | --------- | --------- | --------- | --------- |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---:|:---|:---|:---|:---|:---|:---|
 
-| File | Input Size (MB) | bzip2 | RePair (32Fblc) | RePair (FblcFblc) | GCIS-ef | GCIS-s8b | GC4 | GC8 | GC16 | GC32 | GCX-y4 | GCX-y8 | GCX-y16 | GCX-y32 |
+| File | Input Size (MB) | bzip2 | RePair (PlainSlp_32Fblc) | RePair (PlainSlp_FblcFblc) | GCIS-ef | GCIS-s8b | GC4 | GC8 | GC16 | GC32 | GCX-y4 | GCX-y8 | GCX-y16 | GCX-y32 |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | Escherichia_Coli | 107.47 | 4.87 | 19.61 | - | - | - | 2.87 | 2.64 | 2.85 | 2.62 | - | - | - | - |
 | artificial-fib41 | 255.50 | 35.10 | 14.24 | - | - | - | 2.69 | 3.68 | 4.43 | 4.66 | - | - | - | - |
