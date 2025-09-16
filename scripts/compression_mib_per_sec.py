@@ -17,8 +17,8 @@ def is_desired_algorithm(alg):
         alg.startswith("GCIS") or
         alg.startswith("7zip") or
         alg.startswith("bzip2") or
-        alg.startswith("GC16") or
-        alg.startswith("GCX-y16")
+        alg.startswith("GC8") or
+        alg.startswith("GCX-y8")
     )
 
 for filename in input_files:
