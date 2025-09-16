@@ -88,7 +88,7 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
         #'PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
         'REPAIR-PlainSlp_32Fblc': 'RePair (PlainSlp_32Fblc)',
         'REPAIR-PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
-        'GCX-y8: 'GCX',
+        'GCX-y8': 'GCX',
         'GCIS-ef': 'GCIS'
     })
     
