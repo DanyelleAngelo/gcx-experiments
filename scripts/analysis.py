@@ -76,10 +76,20 @@ def analyze_peak(dataset: pd.DataFrame, output_file: Path):
     print(f"Arquivo salvo: {output_file}")
     print(avg_peak_final)
 
+def analyze_compression_time(dataset: pd.DataFrame, output_file: Path):
+    avg_time = dataset.groupby("algorithm")[["compression_time", "decompression_time"]].mean().reset_index()
+
+    avg_time_final = avg_time[["algorithm", "compression_time", "decompression_time"]].sort_values(by="compression_time")
+
+    avg_time_final.to_csv(output_file, sep="|", index=False)
+    print(f"Arquivo salvo: {output_file}")
+    print(avg_time_final)
 
 if __name__ == "__main__":
     input_folder = Path("report/2025-08-12")
-    output_file = Path("report/2025-08-12/analise-memory.csv")
+    output_file = Path()
 
     df_all = load_and_concat_perf_files(input_folder)
-    analyze_peak(df_all, output_file)
+    analyze_peak(df_all, "report/2025-08-12/analise-memory.csv")
+    analyze_compression_time(df_all, "report/2025-08-12/analise-memory.csv")
+    extract_analyze(df_all, "report/2025-08-12/analise-extract.csv")
