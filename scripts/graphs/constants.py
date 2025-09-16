@@ -1,5 +1,5 @@
 LEGEND_ORDER = [
-    "7zip", "bzip2", "CBT", "GCIS", "RePair (32Fblc)", 
+    "7zip", "bzip2", "CBT", "GCIS", "RePair (PlainSlp_32Fblc)", 
     "GC2", "GC4", "GC8", "GC16", "GC32", "GC64", "GC128", "GCX"
 ]
 LINE_STYLE = ["--", "-.", "-","--"]
@@ -33,8 +33,8 @@ COLOR_MAP['peak_decomp_bar'] = COLOR_MAP['peak_comp_bar']
 algorithms_report = [
     '7zip',
     'bzip2',
-    'RePair (32Fblc)',
-    'RePair (FblcFblc)',
+    'RePair (PlainSlp_32Fblc)',
+    'RePair (PlainSlp_FblcFblc)',
     'GCIS-ef',
     'GCIS-s8b',
     'GC4',
