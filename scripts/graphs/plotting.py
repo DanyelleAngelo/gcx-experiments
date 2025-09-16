@@ -59,10 +59,11 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
         # print("========================\n")
 
         algorithms = results_gcx['algorithm'].unique().tolist()
-        gcx_number = len(algorithms)
-        gc_star = results_gcx[~results_gcx['algorithm'].str.upper().str.startswith('GCX')]
-        gcx = results_gcx[results_gcx['algorithm'].str.upper().str.startswith('GCX')]
 
+        gcx_number = len(algorithms)
+        gc_star = results_gcx[results_gcx['algorithm'].str.upper().str.startswith('GC*')]
+        gcx = results_gcx[~results_gcx['algorithm'].str.upper().str.startswith('GC*')]
+        
         j=0
         x_start, x_end = -2, 8 
         num_markers = 70
@@ -85,8 +86,8 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
             j += 1
 
         #GCX results
-        plt.bar(gcx['algorithm'].tolist(), gcx[target_column], width=0.5, color=COLOR_MAP[target_column]["highlighted_color"], edgecolor='black', label="GCX")
-        plt.bar(gc_star['algorithm'].tolist(), gc_star[target_column], width=0.5, color=COLOR_MAP[target_column]["default_color"], edgecolor='black', label="GC*")
+        plt.bar(gc_star['algorithm'].tolist(), gc_star[target_column], width=0.5, color=COLOR_MAP[target_column]["highlighted_color"], edgecolor='black', label="GC*")
+        plt.bar(gcx['algorithm'].tolist(), gcx[target_column], width=0.5, color=COLOR_MAP[target_column]["default_color"], edgecolor='black', label="GCX")
 
         file=results_gcx.index[0].upper().split("-")[-1]
         customize_chart(information, f"{information['title']} {file}")

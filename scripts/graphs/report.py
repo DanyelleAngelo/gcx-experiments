@@ -45,10 +45,10 @@ def generate_extract_chart(df_list, output_dir, language):
 
 def generate_compress_chart(df_list, output_dir, language):
     for df in df_list:
-        pattern = r'^(GCX-y\d+|GC\d+|GCX)$'
+        pattern = r'^(GCX-y\d+|GC\d+|GC|GC\*)$'
         dcx = df[df['algorithm'].str.match(pattern, na=False)]
         others =  df[~df['algorithm'].str.match(pattern, na=False)]
-       
+
         print(f"\n## FILE: {df.index[0]}")
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
@@ -88,7 +88,7 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
         #'PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
         'REPAIR-PlainSlp_32Fblc': 'RePair (PlainSlp_32Fblc)',
         'REPAIR-PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
-        'GCX-y8': 'GCX',
+        'GCX-y8': 'GC*',
         'GCIS-ef': 'GCIS'
     })
     
@@ -98,13 +98,13 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
 
     keep = {
         'GC2', 'GC4', 'GC8', 'GC16', 'GC32', 'GC64', 'GC128',
-        'GCX',
+        'GC*',
         'bzip2', '7zip', 'GCIS',
-        'RePair (PlainSlp_32Fblc)', #'RePair (FblcFblc)',
+        'RePair (PlainSlp_32Fblc)', #'RePair (PlainSlp_FblcFblc)',
         'CBT'
     }
     df = df[df['algorithm'].isin(keep)].copy()
-    
+
     if operation == 'compress':
         plain_size = df['plain_size'].iloc[0]
         df['compressed_size_ratio'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
