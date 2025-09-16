@@ -2,8 +2,12 @@ import pandas as pd
 from pathlib import Path
 import graphs.utils as ut
 
+"""
+    Use esse script para obter valor de médias de execuções dos algoritmos selecionados.
+"""
+
 keep = [
-    "GC16", "GCX-y16", "PlainSlp_32Fblc", "GCIS-ef", "CBT", "REPAIR-PlainSlp_32Fblc", "bzip2"
+    "GC8", "GCX-y8", "PlainSlp_32Fblc", "GCIS-ef", "CBT", "REPAIR-PlainSlp_32Fblc", "bzip2"
 ]
 excluded_files = ["pseudo-real-dblp.xml.00001.2", "pseudo-real-dblp.xml.0001.2", "pseudo-real-dblp.xml.0001.1"]
 
