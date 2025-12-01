@@ -69,7 +69,7 @@ compress_and_decompress_with_repair() {
 		size_slp=$(stat $stat_options $FILE-$encoding)
 		size=$((size_c + size_r + size_slp))
 
-		echo -n "$FILE_NAME|REPAIR-$encoding|" >> $report
+		echo -n "$FILE_NAME|$encoding|" >> $report
 		echo "${repair_report_entry}$size|$size_plain" >> "$REPORT"
 
 		echo -e "\nTamanhos: Size C $size_c , size R $size_r, size SLP $size_slp, total: $size\n\n"
@@ -305,10 +305,10 @@ clean_tools() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	build_tools
-	check_and_create_folder
-	download_files
-	evaluate_compression_performance
-	run_extract
-	#generate_graphs
+	# build_tools
+	# check_and_create_folder
+	# download_files
+	# evaluate_compression_performance
+	# run_extract
+	generate_graphs
 fi

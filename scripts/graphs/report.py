@@ -84,10 +84,10 @@ def prepare_dataset(df: pd.DataFrame, operation: str):
     df = remove_and_log_incomplete_rows(df)
 
     df['algorithm'] = df['algorithm'].replace({
-        #'PlainSlp_32Fblc': 'RePair (PlainSlp_32Fblc)',
-        #'PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
-        'REPAIR-PlainSlp_32Fblc': 'RePair (PlainSlp_32Fblc)',
-        'REPAIR-PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
+        'PlainSlp_32Fblc': 'RePair (PlainSlp_32Fblc)',
+        'PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
+        #'REPAIR-PlainSlp_32Fblc': 'RePair (PlainSlp_32Fblc)',
+        #'REPAIR-PlainSlp_FblcFblc': 'RePair (PlainSlp_FblcFblc)',
         'GCX-y8': 'GC*',
         'GCIS-ef': 'GCIS'
     })
