@@ -208,24 +208,23 @@ evaluate_compression_performance() {
 
 
 run_extract() {
-	maxExecutions=1000
+	maxExecutions=0
 	echo -e "\n${BLUE}####### Extract validation ${RESET}"
 	for ith in $(seq 0 $maxExecutions); do
 		echo "############# Execution number: $i"
 
-		echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
-		plain_file_path="$RAW_FILES_DIR/$file"
-		compressed_file="$COMP_DIR/$CURR_DATE/$file"
-		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
-
 		for file in $files; do
+          		plain_file_path="$RAW_FILES_DIR/$file"
+      			echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
+			compressed_file="$COMP_DIR/$CURR_DATE/$file"
+			extract_dir="$REPORT_DIR/$CURR_DATE/extract"
+
 			report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract-exec_$ith.csv"
 			echo $EXTRACTION_HEADER > $report;
 
 			#generates intervals
 			echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
 			python3 external/GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
-
 			#perform extracting
 			for length in "${STR_LEN[@]}"; do
 				query="$extract_dir/${file}.${length}_extract"
