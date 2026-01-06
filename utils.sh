@@ -6,7 +6,7 @@ BLUE='\033[34m'
 YELLOW='\033[33m'
 RED='\033[31m'
 RESET='\033[0m'
-CURR_DATE="2025-08-09"
+CURR_DATE="2026-01-06"
 
 #files to compress
 files=()
@@ -23,7 +23,8 @@ if [ "$(uname -s)" = "Darwin" ]; then
     FILE_URLS=$(cat files_paths/initial_test_files.txt)
 else
     stat_options="-c %s"
-    FILE_URLS=$(cat files_paths/repetitive_text.txt)
+    FILE_URLS=$(cat files_paths/regular_text.txt)
+    #FILE_URLS=$(cat files_paths/repetitive_text.txt)
 fi
 
 GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"

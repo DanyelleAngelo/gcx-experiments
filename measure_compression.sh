@@ -48,7 +48,7 @@ compress_and_decompress_with_repair() {
 	FILE=$1
 	REPORT=$2
 	FILE_NAME=$3
-	OUTPUT="$COMP_DIR/2025-08-12/$FILE_NAME"
+	OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
 	size_plain=$4
 	cp $FILE "$FILE-repair" #faz uma cópia do arquivo, para não ter sobrescrita do original ao descompactar
 	
@@ -188,20 +188,20 @@ evaluate_compression_performance() {
 		echo -e "\n\t${BLUE}####### FILE: $file ${RESET}"
 
 		#perform compress and decompress with GCX and GC*
-		#compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with GCIS
-		#compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
 		#compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with REPAIR
 		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with 7zip
-#		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
+		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
 
 		#perform compress and decompress with bzip2
-		#compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
+		compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
 	done
 	#clean_tools
 }
@@ -215,7 +215,7 @@ run_extract() {
 
 		echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
 		plain_file_path="$RAW_FILES_DIR/$file"
-		compressed_file="$COMP_DIR/2025-08-12/$file"
+		compressed_file="$COMP_DIR/$CURR_DATE/$file"
 		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
 
 		for file in $files; do
@@ -282,7 +282,6 @@ run_extract() {
 
 generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-	CURR_DATE="2025-08-12"
 
 	#python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE" "compress" "en" "report"
 	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE" "extract" "en" "report"
@@ -306,9 +305,9 @@ clean_tools() {
 
 if [ "$0" = "$BASH_SOURCE" ]; then
 	# build_tools
-	# check_and_create_folder
-	# download_files
-	# evaluate_compression_performance
-	# run_extract
-	generate_graphs
+	check_and_create_folder
+	download_files
+	evaluate_compression_performance
+	run_extract
+	#generate_graphs
 fi
