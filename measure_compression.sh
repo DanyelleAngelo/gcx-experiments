@@ -242,7 +242,7 @@ run_extract() {
 						extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
 						./gcx_output -e "$compressed_file-y$cover.gcx" $extract_output $query $report
 						echo "$length" >> $report
-						checks_equality "$extract_output" "$extract_answer" "extract" $ith
+						checks_equality "$extract_output" "$extract_answer" "extract"  "lcp-$cover"
 						rm $extract_output
 					done
 
@@ -253,7 +253,7 @@ run_extract() {
 						extract_output="$extract_dir/${file}_result_extract_gc${cover}_len${length}.txt"
 						./gc_star_output -e "$compressed_file-gc$cover.gcx" $extract_output $cover $query $report
 						echo "$length" >> $report
-						checks_equality "$extract_output" "$extract_answer" "extract" $ith
+						checks_equality "$extract_output" "$extract_answer" "extract"  "GC-$cover"
 						rm $extract_output
 					done
 

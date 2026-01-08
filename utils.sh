@@ -77,7 +77,7 @@ download_files() {
 checks_equality() {
     echo -e "\n\t\t ${YELLOW} Checking if the response file is the same as the expected file ${RESET}\n"
     if ! cmp -s "$1" "$2"; then
-        echo -e "\n\t\t\t ${RED} The files are the differents. ${RESET}\n"
+        echo -e "\n\t\t\t ${RED} The files are the differents. alg = $4  ${RESET}\n"
         echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
     elif [ "$3" = "extract" ]; then
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
