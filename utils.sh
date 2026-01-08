@@ -6,7 +6,7 @@ BLUE='\033[34m'
 YELLOW='\033[33m'
 RED='\033[31m'
 RESET='\033[0m'
-CURR_DATE="2026-01-06"
+CURR_DATE="2026-01-08"
 
 #files to compress
 files=()
@@ -63,7 +63,9 @@ download_files() {
 	            bzip2 -d "$compressed_file"
 	        elif [ "$extension" = "gz" ]; then
 	            gzip -d "$compressed_file"
-	        else
+            elif [ "$extension" = "zip" ]; then
+                unzip "$compressed_file" -d "$RAW_FILES_DIR"
+	    else
                 echo -e "\tUnidentifed file format for descompression."
                 echo -e "\tURL=$url."
             fi
