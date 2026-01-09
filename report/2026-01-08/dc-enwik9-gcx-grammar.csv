@@ -1,0 +1,9 @@
+file|algorithm|nLevels|xs_size|level_cover_qtyRules|compressed_size|plain_size
+dc-enwik9|GCX-y2||30|
+dc-enwik9|GCX-y4||32|
+dc-enwik9|GCX-y8||36|
+dc-enwik9|GCX-y16||44|
+dc-enwik9|GCX-y32||60|
+dc-enwik9|GCX-y64||92|
+dc-enwik9|GCX-y128||156|
+dc-enwik9|GC2|dc-enwik9|GC4|dc-enwik9|GC8|dc-enwik9|GC16|dc-enwik9|GC32|dc-enwik9|GC64|dc-enwik9|GC128|
