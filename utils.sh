@@ -64,8 +64,12 @@ download_files() {
 	        elif [ "$extension" = "gz" ]; then
 	            gzip -d "$compressed_file"
             elif [ "$extension" = "zip" ]; then
-                unzip "$compressed_file" -d "$RAW_FILES_DIR"
-	    else
+		#-j ignora a estrutura de pastas do arquivo
+		file_name=$(zipinfo -1 "$compressed_file" | tail -n 1 | xargs basename)
+                unzip -j "$compressed_file" -d "$RAW_FILES_DIR"
+		descompressed_file="$RAW_FILES_DIR/${file_name}"
+echo "a:  $descompressed_file"
+	else
                 echo -e "\tUnidentifed file format for descompression."
                 echo -e "\tURL=$url."
             fi
@@ -73,6 +77,7 @@ download_files() {
         if [ -e "$descompressed_file" ]; then
             files+="${file_name%.*} "
         fi
+	echo  "Arquivos: $files"
     done
 }
 
