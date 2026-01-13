@@ -48,15 +48,16 @@ def generate_compress_chart(df_list, output_dir, language):
         pattern = r'^(GCX-y\d+|GC\d+|GC|GC\*)$'
         dcx = df[df['algorithm'].str.match(pattern, na=False)]
         others =  df[~df['algorithm'].str.match(pattern, na=False)]
+        exclude_cbt = others[others['algorithm'] != 'CBT']
 
         print(f"\n## FILE: {df.index[0]}")
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, exclude_cbt, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, exclude_cbt, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
 
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir)
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir)
+        plt.generate_chart_bar(dcx, exclude_cbt, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir)
+        plt.generate_chart_bar(dcx, exclude_cbt, language.COMPRESS_AND_DECOMPRESS['peak_decomp'], output_dir)
 
 def set_max_values(values, df):
     for key in values.keys():
