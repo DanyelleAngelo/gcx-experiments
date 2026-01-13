@@ -1,0 +1,3 @@
+Filename,Size (MB),Compression Ratio (%),Time 1 (μs),Time 10 (μs),Time 100 (μs),Time 1000 (μs),Time 10000 (μs),Peak Memory (B),Stack (B)
+enwik8,100.00,95.61,0.26,0.61,4.86,46.91,466.30,4123418624,8388608
+enwik9,1000.00,82.98,0.67,1.03,6.39,60.58,599.55,38838386688,8388608
