@@ -7,7 +7,10 @@ Utilize esse script para fazer merge de 2 datasets do mesmo tipo.
 '''
 
 MAIN_PATH = Path("report/2025-08-12")
-OTHER_PATH = Path("report/2025-08-25")
+OTHER_PATH = Path("report/2026-01-08")
+
+MERGED_PATH = MAIN_PATH.parent / f"{MAIN_PATH.name}_merged"
+MERGED_PATH.mkdir(parents=True, exist_ok=True)
 
 def is_desired_algorithm(alg, existing_algorithms):
     alg = alg.strip()
@@ -15,6 +18,7 @@ def is_desired_algorithm(alg, existing_algorithms):
         return False
     return (
         alg.startswith("REPAIR") or
+        alg.startswith("PlainSlp") or
         alg.startswith("GCIS") or
         alg.startswith("7zip") or
         alg.startswith("bzip2") or
@@ -39,6 +43,7 @@ if not csv_files:
 for file in csv_files:
     filename = file.name
     other_file = OTHER_PATH / filename
+    output_file = MERGED_PATH / filename
 
     if not other_file.exists():
         print(f"⚠️  {filename} não encontrado em {OTHER_PATH}, pulando.")
@@ -61,5 +66,5 @@ for file in csv_files:
 
     df_merged = pd.concat([df_filtered, df_main], ignore_index=True)
 
-    df_merged.to_csv(file, sep="|", index=False)
-    print(f"✅ {filename} atualizado com {len(df_filtered)} novos algoritmos.")
+    df_merged.to_csv(output_file, sep="|", index=False)
+    print(f"✅ {filename} salvo em {MERGED_PATH} com {len(df_filtered)} novos algoritmos.")
