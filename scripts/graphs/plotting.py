@@ -68,6 +68,7 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
         x_start, x_end = -2, 8 
         num_markers = 70
         #repair and gcis results
+
         for algo in LEGEND_ORDER:
             row = others[others['algorithm'].str.lower() == algo.lower()]
             if row.empty:
@@ -96,6 +97,7 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
             plt.ylim(0, max_value)
 
         plt.xlim(-1, gcx_number)
+        plt.ylim(0, 105)
         file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}.png"
         plt.savefig(file)
         plt.close()
