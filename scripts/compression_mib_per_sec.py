@@ -6,7 +6,7 @@ import pandas as pd
 import glob
 import csv
 
-path_dir = "report/2025-08-12"
+path_dir = "report/2026-01-08"
 input_files = glob.glob(f"{path_dir}/*encoding.csv")
 all_dataframes = []
 
@@ -14,6 +14,7 @@ def is_desired_algorithm(alg):
     alg = alg.strip()
     return (
         alg.startswith("REPAIR") or
+        alg.startswith("PlainSlp") or
         alg.startswith("GCIS") or
         alg.startswith("7zip") or
         alg.startswith("bzip2") or
