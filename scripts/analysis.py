@@ -17,6 +17,7 @@ EXCLUDED_FILES = [
     # "artificial-rs.13"
 ]
 
+BYTES_IN_MIB = 1024 ** 2
 
 def load_and_concat_files(folder: Path, pattern: str, filter_keep=True) -> pd.DataFrame:
     files = list(folder.glob(pattern))
@@ -50,12 +51,36 @@ def analyze_avg_extract_time(dataset: pd.DataFrame, output_file: Path):
 
 
 def analyze_peak(dataset: pd.DataFrame, output_file: Path):
-    avg_peak = dataset.groupby("algorithm")[["peak_comp", "peak_decomp"]].mean().reset_index()
-    avg_peak["peak_comp_MiB"] = (avg_peak["peak_comp"] / (1024**2)).round(2)
-    avg_peak["peak_decomp_MiB"] = (avg_peak["peak_decomp"] / (1024**2)).round(2)
+    dataset_corrected = dataset.copy()
+    mask_cbt = dataset_corrected["algorithm"] == "CBT"
+    dataset_corrected.loc[mask_cbt, ["peak_comp", "peak_decomp"]] *= BYTES_IN_MIB
+
+    num_files_total = dataset_corrected["file"].nunique()
+    print(f"Número total de arquivos no dataset: {num_files_total}")
+    files_per_alg = dataset_corrected.groupby("algorithm")["file"].nunique()
+    print("\nNúmero de arquivos processados por algoritmo:")
+    print(files_per_alg)
+
+    missing_files_alg = files_per_alg[files_per_alg != num_files_total]
+    if not missing_files_alg.empty:
+        print("\n⚠️ Algoritmos que não processaram todos os arquivos:")
+        print(missing_files_alg)
+    
+    avg_peak = (
+        dataset_corrected
+        .groupby("algorithm")[["peak_comp", "peak_decomp"]]
+        .mean()
+        .reset_index()
+    )
+
+    avg_peak["peak_comp_MiB"] = (avg_peak["peak_comp"] / BYTES_IN_MIB).round(2)
+    avg_peak["peak_decomp_MiB"] = (avg_peak["peak_decomp"] / BYTES_IN_MIB).round(2)
+
     avg_peak_final = avg_peak[["algorithm", "peak_comp_MiB", "peak_decomp_MiB"]].sort_values(by="peak_comp_MiB")
     avg_peak_final.to_csv(output_file, sep="|", index=False)
-    print(f"Arquivo salvo: {output_file}\n{avg_peak_final}")
+
+    print(f"\nArquivo salvo: {output_file}")
+    print(avg_peak_final)
 
 
 def analyze_compression_speed(dataset: pd.DataFrame, output_file: Path):
@@ -130,10 +155,10 @@ def analyze_gc_vs_repair(dataset: pd.DataFrame, output_file: Path):
 
 
 if __name__ == "__main__":
-    input_folder = Path("report/2025-08-12")
-    #df_perf = load_and_concat_files(input_folder, "*encoding.csv")
+    input_folder = Path("report/2026-01-08")
+    df_perf = load_and_concat_files(input_folder, "*encoding.csv")
     #analyze_gc_vs_repair(df_perf, input_folder / "analise.csv")
     #analyze_compression_speed(df_perf, input_folder / "analise-speed.csv")
-    #analyze_peak(df_extract, f"{input_folder}/analise-memory.csv")
-    df_extract = load_and_concat_files(input_folder, "*extract.csv")
-    analyze_avg_extract_time(df_extract,  f"{input_folder}/analise-extract.csv")
+    analyze_peak(df_perf, f"{input_folder}/analise-memory.csv")
+    # df_extract = load_and_concat_files(input_folder, "*extract.csv")
+    # analyze_avg_extract_time(df_extract,  f"{input_folder}/analise-extract.csv")
