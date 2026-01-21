@@ -1,18 +1,18 @@
 import json
 
 compression_summary = {
-    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
-    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
-    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
-    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0},
-    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0, '7zip': 0.0}
+    'peak_comp': {'GC*': 0.0, 'GCIS': 0.0, 'GCIS-s8b': 0.0, 'RePair (PlainSlp_32Fblc)':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'peak_decomp': {'GC*': 0.0, 'GCIS': 0.0, 'GCIS-s8b': 0.0, 'RePair (PlainSlp_32Fblc)':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'compression_time': {'GC*': 0.0, 'GCIS': 0.0, 'GCIS-s8b': 0.0, 'RePair (PlainSlp_32Fblc)':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'decompression_time': {'GC*': 0.0, 'GCIS': 0.0, 'GCIS-s8b': 0.0, 'RePair (PlainSlp_32Fblc)':0.0, 'GC-': 0.0, '7zip': 0.0},
+    'compressed_size': {'GC*': 0.0, 'GCIS': 0.0, 'GCIS-s8b': 0.0, 'RePair (PlainSlp_32Fblc)':0.0, 'GC-': 0.0, '7zip': 0.0}
 }
 
 extract_summary = {
-    'time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'PlainSlp_FblcFblc':0.0, 'PlainSlp_32Fblc':0.0, 'GC-': 0.0}
+    'time': {'GC*': 0.0, 'GCIS': 0.0, 'GCIS-s8b': 0.0, 'PlainSlp_FblcFblc':0.0, 'PlainSlp_32Fblc':0.0, 'GC-': 0.0}
 }
 
-n_gcx_variations = 0
+n_gcx_variations = 7
 
 def set_summary(values, df):
     for key in values.keys():
@@ -31,6 +31,6 @@ def print_summary(df, summary):
             # if key == 'time':
             #     summary[key][algorithm] = (summary[key][algorithm]/10000)*1e6
 
-        summary[key]['GC-'] = summary[key]['GC-'] / 13
+        summary[key]['GC-'] = summary[key]['GC-'] / n_gcx_variations
     print("\n\t------ Average Values  ------")
     print(json.dumps(summary, indent=4))
