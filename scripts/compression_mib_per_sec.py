@@ -1,12 +1,12 @@
 """"
- Utilize esse script para obter a taxa de compressão por segundo de cada algoritmo
+ Utilize esse script para obter a velocidade de compressão/descompressão dos algoritmos
 """
 import os
 import pandas as pd
 import glob
 import csv
 
-path_dir = "report/2026-01-08"
+path_dir = "report/2025-08-12"
 input_files = glob.glob(f"{path_dir}/*encoding.csv")
 all_dataframes = []
 
@@ -23,16 +23,15 @@ def is_desired_algorithm(alg):
     )
 
 for filename in input_files:
-    df = pd.read_csv(filename, sep='|', usecols=['file', 'algorithm', 'compression_time', 'decompression_time', 'plain_size'])
+    df = pd.read_csv(filename, sep='|', usecols=['file', 'algorithm', 'compression_time', 'decompression_time', 'plain_size_mib', 'compressed_size_mib'])
     filtered_df = df[df['algorithm'].apply(lambda alg: is_desired_algorithm(alg))].copy()
 
-    filtered_df['plain_size_MiB'] = filtered_df['plain_size'] / (1024**2)
     filtered_df['MiB_per_sec - comp'] = filtered_df.apply(
-        lambda row: row['plain_size_MiB'] / row['compression_time'] if row['compression_time'] > 0 else 0,
+        lambda row: row['plain_size_mib'] / row['compression_time'] if row['compression_time'] > 0 else 0,
         axis=1
     )
     filtered_df['MiB_per_sec - decomp'] = filtered_df.apply(
-        lambda row: row['plain_size_MiB'] / row['decompression_time'] if row['decompression_time'] > 0 else 0,
+        lambda row: row['compressed_size_mib'] / row['decompression_time'] if row['decompression_time'] > 0 else 0,
         axis=1
     )
     all_dataframes.append(filtered_df)
