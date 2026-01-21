@@ -17,7 +17,7 @@ EXCLUDED_FILES = [
     # "artificial-rs.13"
 ]
 
-BYTES_IN_MIB = 1024 ** 2
+BYTES_IN_MIB = 1024 * 1024
 
 def load_and_concat_files(folder: Path, pattern: str, filter_keep=True) -> pd.DataFrame:
     files = list(folder.glob(pattern))
