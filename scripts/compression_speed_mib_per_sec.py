@@ -14,7 +14,7 @@ def is_desired_algorithm(alg):
     alg = alg.strip()
     return (
         alg.startswith("REPAIR") or
-        alg.startswith("PlainSlp") or
+        alg.startswith("PlainSlp_32Fblc") or
         alg.startswith("GCIS") or
         alg.startswith("7zip") or
         alg.startswith("bzip2") or
