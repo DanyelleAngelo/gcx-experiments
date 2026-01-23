@@ -1,0 +1,6 @@
+file|algorithm|peak|stack|time|substring_size
+real-kernel|GCIS-ef|8767464|0|0.0249|1
+real-kernel|GCIS-ef|8767464|0|0.0377|10
+real-kernel|GCIS-ef|8767464|0|0.1393|100
+real-kernel|GCIS-ef|8767464|0|1.0965|1000
+real-kernel|GCIS-ef|8767464|0|10.4961|10000
