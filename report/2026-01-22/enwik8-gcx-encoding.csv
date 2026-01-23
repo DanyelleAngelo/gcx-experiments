@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-enwik8|GCIS-ef|0|0|6.0392|0|0|0.0222|64004681|100000000
+enwik8|GCIS-ef|692498437|0|6.0774|703169800|0|1.5746|64004681|100000000

@@ -1,6 +1,6 @@
 file|algorithm|peak|stack|time|substring_size
-enwik9|GCIS-ef|1
-enwik9|GCIS-ef|0|0|0.0826|10
-enwik9|GCIS-ef|0|0|0.2430|100
-enwik9|GCIS-ef|0|0|1.6564|1000
-enwik9|GCIS-ef|0|0|15.2621|10000
+enwik9|GCIS-ef|537822604|0|0.0543|1
+enwik9|GCIS-ef|537822604|0|0.0752|10
+enwik9|GCIS-ef|537822604|0|0.2322|100
+enwik9|GCIS-ef|537822604|0|1.6539|1000
+enwik9|GCIS-ef|537822604|0|15.2763|10000
