@@ -5,6 +5,12 @@ import seaborn as sns
 import glob
 import re
 
+def is_desired_algorithm(alg):
+    alg = alg.strip()
+    return (
+        #alg.startswith("GC") or
+        alg.startswith("GCX-y")
+    )
 
 def group_algorithm(name: str) -> str:
     """Classifica algoritmos em grupos simplificados."""
@@ -26,8 +32,9 @@ def load_and_concat_csv(files: list[str], sep='|') -> pd.DataFrame:
             print(f"Erro ao ler '{file}': {e}")
     if not dfs:
         raise ValueError("Nenhum arquivo válido foi carregado.")
-    return pd.concat(dfs, ignore_index=True)
-
+    df =  pd.concat(dfs, ignore_index=True)
+    filtered_df = df[df['algorithm'].apply(lambda alg: is_desired_algorithm(alg))].copy()
+    return filtered_df
 
 def write_metric_report(data: pd.DataFrame, metric: str, output_path: str):
     """Gera relatório de estatísticas básicas para um métrico específico."""
@@ -57,7 +64,8 @@ def analyze_files(files: list[str], output_dir: str, metric: str):
 
     filename=f"00_{metric}_vs_compressed_size.png"
     plt.figure(figsize=(12, 8))
-    sns.scatterplot(data=data, x='compressed_size', y=metric, hue='algorithm', palette='tab10', alpha=0.7)
+    #sns.scatterplot(data=data, x='compressed_size', y=metric, hue='algorithm', palette='tab10', alpha=0.7)
+    sns.lineplot(data=data, x='compressed_size', y=metric, hue='algorithm', palette='tab10',  marker="o",alpha=0.7)
     plt.xlabel('Compressed Size (bytes)')
     plt.ylabel(f'{metric.replace("_", " ").title()} (seconds)')
     plt.title(f'Scatter Plot: {metric.replace("_", " ").title()} vs Compressed Size')
@@ -117,9 +125,10 @@ def analyze_extraction_time(files: list[str], output_dir: str):
 
 
 if __name__ == "__main__":
-    encoding_files = glob.glob(os.path.join("report", "2025-06-01", "*encoding.csv"))
-    extract_files = glob.glob(os.path.join("report", "2025-06-01", "*extract.csv"))
+    path_dir="2025-08-12"
+    encoding_files = glob.glob(os.path.join("report", path_dir, "*encoding.csv"))
+    extract_files = glob.glob(os.path.join("report", path_dir, "*extract.csv"))
 
     #analyze_files(encoding_files, "report/2025-06-01", "compression_time")
-    analyze_files(encoding_files, "report/2025-06-01", "compressed_size_ratio")
+    analyze_files(encoding_files, f"report/{path_dir}", "compressed_size_ratio")
     #analyze_extraction_time(extract_files, "report/2025-06-01")
