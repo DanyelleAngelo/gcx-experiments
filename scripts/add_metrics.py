@@ -2,6 +2,7 @@
     Utilize esse algoritmos para adicionar ao seu dataset, métricas como:
         - compression ratio
         - peak memory (bytes -> MiB): espera-se que a métrica peak_comp e peak_decomp esteja em bytes
+        - plain size (MiB)
 
 """
 
@@ -11,7 +12,7 @@ import graphs.utils as ut
 
 BYTES_IN_MIB = 2 ** 20
 
-pattern = 'report/2026-01-08/*encoding.csv'
+pattern = 'report/2025-08-12/*encoding.csv'
 files = glob.glob(pattern)
 
 
@@ -26,6 +27,7 @@ for file_path in files:
     df['peak_comp_mib'] = df['peak_comp'] / BYTES_IN_MIB
     df['peak_decomp_mib'] = df['peak_decomp'] / BYTES_IN_MIB
     df['compressed_size_mib'] = df['compressed_size'] / BYTES_IN_MIB
+    df['plain_size_mib'] = df['plain_size'] / BYTES_IN_MIB
 
     df.to_csv(file_path, sep='|', index=False, float_format='%.6f')
 
