@@ -17,8 +17,6 @@ EXCLUDED_FILES = [
     # "artificial-rs.13"
 ]
 
-BYTES_IN_MIB = 1024 * 1024
-
 def load_and_concat_files(folder: Path, pattern: str, filter_keep=True) -> pd.DataFrame:
     files = list(folder.glob(pattern))
     if not files:
@@ -51,13 +49,9 @@ def analyze_avg_extract_time(dataset: pd.DataFrame, output_file: Path):
 
 
 def analyze_peak(dataset: pd.DataFrame, output_file: Path):
-    dataset_corrected = dataset.copy()
-    mask_cbt = dataset_corrected["algorithm"] == "CBT"
-    dataset_corrected.loc[mask_cbt, ["peak_comp", "peak_decomp"]] *= BYTES_IN_MIB
-
-    num_files_total = dataset_corrected["file"].nunique()
+    num_files_total = dataset["file"].nunique()
     print(f"Número total de arquivos no dataset: {num_files_total}")
-    files_per_alg = dataset_corrected.groupby("algorithm")["file"].nunique()
+    files_per_alg = dataset.groupby("algorithm")["file"].nunique()
     print("\nNúmero de arquivos processados por algoritmo:")
     print(files_per_alg)
 
@@ -67,16 +61,15 @@ def analyze_peak(dataset: pd.DataFrame, output_file: Path):
         print(missing_files_alg)
     
     avg_peak = (
-        dataset_corrected
-        .groupby("algorithm")[["peak_comp", "peak_decomp"]]
+        dataset
+        .groupby("algorithm")[["peak_comp_mib", "peak_decomp_mib"]]
         .mean()
         .reset_index()
     )
-
-    avg_peak["peak_comp_MiB"] = (avg_peak["peak_comp"] / BYTES_IN_MIB).round(2)
-    avg_peak["peak_decomp_MiB"] = (avg_peak["peak_decomp"] / BYTES_IN_MIB).round(2)
-
-    avg_peak_final = avg_peak[["algorithm", "peak_comp_MiB", "peak_decomp_MiB"]].sort_values(by="peak_comp_MiB")
+    avg_peak["peak_comp_sci"] = avg_peak["peak_comp_mib"].apply(lambda x: f"{x:.4e}")
+    avg_peak["peak_decomp_sci"] = avg_peak["peak_decomp_mib"].apply(lambda x: f"{x:.4e}")
+    
+    avg_peak_final = avg_peak.sort_values(by="peak_comp_mib")
     avg_peak_final.to_csv(output_file, sep="|", index=False)
 
     print(f"\nArquivo salvo: {output_file}")
@@ -84,7 +77,6 @@ def analyze_peak(dataset: pd.DataFrame, output_file: Path):
 
 
 def analyze_compression_speed(dataset: pd.DataFrame, output_file: Path):
-    dataset["plain_size_mib"] = dataset["plain_size"] / (1024**2)
     dataset["compression_speed"] = dataset["plain_size_mib"] / dataset["compression_time"]
     dataset["decompression_speed"] = dataset["plain_size_mib"] / dataset["decompression_time"]
 
@@ -155,7 +147,7 @@ def analyze_gc_vs_repair(dataset: pd.DataFrame, output_file: Path):
 
 
 if __name__ == "__main__":
-    input_folder = Path("report/2026-01-08")
+    input_folder = Path("report/2025-08-12")
     df_perf = load_and_concat_files(input_folder, "*encoding.csv")
     #analyze_gc_vs_repair(df_perf, input_folder / "analise.csv")
     #analyze_compression_speed(df_perf, input_folder / "analise-speed.csv")
