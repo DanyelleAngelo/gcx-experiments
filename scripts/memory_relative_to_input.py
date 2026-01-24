@@ -24,12 +24,12 @@ input_files = [
 def is_desired_algorithm(alg):
     alg = alg.strip()
     return (
-        alg.startswith("REPAIR") or
+        #alg.startswith("REPAIR") or
         alg.startswith("PlainSlp_32Fblc") or
         alg.startswith("GCIS") or
         alg.startswith("GC8") or
-        alg.startswith("GCX-y8") or
-        alg.startswith("CBT")  
+        alg.startswith("GCX-y8")
+        #alg.startswith("CBT")  
     )
 
 for filename in input_files:
@@ -48,7 +48,8 @@ for filename in input_files:
         axis=1
     )
     filtered_df['decomp_per_input'] = filtered_df.apply(
-        lambda row: row['peak_decomp_mib'] / row['compressed_size_mib'] if row['compressed_size_mib'] > 0 else 0,
+        lambda row: row['peak_decomp_mib'] / (row['compressed_size_mib'] + row['plain_size_mib']) 
+        if (row['compressed_size_mib'] + row['plain_size_mib']) > 0 else 0,
         axis=1
     )
 
