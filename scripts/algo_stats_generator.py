@@ -57,22 +57,71 @@ def analyze_files(files: list[str], output_dir: str, metric: str):
     os.makedirs(output_dir, exist_ok=True)
     data = load_and_concat_csv(files)
 
-    data['group'] = data['algorithm'].apply(group_algorithm)
+    exclude_list = ['pseudo-real-dblp.xml.00001.2', 'pseudo-real-dblp.xml.0001.2', 'pseudo-real-dblp.xml.0001.1']
+    data = data[~data['file'].isin(exclude_list)]
 
-    report_path = os.path.join(output_dir, f"00_{metric}_analysis_report.txt")
-    write_metric_report(data, metric, report_path)
+    def get_group(filename):
+        fname_lower = filename.lower()
+        if fname_lower.startswith('pseudo-real'):
+            return 'pseudo-real'
+        return fname_lower.split('-')[0]
 
-    filename=f"00_{metric}_vs_compressed_size.png"
-    plt.figure(figsize=(12, 8))
-    #sns.scatterplot(data=data, x='compressed_size', y=metric, hue='algorithm', palette='tab10', alpha=0.7)
-    sns.lineplot(data=data, x='compressed_size', y=metric, hue='algorithm', palette='tab10',  marker="o",alpha=0.7)
-    plt.xlabel('Compressed Size (bytes)')
-    plt.ylabel(f'{metric.replace("_", " ").title()} (seconds)')
-    plt.title(f'Scatter Plot: {metric.replace("_", " ").title()} vs Compressed Size')
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, filename))
+    def extract_initial_x(algo_name):
+        match = re.search(r'-y(\d+)', str(algo_name))
+        return int(match.group(1)) if match else None
+
+    data['group'] = data['file'].apply(get_group)
+    data['initial_x'] = data['algorithm'].apply(extract_initial_x)
+    
+    plot_data = data[data['initial_x'].notnull()].copy()
+    plot_data = plot_data.sort_values(by=['initial_x'])
+
+    target_groups = sorted(plot_data['group'].unique())
+    num_groups = len(target_groups)
+    
+    if num_groups == 0:
+        print("Nenhum grupo encontrado para plotar.")
+        return
+
+    fig, axes = plt.subplots(1, num_groups, figsize=(7 * num_groups, 8), squeeze=False)
+    axes = axes.flatten()
+    
+    fig.suptitle(f'Análise Comparativa GCX: {metric.replace("_", " ").title()}', fontsize=18)
+
+    for i, group in enumerate(target_groups):
+        group_df = plot_data[plot_data['group'] == group]
+        ax = axes[i]
+        
+        sns.lineplot(
+            data=group_df, 
+            x='initial_x', 
+            y=metric, 
+            hue='file', 
+            marker="o",
+            ax=ax,
+            legend='brief'
+        )
+        
+        ax.set_xscale('log', base=2)
+        ticks = sorted(group_df['initial_x'].unique())
+        ax.set_xticks(ticks)
+        ax.set_xticklabels(ticks)
+        
+        y_max = group_df[metric].max()
+        ax.set_ylim(-1, y_max * 1.1 if y_max > 0 else 10) 
+
+        ax.set_title(f'Grupo: {group.upper()}', fontsize=14)
+        ax.set_xlabel('X Inicial (y)')
+        ax.set_ylabel(metric.replace("_", " ").title() if i == 0 else "") 
+        ax.grid(True, alpha=0.3)
+        ax.legend(fontsize='x-small', loc='upper right', bbox_to_anchor=(1, 1))
+
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    
+    filename = f"00_gcx_{metric}_vs_initial_x.png"
+    plt.savefig(os.path.join(output_dir, filename), dpi=300)
     plt.close()
+    print(f"Gráfico gerado com {num_groups} grupos: {filename}")
 
 
 def analyze_extraction_time(files: list[str], output_dir: str):
@@ -130,5 +179,5 @@ if __name__ == "__main__":
     extract_files = glob.glob(os.path.join("report", path_dir, "*extract.csv"))
 
     #analyze_files(encoding_files, "report/2025-06-01", "compression_time")
-    analyze_files(encoding_files, f"report/{path_dir}", "compressed_size_ratio")
+    analyze_files(encoding_files, f"report/{path_dir}", "compression_ratio")
     #analyze_extraction_time(extract_files, "report/2025-06-01")
