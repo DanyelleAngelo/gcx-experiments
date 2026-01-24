@@ -1,32 +1,32 @@
 \begin{table*}[t]
-\caption{Peak memory usage during decompression relative to input size (in MiB). \add{Values in \textbf{bold} indicate the best result.}}
+\caption{Peak memory usage during decompression (in MiB). \add{Values in \textbf{bold} indicate the best result.}}
 \label{t:memory-decompression}
 \centering
 \setlength{\tabcolsep}{5pt}
-\begin{tabular}{|l|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-Experiment & Size (MiB) & PlainSlp_32Fblc & GCIS-ef & GC8 & GCX-y8 \\
+Experiment & Size (MiB) & PlainSlp_32Fblc & GCIS-ef & CBT & GC8 & GCX-y8 \\
 \hline
-\texttt{world_leaders} & 44.79 & \textbf{1.58} & 254.36 & 78.71 & 101.85 \\
-\texttt{einstein.de.txt} & 88.46 & \textbf{0.39} & 547.97 & 141.02 & 194.98 \\
-\texttt{real-sources.001.2} & 100.00 & \textbf{5.42} & 626.46 & 155.37 & 220.58 \\
-\texttt{real-proteins.001.1} & 100.00 & \textbf{2.42} & 635.15 & 155.69 & 220.58 \\
-\texttt{real-english.001.2} & 100.00 & \textbf{5.66} & 629.97 & 155.52 & 220.52 \\
-\texttt{real-dna.001.1} & 100.00 & \textbf{2.00} & 615.47 & 154.20 & 178.32 \\
-\texttt{real-dblp.xml.0001.2} & 100.00 & \textbf{1.21} & 615.36 & 151.16 & 303.19 \\
-\texttt{real-dblp.xml.0001.1} & 100.00 & \textbf{0.73} & 615.16 & 151.16 & 302.79 \\
-\texttt{real-dblp.xml.00001.2} & 100.00 & \textbf{0.69} & 614.64 & 150.66 & 302.77 \\
-\texttt{real-dblp.xml.00001.1} & 100.00 & \textbf{0.63} & 614.63 & 150.66 & 302.72 \\
-\texttt{Escherichia_Coli} & 107.47 & \textbf{15.36} & 676.78 & 195.55 & 215.49 \\
-\texttt{influenza} & 147.64 & \textbf{4.92} & 913.96 & 249.21 & 272.27 \\
-\texttt{coreutils} & 195.77 & \textbf{13.91} & 1,224.42 & 378.14 & 433.57 \\
-\texttt{rs.13} & 206.71 & \textbf{0.01} & 1,349.39 & 310.27 & 625.87 \\
-\texttt{kernel} & 246.01 & \textbf{8.08} & 1,524.31 & 466.22 & 537.78 \\
-\texttt{fib41} & 255.50 & \textbf{0.01} & 1,667.93 & 383.43 & 773.61 \\
-\texttt{tm29} & 256.00 & \textbf{0.01} & 1,621.37 & 384.00 & 492.01 \\
-\texttt{para} & 409.38 & \textbf{23.61} & 2,557.84 & 730.41 & 808.11 \\
-\texttt{cere} & 439.92 & \textbf{19.55} & 2,788.82 & 775.69 & 851.86 \\
-\texttt{einstein.en.txt} & 445.96 & \textbf{0.78} & 2,769.15 & 689.88 & 985.06 \\
+\texttt{world_leaders} & 44.79 & 1.58 & 254.36 & \textbf{0.00} & 78.71 & 101.85 \\
+\texttt{einstein.de.txt} & 88.46 & 0.39 & 547.97 & \textbf{0.00} & 141.02 & 194.98 \\
+\texttt{real-sources.001.2} & 100.00 & 5.42 & 626.46 & \textbf{0.00} & 155.37 & 220.58 \\
+\texttt{real-proteins.001.1} & 100.00 & 2.42 & 635.15 & \textbf{0.00} & 155.69 & 220.58 \\
+\texttt{real-english.001.2} & 100.00 & 5.66 & 629.97 & \textbf{0.00} & 155.52 & 220.52 \\
+\texttt{real-dna.001.1} & 100.00 & 2.00 & 615.47 & \textbf{0.00} & 154.20 & 178.32 \\
+\texttt{real-dblp.xml.0001.2} & 100.00 & \textbf{1.21} & 615.36 & - & 151.16 & 303.19 \\
+\texttt{real-dblp.xml.0001.1} & 100.00 & 0.73 & 615.16 & \textbf{0.00} & 151.16 & 302.79 \\
+\texttt{real-dblp.xml.00001.2} & 100.00 & 0.69 & 614.64 & \textbf{0.00} & 150.66 & 302.77 \\
+\texttt{real-dblp.xml.00001.1} & 100.00 & 0.63 & 614.63 & \textbf{0.00} & 150.66 & 302.72 \\
+\texttt{Escherichia_Coli} & 107.47 & 15.36 & 676.78 & \textbf{0.00} & 195.55 & 215.49 \\
+\texttt{influenza} & 147.64 & 4.92 & 913.96 & \textbf{0.00} & 249.21 & 272.27 \\
+\texttt{coreutils} & 195.77 & 13.91 & 1,224.42 & \textbf{0.00} & 378.14 & 433.57 \\
+\texttt{rs.13} & 206.71 & 0.01 & 1,349.39 & \textbf{0.00} & 310.27 & 625.87 \\
+\texttt{kernel} & 246.01 & 8.08 & 1,524.31 & \textbf{0.00} & 466.22 & 537.78 \\
+\texttt{fib41} & 255.50 & 0.01 & 1,667.93 & \textbf{0.00} & 383.43 & 773.61 \\
+\texttt{tm29} & 256.00 & 0.01 & 1,621.37 & \textbf{0.00} & 384.00 & 492.01 \\
+\texttt{para} & 409.38 & 23.61 & 2,557.84 & \textbf{0.00} & 730.41 & 808.11 \\
+\texttt{cere} & 439.92 & 19.55 & 2,788.82 & \textbf{0.00} & 775.69 & 851.86 \\
+\texttt{einstein.en.txt} & 445.96 & 0.78 & 2,769.15 & \textbf{0.00} & 689.88 & 985.06 \\
 \hline
 \end{tabular}
 \end{table*}
