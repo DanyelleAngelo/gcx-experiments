@@ -32,10 +32,14 @@ compress_and_decompress_with_gcis() {
 	echo -n "$FILE_NAME|GCIS-${CODEC}|" >> $report
 
 	echo -e "${GREEN}Comprimindo arquivo...${RESET}\n"
-	"$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
+	MEM_KB_COMP=$( /usr/bin/time -f "%M""$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT" 2>&1 >/dev/null )
+	MEM_BYTES_COMP=$(( MEM_KB_COMP * 1024 ))
+	echo "Memória em kb $MEM_KB_COMP , memória em bytes $MEM_BYTES_COMP\n"
 
 	echo -e "${GREEN}Descomprimindo arquivo.. ${RESET}\n."
-	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
+	MEM_KB_DECOMP=$( /usr/bin/time -f "%M" "$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT" 2>&1 >/dev/null )
+	MEM_BYTES_DECOMP=$(( MEM_KB_DECOMP * 1024 ))
+	echo "Memória em kb $MEM_KB_DECOMP , memória em bytes $MEM_BYTES_DECOMP\n"
 
 	echo "$(stat $stat_options $OUTPUT-gcis-$CODEC)|$5" >> $REPORT
 
@@ -188,20 +192,20 @@ evaluate_compression_performance() {
 		echo -e "\n\t${BLUE}####### FILE: $file ${RESET}"
 
 		#perform compress and decompress with GCX and GC*
-		compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_gcx "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with GCIS
 		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
 		#compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with REPAIR
-		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 
 		#perform compress and decompress with 7zip
-		compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
+		#compress_and_decompress_with_7zip $file $plain_file_path $report $size_plain
 
 		#perform compress and decompress with bzip2
-		compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
+		#compress_and_decompress_with_bzip2 "$plain_file_path" "$report" "$file" "$size_plain"
 	done
 	#clean_tools
 }
@@ -280,14 +284,24 @@ run_extract() {
 }
 
 generate_graphs() {
-	CURR_DATE="2025-08-12"
+	CURR_DATE="2026-01-08"
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE" "compress" "en" "report"
-	#python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE" "extract" "en" "report"
+	#python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE" "compress" "en" "report"
+	python3 scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE" "extract" "en" "report"
 	#python3 scripts/graphsE/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-grammar" "$REPORT_DIR/$CURR_DAT" "grammar" "en" "report"
 
 	echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
+}
+
+generate_metrics() {
+	CURR_DATE="2025-08-12"
+	python3 scripts/add_cbt_compressed_size.py
+	python3 scripts/add_metrics.py
+	python3 scripts/compression_speed_mib_per_sec.py
+	python3 scripts/memory_relative_to_input.py
+	python3 scripts/alg_stats_generator.py
+	python3 script/analysis.py
 }
 
 build_tools() {
@@ -305,9 +319,9 @@ clean_tools() {
 
 if [ "$0" = "$BASH_SOURCE" ]; then
 	# build_tools
-	# check_and_create_folder
-	# download_files
-	# evaluate_compression_performance
-	# run_extract
-	generate_graphs
+	check_and_create_folder
+	download_files
+	evaluate_compression_performance
+	#run_extract
+	#generate_graphs
 fi
