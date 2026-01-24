@@ -27,29 +27,29 @@ def is_desired_algorithm(alg):
         #alg.startswith("REPAIR") or
         alg.startswith("PlainSlp_32Fblc") or
         alg.startswith("GCIS") or
+        alg.startswith("CBT")  or
         alg.startswith("GC8") or
         alg.startswith("GCX-y8")
-        #alg.startswith("CBT")  
     )
 
 for filename in input_files:
     df = pd.read_csv(
         filename, sep='|',
         usecols=[
-            'file', 'algorithm', 'peak_comp_mib', 'peak_decomp_mib',
-            'plain_size_mib', 'compressed_size_mib'
+            'file', 'algorithm', 'peak_comp', 'peak_decomp',
+            'plain_size', 'compressed_size', 'peak_comp_mib', 'peak_decomp_mib', 'plain_size_mib'
         ]
     )
 
     filtered_df = df[df['algorithm'].apply(lambda alg: is_desired_algorithm(alg))].copy()
 
     filtered_df['comp_per_input'] = filtered_df.apply(
-        lambda row: row['peak_comp_mib'] / row['plain_size_mib'] if row['plain_size_mib'] > 0 else 0,
+        lambda row: row['peak_comp'] / row['plain_size'] if row['plain_size'] > 0 else 0,
         axis=1
     )
     filtered_df['decomp_per_input'] = filtered_df.apply(
-        lambda row: row['peak_decomp_mib'] / (row['compressed_size_mib'] + row['plain_size_mib']) 
-        if (row['compressed_size_mib'] + row['plain_size_mib']) > 0 else 0,
+        lambda row: row['peak_decomp'] / (row['compressed_size'] + row['plain_size']) 
+        if (row['compressed_size'] + row['plain_size']) > 0 else 0,
         axis=1
     )
 
