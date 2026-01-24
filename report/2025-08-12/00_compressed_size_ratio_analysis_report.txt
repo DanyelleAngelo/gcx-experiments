@@ -1,0 +1,31 @@
+Mean Compressed Size Ratio by algorithm:
+algorithm
+GCX-y128    35.193991
+GCX-y16     19.837096
+GCX-y32     21.497187
+GCX-y64     26.700685
+GCX-y8      29.524607
+
+Median Compressed Size Ratio by algorithm:
+algorithm
+GCX-y128    37.040973
+GCX-y16     18.044856
+GCX-y32     17.517908
+GCX-y64     27.433195
+GCX-y8      32.283975
+
+Percentage comparison of mean Compressed Size Ratio relative to the best algorithm:
+algorithm
+GCX-y16      0.000000
+GCX-y32      8.368617
+GCX-y64     34.599765
+GCX-y8      48.835327
+GCX-y128    77.415033
+
+Ranking of algorithms by mean Compressed Size Ratio:
+  Algorithm  Mean Compressed Size Ratio
+0   GCX-y16                   19.837096
+1   GCX-y32                   21.497187
+2   GCX-y64                   26.700685
+3    GCX-y8                   29.524607
+4  GCX-y128                   35.193991

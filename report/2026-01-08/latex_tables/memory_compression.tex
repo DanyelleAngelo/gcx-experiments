@@ -1,0 +1,14 @@
+\begin{table*}[t]
+\caption{Peak memory usage during compression relative to input size (in MiB). \add{Values in \textbf{bold} indicate the best result.}}
+\label{t:memory-compression}
+\centering
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+Experiment & Size (MiB) & PlainSlp_32Fblc & GCIS-ef & GCX-y8 & GC8 & CBT \\
+\hline
+\texttt{enwiki8} & 95.37 & 1,149.32 & \textbf{660.42} & 846.45 & 1,226.18 & 3,932.40 \\
+\texttt{enwiki9} & 953.67 & 11,452.58 & \textbf{6,218.38} & 8,417.85 & 12,095.76 & 37,039.17 \\
+\hline
+\end{tabular}
+\end{table*}

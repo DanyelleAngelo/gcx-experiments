@@ -1,0 +1,32 @@
+\begin{table*}[t]
+\caption{Peak memory usage during compression relative to input size (in MiB). \add{Values in \textbf{bold} indicate the best result.}}
+\label{t:memory-compression}
+\centering
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+Experiment & Size (MiB) & PlainSlp_32Fblc & GCIS-ef & CBT & GC8 & GCX-y8 \\
+\hline
+\texttt{world_leaders} & 44.79 & 539.50 & \textbf{235.73} & 342,480,468.75 & 562.68 & 403.50 \\
+\texttt{einstein.de.txt} & 88.46 & 1,064.84 & \textbf{459.26} & 226,246,093.75 & 1,106.60 & 796.29 \\
+\texttt{real-sources.001.2} & 100.00 & 1,205.24 & \textbf{531.02} & 929,347,656.25 & 1,251.34 & 900.45 \\
+\texttt{real-proteins.001.1} & 100.00 & 1,203.07 & \textbf{532.50} & 915,996,093.75 & 1,251.67 & 900.42 \\
+\texttt{real-english.001.2} & 100.00 & 1,204.01 & \textbf{532.31} & 932,273,437.50 & 1,251.49 & 900.34 \\
+\texttt{real-dna.001.1} & 100.00 & 1,201.07 & \textbf{529.04} & 927,460,937.50 & 1,250.42 & 866.69 \\
+\texttt{real-dblp.xml.0001.2} & 100.00 & 1,202.92 & \textbf{520.80} & - & 1,250.38 & 933.43 \\
+\texttt{real-dblp.xml.0001.1} & 100.00 & 1,202.21 & 520.80 & \textbf{0.00} & 1,250.38 & 933.41 \\
+\texttt{real-dblp.xml.00001.2} & 100.00 & 1,202.16 & 519.63 & \textbf{0.00} & 1,250.31 & 933.40 \\
+\texttt{real-dblp.xml.00001.1} & 100.00 & 1,202.13 & \textbf{519.63} & 254,578,125.00 & 1,250.31 & 933.39 \\
+\texttt{Escherichia_Coli} & 107.47 & 1,290.78 & \textbf{606.61} & 1,915,804,687.50 & 1,343.88 & 931.44 \\
+\texttt{influenza} & 147.64 & 1,772.91 & \textbf{786.97} & 1,801,015,625.00 & 1,845.98 & 1,279.58 \\
+\texttt{coreutils} & 195.77 & 2,356.13 & \textbf{1,046.32} & 1,621,390,625.00 & 2,470.74 & 1,728.39 \\
+\texttt{rs.13} & 206.71 & 2,481.78 & \textbf{1,074.21} & 417,699,218.75 & 2,583.83 & 1,929.26 \\
+\texttt{kernel} & 246.01 & 2,958.67 & \textbf{1,292.73} & 1,023,464,843.75 & 3,092.85 & 2,168.44 \\
+\texttt{fib41} & 255.50 & 3,067.42 & \textbf{1,329.25} & 514,933,593.75 & 3,193.79 & 2,384.70 \\
+\texttt{tm29} & 256.00 & 3,073.39 & \textbf{1,328.82} & 515,726,562.50 & 3,200.00 & 2,176.00 \\
+\texttt{para} & 409.38 & 4,914.21 & \textbf{2,176.42} & 3,409,988,281.25 & 5,117.93 & 3,548.03 \\
+\texttt{cere} & 439.92 & 5,280.71 & \textbf{2,321.72} & 3,038,312,500.00 & 5,499.53 & 3,812.66 \\
+\texttt{einstein.en.txt} & 445.96 & 5,355.88 & \textbf{2,313.67} & 1,026,570,312.50 & 5,576.02 & 4,013.89 \\
+\hline
+\end{tabular}
+\end{table*}
