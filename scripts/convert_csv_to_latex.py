@@ -86,8 +86,8 @@ def peak_compression(input_file):
     generate_latex_table(
         csv_path=input_file,
         algorithms_to_include=meus_algoritmos,
-        data_column='peak_comp_mib',
-        caption="Peak memory usage during compression  (in MiB).",
+        data_column='peak_comp_gib',
+        caption="Peak memory usage during compression  (in GiB).",
         label="t:memory-compression",
         output_filename="memory_compression.tex"
     )
@@ -96,11 +96,11 @@ def peak_decompression(input_file):
     generate_latex_table(
         csv_path=input_file,
         algorithms_to_include=meus_algoritmos,
-        data_column='peak_decomp_mib',
-        caption="Peak memory usage during decompression (in MiB).",
+        data_column='peak_decomp_gib',
+        caption="Peak memory usage during decompression (in GiB).",
         label="t:memory-decompression",
         output_filename="memory_decompression.tex"
     )
 
-peak_compression(f"{path_dir}/memory_relative_to_input.csv")
+#peak_compression(f"{path_dir}/memory_relative_to_input.csv")
 peak_decompression(f"{path_dir}/memory_relative_to_input.csv")
