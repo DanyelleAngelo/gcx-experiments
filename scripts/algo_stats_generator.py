@@ -8,7 +8,7 @@ import re
 def is_desired_algorithm(alg):
     alg = alg.strip()
     return (
-        #alg.startswith("GC") or
+        alg.startswith("GC") or
         alg.startswith("GCX-y")
     )
 
@@ -17,7 +17,7 @@ def group_algorithm(name: str) -> str:
     name_lower = name.lower()
     if name_lower.startswith("gcx-y"):
         return "gcx"
-    if re.match(r"gc\d+", name_lower):
+    if re.match(r"GC\d+", name_lower):
         return "gc*"
     return name_lower
 
@@ -67,13 +67,18 @@ def analyze_files(files: list[str], output_dir: str, metric: str):
         return fname_lower.split('-')[0]
 
     def extract_initial_x(algo_name):
-        match = re.search(r'-y(\d+)', str(algo_name))
+        algo_name = str(algo_name).strip()
+        match = re.search(r'GC(\d+)', str(algo_name)) # captura apenas GC2, GC8, GC....
         return int(match.group(1)) if match else None
 
     data['group'] = data['file'].apply(get_group)
     data['initial_x'] = data['algorithm'].apply(extract_initial_x)
     
-    plot_data = data[data['initial_x'].notnull()].copy()
+    to_exclude_gc = [2, 4]
+    plot_data = data[
+        (data['initial_x'].notnull()) & 
+        (~data['initial_x'].isin(to_exclude_gc))
+    ].copy()
     plot_data = plot_data.sort_values(by=['initial_x'])
 
     target_groups = sorted(plot_data['group'].unique())
@@ -111,14 +116,14 @@ def analyze_files(files: list[str], output_dir: str, metric: str):
         ax.set_ylim(-1, y_max * 1.1 if y_max > 0 else 10) 
 
         ax.set_title(f'Grupo: {group.upper()}', fontsize=14)
-        ax.set_xlabel('X Inicial (y)')
+        ax.set_xlabel('X - tamanho da substring')
         ax.set_ylabel(metric.replace("_", " ").title() if i == 0 else "") 
         ax.grid(True, alpha=0.3)
         ax.legend(fontsize='x-small', loc='upper right', bbox_to_anchor=(1, 1))
 
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
     
-    filename = f"00_gcx_{metric}_vs_initial_x.png"
+    filename = f"00_gcx_{metric}_vs_x.png"
     plt.savefig(os.path.join(output_dir, filename), dpi=300)
     plt.close()
     print(f"Gráfico gerado com {num_groups} grupos: {filename}")
