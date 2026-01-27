@@ -27,7 +27,7 @@ def is_desired_algorithm(alg):
         #alg.startswith("REPAIR") or
         alg.startswith("PlainSlp_32Fblc") or
         alg.startswith("GCIS") or
-        alg.startswith("CBT")  or
+        #alg.startswith("CBT")  #or
         alg.startswith("GC8") or
         alg.startswith("GCX-y8")
     )
@@ -37,12 +37,13 @@ for filename in input_files:
         filename, sep='|',
         usecols=[
             'file', 'algorithm', 'peak_comp', 'peak_decomp',
-            'plain_size', 'compressed_size', 'peak_comp_mib', 'peak_decomp_mib', 'plain_size_mib'
+            'plain_size', 'compressed_size', 'peak_comp_mib', 'peak_decomp_mib', 'plain_size_mib',
+            'peak_comp_gib', 'peak_decomp_gib'
         ]
     )
 
     filtered_df = df[df['algorithm'].apply(lambda alg: is_desired_algorithm(alg))].copy()
-
+    
     filtered_df['comp_per_input'] = filtered_df.apply(
         lambda row: row['peak_comp'] / row['plain_size'] if row['plain_size'] > 0 else 0,
         axis=1
