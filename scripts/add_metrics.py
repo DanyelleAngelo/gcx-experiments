@@ -11,20 +11,24 @@ import pandas as pd
 import graphs.utils as ut
 
 BYTES_IN_MIB = 2 ** 20
+BYTES_IN_GIB = 1024 ** 3
 
 pattern = 'report/2025-08-12/*encoding.csv'
 files = glob.glob(pattern)
 
 def convert_to_mib(row, column_name):
-    if row['algorithm'].strip() == 'CBT': ## os resultados antigos do CBT estão em MB
-        return row[column_name] * (1000**2 / 1024**2)
-    return row[column_name] / BYTES_IN_MIB # novos resultados, e outros algoritmos estão todos em bytes
+    return row[column_name] / BYTES_IN_MIB
+
+def convert_to_gib(row, column_name):
+    return row[column_name] / BYTES_IN_GIB
 
 for file_path in files:
     df = pd.read_csv(file_path, sep='|')
 
     plain_size = df['plain_size'].iloc[0]
 
+    for col in ['peak_comp', 'peak_decomp', 'compressed_size']:
+        df[f'{col}_gib'] = df.apply(lambda row: convert_to_gib(row, col), axis=1)
     for col in ['peak_comp', 'peak_decomp', 'compressed_size']:
         df[f'{col}_mib'] = df.apply(lambda row: convert_to_mib(row, col), axis=1)
 
